@@ -28,7 +28,7 @@ class CreatePenerbitsTable extends Migration
         });
         Schema::table('buku', function (Blueprint $table) {
             $table->uuid('penerbit_id')->nullable()->after('mata_pelajaran_id');
-            $table->foreign('penerbit_id')->references('penerbit_id')->on('penerbit')->onDelete('cascade');
+            $table->foreign('penerbit_id')->references('penerbit_id')->on('penerbit')->onDelete('set null');
         });
     }
 
