@@ -77,7 +77,14 @@
                             </div>
                             <div class="form-group">
                                 <label>Nama Penerbit</label>
-                                <input v-model="form.nama_penerbit" type="text" name="nama_penerbit" class="form-control" :class="{ 'is-invalid': form.errors.has('nama_penerbit') }">
+                                <!--input v-model="form.nama_penerbit" type="text" name="nama_penerbit" class="form-control" :class="{ 'is-invalid': form.errors.has('nama_penerbit') }"-->
+                                <v-select label="nama" :options="data_penerbit" v-model="form.nama_penerbit" />
+                                <!--v-select :options="paginated" label="nama" @search="query => search = query" :filterable="false" v-model="form.nama_penerbit">
+                                    <li slot="list-footer" class="pagination">
+                                        <button @click="offset -= 10" :disabled="!hasPrevPage">Prev</button>
+                                        <button @click="offset += 10" :disabled="!hasNextPage">Next</button>
+                                    </li>
+                                </v-select-->
                                 <has-error :form="form" field="nama_penerbit"></has-error>
                             </div>
                             <div class="form-group">
@@ -169,6 +176,7 @@ export default {
             data_sekolah: [],
             data_mapel: [],
             data_kelas: [7, 8, 9],
+            data_penerbit : [],
         }
     },
     created() {
@@ -259,7 +267,18 @@ export default {
             this.editmode = false;
             this.form.reset();
             this.getSekolah()
+            this.getPenerbit()
             $('#modalAdd').modal('show');
+        },
+        getPenerbit(){
+            axios.get(`/api/referensi/all-penerbit`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_penerbit = getData
+            })
         },
         insertData() {
             this.form.post('/api/referensi/simpan-buku').then((response) => {

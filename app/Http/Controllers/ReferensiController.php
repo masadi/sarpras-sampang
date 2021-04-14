@@ -23,6 +23,7 @@ use App\Jenis_prasarana;
 use App\Jenis_sarana;
 use App\Status_kepemilikan_sarpras;
 use App\Mata_pelajaran;
+use App\Penerbit;
 
 class ReferensiController extends Controller
 {
@@ -148,6 +149,10 @@ class ReferensiController extends Controller
     }
     public function get_all_jenis_sarana($request){
         $all_data = Jenis_sarana::select('id', 'nama')->where($request->data, 1)->get();//->pluck('nama', 'sekolah_id');
+        return response()->json(['status' => 'success', 'data' => $all_data]);
+    }
+    public function get_all_penerbit($request){
+        $all_data = Penerbit::select('penerbit_id', 'nama')->get();//->pluck('nama', 'sekolah_id');
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_kepemilikan($request){
@@ -465,7 +470,8 @@ class ReferensiController extends Controller
                 'kode' => $request->kode,
                 'judul' => $request->judul,
                 'mata_pelajaran_id' => $request->mata_pelajaran_id['mata_pelajaran_id'],
-                'nama_penerbit' => $request->nama_penerbit,
+                'nama_penerbit' => (is_array($request->nama_penerbit)) ? $request->nama_penerbit['nama'] : $request->nama_penerbit,
+                'penerbit_id' => (is_array($request->nama_penerbit)) ? $request->nama_penerbit['penerbit_id'] : NULL,
                 'isbn_issn' => $request->isbn_issn,
                 'kelas' => $request->kelas,
                 'keterangan' => $request->keterangan,
