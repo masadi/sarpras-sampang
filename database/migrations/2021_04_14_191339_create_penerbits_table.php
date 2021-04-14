@@ -39,6 +39,9 @@ class CreatePenerbitsTable extends Migration
      */
     public function down()
     {
+        Schema::table('buku', function (Blueprint $table) {
+            $table->dropForeign(['penerbit_id']);
+        });
         Schema::dropIfExists('penerbit');
     }
 }
