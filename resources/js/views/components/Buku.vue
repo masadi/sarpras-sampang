@@ -34,13 +34,11 @@
             {{row.item.sekolah_sasaran_count}}
         </template>
         <template v-slot:cell(actions)="row">
-            <b-dropdown id="dropdown-dropleft" dropleft text="Aksi" size="sm" variant="success" v-show="hasRole('admin') || hasRole('direktorat')">
-                <b-dropdown-item href="javascript:" @click="listSekolah(row.item.pendamping_id)"><i class="fas fa-folder"></i> List Sekolah Binaan</b-dropdown-item>
-                <b-dropdown-item href="javascript:" @click="addSekolah(row.item.pendamping_id)"><i class="fas fa-folder-plus"></i> Tambah Sekolah Binaan</b-dropdown-item>
+            <b-dropdown id="dropdown-dropleft" dropleft text="Aksi" size="sm" variant="success">
+                <b-dropdown-item href="javascript:" @click="openShowModal(row)"><i class="fas fa-eye"></i> Detil</b-dropdown-item>
                 <b-dropdown-item href="javascript:" @click="editData(row)"><i class="fas fa-edit"></i> Edit</b-dropdown-item>
-                <b-dropdown-item href="javascript:" @click="deleteData(row.item.pendamping_id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
+                <b-dropdown-item href="javascript:" @click="deleteData(row)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
             </b-dropdown>
-            <button v-show="!hasRole('admin') && !hasRole('direktorat')" class="btn btn-warning btn-sm" @click="openShowModal(row)">Detil</button>
         </template>
     </b-table>
 
@@ -56,7 +54,7 @@
             <b-pagination v-model="meta.current_page" :total-rows="meta.total" :per-page="meta.per_page" align="right" @change="changePage" aria-controls="dw-datatable"></b-pagination>
         </div>
     </div>
-    <b-modal id="modal-lg" size="lg" v-model="showModal" title="Detil Pendamping">
+    <b-modal id="modal-lg" size="lg" v-model="showModal" title="Detil Buku">
         <table class="table">
             <tr>
                 <td width="20%">Nama</td>
@@ -91,43 +89,48 @@
             </div>
         </template>
     </b-modal>
-    <b-modal ref="editModal" size="lg" title="Edit Data Pendamping">
+    <b-modal ref="editModal" size="lg" title="Edit Data Buku">
         <div class="form-group">
-            <label>Nama Lengkap</label>
             <input v-model="form.id" type="hidden" name="id" class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
-            <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
-            <has-error :form="form" field="nama"></has-error>
-        </div>
-        <div class="form-group">
-            <label>NIP</label>
-            <input v-model="form.nip" type="text" name="nip" class="form-control" :class="{ 'is-invalid': form.errors.has('nip') }">
-            <has-error :form="form" field="nip"></has-error>
-        </div>
-        <div class="form-group">
-            <label>NUPTK</label>
-            <input v-model="form.nuptk" type="text" name="nuptk" class="form-control" :class="{ 'is-invalid': form.errors.has('nuptk') }">
-            <has-error :form="form" field="nuptk"></has-error>
-        </div>
-        <div class="form-group">
-            <label>Asal Instansi</label>
-            <input v-model="form.instansi" type="text" name="instansi" class="form-control" :class="{ 'is-invalid': form.errors.has('instansi') }">
-            <has-error :form="form" field="instansi"></has-error>
-        </div>
-        <div class="form-group">
-            <label>Email</label>
-            <input v-model="form.email" type="text" name="email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
-            <has-error :form="form" field="email"></has-error>
-        </div>
-        <div class="form-group">
-            <label>Nomor Handphone</label>
-            <input v-model="form.nomor_hp" type="text" name="nomor_hp" class="form-control" :class="{ 'is-invalid': form.errors.has('nomor_hp') }">
-            <has-error :form="form" field="nomor_hp"></has-error>
-        </div>
-        <div class="form-group">
-            <label>Token</label>
-            <input v-model="form.token" type="text" name="token" class="form-control" :class="{ 'is-invalid': form.errors.has('token') }">
-            <has-error :form="form" field="token"></has-error>
-        </div>
+                                <label>Sekolah</label>
+                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" />
+                                <has-error :form="form" field="sekolah_id"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Kelas</label>
+                                <v-select label="nama" :options="data_kelas" v-model="form.kelas" @input="updateMapel" />
+                                <has-error :form="form" field="kelas"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Mata Pelajaran</label>
+                                <v-select label="nama" :options="data_mapel" v-model="form.mata_pelajaran_id" />
+                                <has-error :form="form" field="mata_pelajaran_id"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Kode Buku</label>
+                                <input v-model="form.kode" type="text" name="kode" class="form-control" :class="{ 'is-invalid': form.errors.has('kode') }">
+                                <has-error :form="form" field="kode"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Judul Buku</label>
+                                <input v-model="form.judul" type="text" name="judul" class="form-control" :class="{ 'is-invalid': form.errors.has('judul') }">
+                                <has-error :form="form" field="judul"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Nama Penerbit</label>
+                                <v-select label="nama" :options="data_penerbit" v-model="form.nama_penerbit" />
+                                <has-error :form="form" field="nama_penerbit"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>ISBN/ISSN</label>
+                                <input v-model="form.isbn_issn" type="text" name="isbn_issn" class="form-control" :class="{ 'is-invalid': form.errors.has('isbn_issn') }">
+                                <has-error :form="form" field="isbn_issn"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Keterangan</label>
+                                <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
+                                <has-error :form="form" field="keterangan"></has-error>
+                            </div>
         <template v-slot:modal-footer>
             <div class="w-100 float-right">
                 <b-button variant="secondary" size="sm" @click="hideModal">
@@ -188,13 +191,14 @@ export default {
             editmode: false,
             form: new Form({
                 id: '',
-                nama: '',
-                nip: '',
-                nuptk: '',
-                instansi: '',
-                email: '',
-                nomor_hp: '',
-                token: '',
+                sekolah_id: '',
+                kode: '',
+                judul: '',
+                mata_pelajaran_id: '',
+                nama_penerbit: '',
+                isbn_issn: '',
+                keterangan: '',
+                kelas: '',
             }),
             //VARIABLE INI AKAN MENGHADLE SORTING DATA
             sortBy: null, //FIELD YANG AKAN DISORT AKAN OTOMATIS DISIMPAN DISINI
@@ -205,6 +209,10 @@ export default {
             editModal: false,
             modalText: '',
             selected: null,
+            data_sekolah: [],
+            data_mapel: [],
+            data_kelas: [7, 8, 9],
+            data_penerbit : [],
         }
     },
     watch: {
@@ -228,6 +236,20 @@ export default {
         }
     },
     methods: {
+        updateMapel(data){
+            console.log(data);
+            axios.get(`/api/referensi/all-mapel`, {
+                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
+                params: {
+                    tingkat_pendidikan_id: data,
+                }
+            })
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                this.data_mapel = getData
+            })
+        },
         //JIKA SELECT BOX DIGANTI, MAKA FUNGSI INI AKAN DIJALANKAN
         addSekolah(id) {
             this.$refs.TambahSekolahPendamping.show(id);
@@ -284,16 +306,54 @@ export default {
             this.showModal = true
             this.modalText = row.item
         },
+        getSekolah() {
+            axios.get(`/api/referensi/all-sekolah`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_sekolah = getData
+            })
+        },
+        updateMapel(data){
+            axios.get(`/api/referensi/all-mapel`, {
+                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
+                params: {
+                    tingkat_pendidikan_id: data,
+                }
+            })
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                this.data_mapel = getData
+            })
+        },
+        getPenerbit(){
+            axios.get(`/api/referensi/all-penerbit`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_penerbit = getData
+            })
+        },
         editData(row) {
-            console.log(row);
-            this.form.id = row.item.pendamping_id
-            this.form.nama = row.item.nama
-            this.form.nip = row.item.nip
-            this.form.nuptk = row.item.nuptk
-            this.form.instansi = row.item.instansi
-            this.form.email = row.item.email
-            this.form.nomor_hp = row.item.nomor_hp
-            this.form.token = row.item.token
+            this.getSekolah()
+            let getData = row.item
+            this.updateMapel(getData.kelas)
+            this.getPenerbit()
+            console.log(getData);
+            this.form.id = getData.buku_id
+            this.form.judul = getData.judul
+            this.form.kode = getData.kode
+            this.form.kelas = getData.kelas
+            this.form.nama_penerbit = (getData.penerbit_id) ? {penerbit_id: getData.penerbit_id, nama:getData.nama_penerbit} : getData.nama_penerbit
+            this.form.isbn_issn = getData.isbn_issn
+            this.form.keterangan = getData.keterangan
+            this.form.sekolah_id = {sekolah_id : getData.sekolah_id, nama: getData.sekolah.nama}
+            this.form.mata_pelajaran_id = {mata_pelajaran_id: getData.mata_pelajaran_id, nama: getData.mata_pelajaran.nama}
             /*this.editmode = true
             this.editModal = true
 
@@ -305,7 +365,7 @@ export default {
         },
         updateData() {
             let id = this.form.id
-            this.form.put('/api/referensi/update-pendamping/' + id).then((response) => {
+            this.form.put('/api/referensi/update-buku/' + id).then((response) => {
                 this.$refs['editModal'].hide()
                 Toast.fire({
                     icon: response.status,

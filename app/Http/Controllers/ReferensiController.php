@@ -482,36 +482,41 @@ class ReferensiController extends Controller
     }
     public function update_data(Request $request)
     {
-        if($request->route('query') == 'pendamping'){
+        if($request->route('query') == 'buku'){
             $messages = [
-                'nama.required'	=> 'Nama tidak boleh kosong',
-                'instansi.required'	=> 'Asal Instansi tidak boleh kosong',
-                'email.required'	=> 'Email tidak boleh kosong',
-                'email.email'	=> 'Email tidak valid',
-                'nomor_hp.required'	=> 'Nomor Handphone tidak boleh kosong',
-                'token.required'	=> 'Token tidak boleh kosong',
+                'sekolah_id.required'	=> 'Sekolah tidak boleh kosong',
+                'kode.required'	=> 'Kode Buku tidak boleh kosong',
+                'judul.required'	=> 'Judul tidak boleh kosong',
+                'mata_pelajaran_id.required'	=> 'Mata Pelajaran tidak boleh kosong',
+                'nama_penerbit.required'	=> 'Nama Penerbit tidak boleh kosong',
+                'isbn_issn.required'	=> 'ISBN/ISSN tidak boleh kosong',
+                'kelas.required'	=> 'Kelas tidak boleh kosong',
             ];
             $validator = Validator::make(request()->all(), [
-                'nama' => 'required',
-                'instansi' => 'required',
-                'email' => 'required|email',
-                'nomor_hp' => 'required',
-                'token' => 'required',
+                'sekolah_id' => 'required',
+                'kode' => 'required',
+                'judul' => 'required',
+                'mata_pelajaran_id' => 'required',
+                'nama_penerbit' => 'required',
+                'isbn_issn' => 'required',
+                'kelas' => 'required',
             ],
             $messages
             )->validate();
-            $pendamping = Pendamping::find($request->id);
-            $pendamping->nama = $request->nama;
-            $pendamping->nip = $request->nip;
-            $pendamping->nuptk = $request->nuptk;
-            $pendamping->instansi = $request->instansi;
-            $pendamping->email = $request->email;
-            $pendamping->nomor_hp = $request->nomor_hp;
-            $pendamping->token = $request->token;
-            if($pendamping->save()){
-                return response()->json(['status' => 'success', 'message' => 'Data Pendamping berhasil diperbaharui']);
+            $update_data = Buku::find($request->id);
+            $update_data->sekolah_id = $request->sekolah_id['sekolah_id'];
+            $update_data->kode = $request->kode;
+            $update_data->judul = $request->judul;
+            $update_data->mata_pelajaran_id = $request->mata_pelajaran_id['mata_pelajaran_id'];
+            $update_data->nama_penerbit = (is_array($request->nama_penerbit)) ? $request->nama_penerbit['nama'] : $request->nama_penerbit;
+            $update_data->penerbit_id = (is_array($request->nama_penerbit)) ? $request->nama_penerbit['penerbit_id'] : NULL;
+            $update_data->isbn_issn = $request->isbn_issn;
+            $update_data->kelas = $request->kelas;
+            $update_data->keterangan = $request->keterangan;
+            if($update_data->save()){
+                return response()->json(['status' => 'success', 'message' => 'Data Buku berhasil diperbaharui']);
             } else {
-                return response()->json(['status' => 'error', 'message' => 'Data Pendamping gagal diperbaharui']);
+                return response()->json(['status' => 'error', 'message' => 'Data Buku gagal diperbaharui']);
             }
         }
         return response()->json(['status' => 'error', 'data' => NULL]);

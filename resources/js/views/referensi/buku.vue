@@ -77,14 +77,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Nama Penerbit</label>
-                                <!--input v-model="form.nama_penerbit" type="text" name="nama_penerbit" class="form-control" :class="{ 'is-invalid': form.errors.has('nama_penerbit') }"-->
                                 <v-select label="nama" :options="data_penerbit" v-model="form.nama_penerbit" />
-                                <!--v-select :options="paginated" label="nama" @search="query => search = query" :filterable="false" v-model="form.nama_penerbit">
-                                    <li slot="list-footer" class="pagination">
-                                        <button @click="offset -= 10" :disabled="!hasPrevPage">Prev</button>
-                                        <button @click="offset += 10" :disabled="!hasNextPage">Next</button>
-                                    </li>
-                                </v-select-->
                                 <has-error :form="form" field="nama_penerbit"></has-error>
                             </div>
                             <div class="form-group">
@@ -188,7 +181,6 @@ export default {
     },
     methods: {
         updateMapel(data){
-            console.log(data);
             axios.get(`/api/referensi/all-mapel`, {
                 //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
                 params: {
