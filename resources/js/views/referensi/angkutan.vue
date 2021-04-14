@@ -47,12 +47,12 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Sekolah</label>
-                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateJenis" />
+                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateJenis" :class="{ 'is-invalid': form.errors.has('sekolah_id') }" />
                                 <has-error :form="form" field="sekolah_id"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Jenis Sarana</label>
-                                <v-select label="nama" :options="data_jenis" v-model="form.jenis_sarana_id" />
+                                <v-select label="nama" :options="data_jenis" v-model="form.jenis_sarana_id" :class="{ 'is-invalid': form.errors.has('jenis_sarana_id') }" />
                                 <has-error :form="form" field="jenis_sarana_id"></has-error>
                             </div>
                             <div class="form-group">
@@ -82,7 +82,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Kepemilikan</label>
-                                <v-select label="nama" :options="data_kepemilikan" v-model="form.kepemilikan_sarpras_id" />
+                                <v-select label="nama" :options="data_kepemilikan" v-model="form.kepemilikan_sarpras_id" :class="{ 'is-invalid': form.errors.has('kepemilikan_sarpras_id') }" />
                                 <has-error :form="form" field="kepemilikan_sarpras_id"></has-error>
                             </div>
                             <div class="form-group">
@@ -261,7 +261,7 @@ export default {
                 console.log(response);
                 $('#modalAdd').modal('hide');
                 Toast.fire({
-                    icon: 'success',
+                    icon: response.status,
                     title: response.message
                 });
                 this.loadPostsData();

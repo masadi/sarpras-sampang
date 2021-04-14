@@ -15,4 +15,8 @@ class Ruang extends Model
     public function bangunan(){
         return $this->belongsTo('App\Bangunan', 'bangunan_id', 'bangunan_id');
     }
+    public function jenis_prasarana()
+    {
+        return $this->belongsTo(Jenis_prasarana::class, 'jenis_prasarana_id', 'id');
+    }
 }

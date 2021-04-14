@@ -47,22 +47,22 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Sekolah</label>
-                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateTanah" />
+                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateTanah" :class="{ 'is-invalid': form.errors.has('sekolah_id') }" />
                                 <has-error :form="form" field="sekolah_id"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Tanah</label>
-                                <v-select label="nama" :options="data_tanah" v-model="form.tanah_id" @input="updateBangunan" />
+                                <v-select label="nama" :options="data_tanah" v-model="form.tanah_id" @input="updateBangunan" :class="{ 'is-invalid': form.errors.has('tanah_id') }" />
                                 <has-error :form="form" field="tanah_id"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Bangunan</label>
-                                <v-select label="nama" :options="data_bangunan" v-model="form.bangunan_id" @input="updateJenis" />
+                                <v-select label="nama" :options="data_bangunan" v-model="form.bangunan_id" @input="updateJenis" :class="{ 'is-invalid': form.errors.has('bangunan_id') }" />
                                 <has-error :form="form" field="bangunan_id"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Jenis Ruang</label>
-                                <v-select label="nama" :options="data_jenis" v-model="form.jenis_prasarana_id" />
+                                <v-select label="nama" :options="data_jenis" v-model="form.jenis_prasarana_id" :class="{ 'is-invalid': form.errors.has('jenis_prasarana_id') }" />
                                 <has-error :form="form" field="jenis_prasarana_id"></has-error>
                             </div>
                             <div class="form-group">
@@ -225,7 +225,6 @@ export default {
                 sekolah_id: '',
                 tanah_id: '',
                 bangunan_id: '',
-                ruang_id: '',
                 jenis_prasarana_id: '',
                 bangunan_id: '',
                 kode: '',
@@ -237,7 +236,7 @@ export default {
                 luas: 0,
                 luas_plester: 0,
                 luas_plafon: 0,
-                luas_dindik: 0,
+                luas_dinding: 0,
                 luas_daun_jendela: 0,
                 luas_kusen: 0,
                 luas_tutup_lantai: 0,
@@ -247,7 +246,7 @@ export default {
                 panjang_drainase: 0,
                 luas_finish_struktur: 0,
                 luas_finish_plafon: 0,
-                luas_finish_dindik: 0,
+                luas_finish_dinding: 0,
                 luas_finish_kpj: 0,
                 keterangan: '',
             }),

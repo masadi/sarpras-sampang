@@ -34,7 +34,7 @@
                     <b-dropdown id="dropdown-dropleft" dropleft text="Aksi" variant="success">
                         <b-dropdown-item href="javascript:" @click="inputKondisi(row)"><i class="fas fa-list"></i> Input Kondisi</b-dropdown-item>
                         <b-dropdown-item href="javascript:" @click="editData(row)"><i class="fas fa-edit"></i> Edit</b-dropdown-item>
-                        <b-dropdown-item href="javascript:" @click="deleteData(row.item.id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
+                        <b-dropdown-item href="javascript:" @click="deleteData(row.item.bangunan_id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
                     </b-dropdown>
                 </template>
             </b-table>   
@@ -76,7 +76,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Perbaharui Komponen</h5>
+                    <h5 class="modal-title">Perbaharui Data Bangunan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -85,12 +85,65 @@
                 <form @submit.prevent="updateData()">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Nama Komponen</label>
-                            <input v-model="form.id" type="hidden" name="id"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
-                            <input v-model="form.nama" type="text" name="nama"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
+                        <input v-model="form.id" type="hidden" name="id" class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
+                            <label>Sekolah</label>
+                            <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateTanah" />
+                            <has-error :form="form" field="sekolah_id"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanah</label>
+                            <v-select label="nama" :options="data_tanah" v-model="form.tanah_id" />
+                            <has-error :form="form" field="tanah_id"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama</label>
+                            <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
                             <has-error :form="form" field="nama"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Nomor IMB</label>
+                            <input v-model="form.imb" type="text" name="imb" class="form-control" :class="{ 'is-invalid': form.errors.has('imb') }">
+                            <has-error :form="form" field="imb"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Panjang (m)</label>
+                            <input v-model="form.panjang" type="text" name="panjang" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang') }">
+                            <has-error :form="form" field="panjang"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Lebar (m)</label>
+                            <input v-model="form.lebar" type="text" name="lebar" class="form-control" :class="{ 'is-invalid': form.errors.has('lebar') }">
+                            <has-error :form="form" field="lebar"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas (m<sup>2</sup>)</label>
+                            <input v-model="form.luas" type="text" name="luas" class="form-control" :class="{ 'is-invalid': form.errors.has('luas') }">
+                            <has-error :form="form" field="luas"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Jumlah Lantai</label>
+                            <input v-model="form.lantai" type="text" name="lantai" class="form-control" :class="{ 'is-invalid': form.errors.has('lantai') }">
+                            <has-error :form="form" field="lantai"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Kepemilikan</label>
+                            <v-select label="nama" :options="data_kepemilikan" v-model="form.kepemilikan_sarpras_id" />
+                            <has-error :form="form" field="kepemilikan_sarpras_id"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Tahun Bangun</label><br>
+                            <date-picker v-model="form.tahun_bangun" type="year" :class="{ 'is-invalid': form.errors.has('tahun_bangun') }"></date-picker>
+                            <has-error :form="form" field="tahun_bangun"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal SK</label><br>
+                            <date-picker v-model="form.tanggal_sk" valueType="format" :class="{ 'is-invalid': form.errors.has('tanggal_sk') }"></date-picker>
+                            <has-error :form="form" field="tanggal_sk"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>keterangan</label>
+                            <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
+                            <has-error :form="form" field="keterangan"></has-error>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -258,7 +311,9 @@
 
 <script>
 import _ from 'lodash' //IMPORT LODASH, DIMANA AKAN DIGUNAKAN UNTUK MEMBUAT DELAY KETIKA KOLOM PENCARIAN DIISI
-
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import moment from 'moment'
 export default {
     //PROPS INI ADALAH DATA YANG AKAN DIMINTA DARI PENGGUNA COMPONENT DATATABLE YANG KITA BUAT
     props: {
@@ -285,6 +340,9 @@ export default {
             default: null
         }
     },
+    components: {
+        DatePicker
+    },
     data() {
         return {
             presentase_kerusakan: '0%',
@@ -310,6 +368,20 @@ export default {
                 ket_plester_struktur: '-',
                 rusak_tutup_atap: 0,
                 ket_tutup_atap: '-',
+                //edit
+                id: '',
+                sekolah_id: '',
+                tanah_id: '',
+                nama: '',
+                imb: '',
+                panjang: '',
+                lebar: '',
+                luas: '',
+                lantai: '',
+                tahun_bangun: '',
+                kepemilikan_sarpras_id: '',
+                tanggal_sk: '',
+                keterangan: '',
             }),
             //VARIABLE INI AKAN MENGHADLE SORTING DATA
             sortBy: null, //FIELD YANG AKAN DISORT AKAN OTOMATIS DISIMPAN DISINI
@@ -319,7 +391,10 @@ export default {
             showModal: false,
             editModal: false,
             modalText: '',
-            selected: null 
+            selected: null,
+            data_sekolah: [],
+            data_tanah: [],
+            data_kepemilikan: [],
         }
     },
     watch: {
@@ -375,14 +450,15 @@ export default {
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.value) {
-                    return fetch('/api/hapus-bangunan/'+id, {
+                    return fetch('/api/referensi/delete-bangunan/'+id, {
                         method: 'DELETE',
-                    }).then(()=>{
-                    //this.form.delete('api/komponen/'+id).then(()=>{
+                    })
+                    .then(response => response.json())
+                    .then(data => {
                         Swal.fire(
-                            'Berhasil!',
-                            'Data Bangunan berhasil dihapus',
-                            'success'
+                            data.title,
+                            data.message,
+                            data.status
                         ).then(()=>{
                             this.loadPerPage(10);
                         });
@@ -392,10 +468,60 @@ export default {
                 }
             })
         },
+        getKepemilikan(){
+            axios.get(`/api/referensi/kepemilikan`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_kepemilikan = getData
+            })
+        },
+        updateTanah(data){
+            axios.get(`/api/referensi/all-tanah`, {
+                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
+                params: {
+                    sekolah_id: data.sekolah_id,
+                }
+            })
+            .then((response) => {
+                let getData = response.data.data
+                this.data_tanah = getData
+            })
+        },
+        getSekolah() {
+            axios.get(`/api/referensi/all-sekolah`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_sekolah = getData
+            })
+        },
+        getTahun(tahun_bangun){
+            let tahunBangun = moment(String(tahun_bangun))
+            return tahunBangun._d
+        },
         editData(row) {
-            //console.log(row);
+            let getData = row.item
+            this.getTahun(getData.tahun_bangun)
             this.editmode = true
             this.editModal = true
+            this.form.id = getData.bangunan_id
+            this.form.sekolah_id = {sekolah_id: getData.sekolah_id, nama: getData.tanah.sekolah.nama}
+            this.form.tanah_id = {tanah_id: getData.tanah_id, nama: getData.tanah.nama}
+            this.form.nama = getData.nama
+            this.form.imb = getData.imb
+            this.form.panjang = getData.panjang
+            this.form.lebar = getData.lebar
+            this.form.luas = getData.luas
+            this.form.lantai = getData.lantai
+            this.form.tahun_bangun = this.getTahun(getData.tahun_bangun)
+            this.form.kepemilikan_sarpras_id = {kepemilikan_sarpras_id: getData.kepemilikan_sarpras_id, nama: getData.kepemilikan.nama}
+            this.form.tanggal_sk = getData.tanggal_sk
+            this.form.keterangan = getData.keterangan
             $('#modalEdit').modal('show');
         },
         inputKondisi(row){
@@ -437,7 +563,6 @@ export default {
                         make_kriteria = 'TOTAL'
                     }
                     this.kriteria_kerusakan = make_kriteria
-                    console.log(getData);
                 }
             })
             $('#modalKondisi').modal('show');
@@ -464,7 +589,6 @@ export default {
         },
         updateKondisi(){
             this.form.post('/api/kondisi/simpan-bangunan').then((response)=>{
-                console.log(response);
                 $('#modalKondisi').modal('hide');
                 Toast.fire({
                     icon: 'success',
@@ -472,7 +596,6 @@ export default {
                 });
                 this.loadPerPage(10);
             }).catch((e)=>{
-                console.log(e);
                 Toast.fire({
                     icon: 'error',
                     title: 'Some error occured! Please try again'
@@ -481,10 +604,10 @@ export default {
         },
         updateData(){
             let id = this.form.id;
-            this.form.put('/api/komponen/'+id).then((response)=>{
+            this.form.put('/api/referensi/update-bangunan/'+id).then((response)=>{
                 $('#modalEdit').modal('hide');
                 Toast.fire({
-                    icon: 'success',
+                    icon: response.status,
                     title: response.message
                 });
                 this.loadPerPage(10);

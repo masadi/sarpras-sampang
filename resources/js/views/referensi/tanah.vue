@@ -47,7 +47,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Sekolah</label>
-                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" />
+                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" :class="{ 'is-invalid': form.errors.has('sekolah_id') }" />
                                 <has-error :form="form" field="sekolah_id"></has-error>
                             </div>
                             <div class="form-group">
@@ -77,8 +77,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Kepemilikan</label>
-                                <input v-model="form.kepemilikan" type="text" name="kepemilikan" class="form-control" :class="{ 'is-invalid': form.errors.has('kepemilikan') }">
-                                <has-error :form="form" field="kepemilikan"></has-error>
+                                <v-select label="nama" :options="data_kepemilikan" v-model="form.kepemilikan_sarpras_id" :class="{ 'is-invalid': form.errors.has('kepemilikan_sarpras_id') }" />
+                                <has-error :form="form" field="kepemilikan_sarpras_id"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Luas Lahan Tersedia (m<sup>2</sup>)</label>
@@ -126,7 +126,7 @@ export default {
                 {key: 'lebar', 'label': 'Lebar (m)', sortable: true},
                 {key: 'luas', 'label': 'Luas (m2)', sortable: true},
                 {key: 'luas_lahan_tersedia', 'label': 'Luas Lahan Tersedia (m2)', sortable: true},
-                {key: 'kepemilikan', 'label': 'Kepemilikan', sortable: true},
+                {key: 'kepemilikan.nama', 'label': 'Kepemilikan', sortable: true},
                 {key: 'keterangan', 'label': 'Keterangan', sortable: true},
                 {key: 'actions', 'label': 'Aksi', sortable: false}, //TAMBAHKAN CODE INI
             ],
@@ -146,10 +146,11 @@ export default {
                 lebar: '',
                 luas: '',
                 luas_lahan_tersedia: '',
-                kepemilikan: '',
+                kepemilikan_sarpras_id: '',
                 keterangan: '',
             }),
             data_sekolah: [],
+            data_kepemilikan: [],
         }
     },
     components: {
@@ -193,6 +194,16 @@ export default {
                 this.data_sekolah = getData
             })
         },
+        getKepemilikan(){
+            axios.get(`/api/referensi/kepemilikan`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_kepemilikan = getData
+            })
+        },
         //JIKA ADA EMIT TERKAIT LOAD PERPAGE, MAKA FUNGSI INI AKAN DIJALANKAN
         handlePerPage(val) {
             this.per_page = val //SET PER_PAGE DENGAN VALUE YANG DIKIRIM DARI EMIT
@@ -221,6 +232,7 @@ export default {
             this.editmode = false;
             this.form.reset();
             this.getSekolah();
+            this.getKepemilikan()
             $('#modalAdd').modal('show');
         },
         insertData(){

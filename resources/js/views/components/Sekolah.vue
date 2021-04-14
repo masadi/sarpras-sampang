@@ -36,30 +36,8 @@
                 <strong>Loading...</strong>
             </div>
         </template>
-        <template v-slot:cell(is_coe)="row">
-            <b-badge v-show="row.item.smk_coe" variant="success">Ya</b-badge>
-            <b-badge v-show="!row.item.smk_coe" variant="danger">Tidak</b-badge>
-        </template>
-        <template v-slot:cell(sektor_coe)="row">
-            {{(row.item.smk_coe && row.item.sekolah_sasaran) ? (row.item.sekolah_sasaran.sektor) ? row.item.sekolah_sasaran.sektor.nama : '-' : '-'}}
-        </template>
         <template v-slot:cell(actions)="row">
-            <b-dropdown v-show="hasRole('admin')" id="dropdown-dropleft" dropleft text="Aksi" variant="success" size="sm">
-                <b-dropdown-item href="javascript:" @click="editData(row)"><i class="fas fa-edit"></i> Edit</b-dropdown-item>
-                <b-dropdown-item v-show="row.item.smk_coe" href="javascript:" @click="editVerifikator(row)"><i class="fas fa-exchange-alt"></i> Ganti Verifikator</b-dropdown-item>
-                <b-dropdown-item v-show="row.item.smk_coe" href="javascript:" @click="editPendamping(row)"><i class="fas fa-exchange-alt"></i> Ganti Pendamping</b-dropdown-item>
-                <b-dropdown-item v-show="row.item.smk_coe" href="javascript:" @click="sektorCoe(row)"><i class="fas fa-sync-alt"></i> Sektor CoE</b-dropdown-item>
-                <b-dropdown-item v-show="!row.item.smk_coe" href="javascript:" @click="tetapkanCoe(row)"><i class="fas fa-check"></i> Tetapkan CoE</b-dropdown-item>
-                <b-dropdown-item v-show="row.item.smk_coe" href="javascript:" @click="batalkanCoe(row)"><i class="fas fa-times"></i> Batalkan CoE</b-dropdown-item>
-                <b-dropdown-item v-show="row.item.smk_coe && checkResetDB(row)" href="javascript:" @click="resetDb(row)"><i class="fas fa-sync"></i> Reset Isian Instrumen</b-dropdown-item>
-                <!--b-dropdown-item href="javascript:" @click="deleteData(row.item.sekolah_id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item-->
-            </b-dropdown>
-            <!--b-dropdown v-show="hasRole('penjamin_mutu')" id="dropdown-dropleft" dropleft text="Aksi" variant="success" size="sm">
-                <b-dropdown-item href="javascript:" @click="cetakInstrumen(row.item)"><i class="fas fa-print"></i> Cetak Instrumen</b-dropdown-item>
-                <b-dropdown-item href="javascript:" v-show="isDisabled(row.item.sekolah_sasaran)" @click="openVerifikasi(row.item.user.user_id)"><i class="fas fa-check"></i> Proses Verifikasi</b-dropdown-item>
-            </b-dropdown-->
-            <!--button v-show="user.sekolah_id" class="btn btn-success btn-sm" @click="editData(row)"><i class="fas fa-edit"></i> Edit</button-->
-            <b-dropdown v-show="user.sekolah_id" id="dropdown-dropleft" dropleft text="Aksi" variant="success" size="sm">
+            <b-dropdown id="dropdown-dropleft" dropleft text="Aksi" variant="success" size="sm">
                 <b-dropdown-item href="javascript:" @click="editData(row)"><i class="fas fa-edit"></i> Edit</b-dropdown-item>
                 <b-dropdown-item href="javascript:" @click="openShowModal(row)"><i class="fas fa-eye"></i> Detil</b-dropdown-item>
             </b-dropdown>

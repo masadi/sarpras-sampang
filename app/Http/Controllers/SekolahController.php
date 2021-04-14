@@ -113,9 +113,6 @@ class SekolahController extends Controller
         $sekolah->nama_pengawas = $request->nama_pengawas;
         $sekolah->nip_pengawas = $request->nip_pengawas;
         $sekolah->save();
-        $user = $sekolah->user;
-        $user->name = $request->nama;
-        $user->save();
         return response()->json(['message' => 'Data Sekolah berhasil diperbaharui']);
     }
 

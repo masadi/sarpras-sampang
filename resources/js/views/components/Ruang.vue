@@ -34,7 +34,7 @@
                     <b-dropdown id="dropdown-dropleft" dropleft text="Aksi" variant="success">
                         <b-dropdown-item href="javascript:" @click="inputKondisi(row)"><i class="fas fa-list"></i> Input Kondisi</b-dropdown-item>
                         <b-dropdown-item href="javascript:" @click="editData(row)"><i class="fas fa-edit"></i> Edit</b-dropdown-item>
-                        <b-dropdown-item href="javascript:" @click="deleteData(row.item.id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
+                        <b-dropdown-item href="javascript:" @click="deleteData(row.item.ruang_id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
                     </b-dropdown>
                 </template>
             </b-table>   
@@ -76,7 +76,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Perbaharui Indikator Kinerja</h5>
+                    <h5 class="modal-title">Perbaharui Data Ruang</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -85,12 +85,135 @@
                 <form @submit.prevent="updateData()">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Nama Aspek</label>
-                            <input v-model="form.id" type="hidden" name="id"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
-                            <input v-model="form.nama" type="text" name="nama"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
+                            <input v-model="form.id" type="hidden" name="id" class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
+                            <label>Sekolah</label>
+                            <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateTanah" />
+                            <has-error :form="form" field="sekolah_id"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanah</label>
+                            <v-select label="nama" :options="data_tanah" v-model="form.tanah_id" @input="updateBangunan" />
+                            <has-error :form="form" field="tanah_id"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Bangunan</label>
+                            <v-select label="nama" :options="data_bangunan" v-model="form.bangunan_id" @input="updateJenis" />
+                            <has-error :form="form" field="bangunan_id"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Jenis Ruang</label>
+                            <v-select label="nama" :options="data_jenis" v-model="form.jenis_prasarana_id" />
+                            <has-error :form="form" field="jenis_prasarana_id"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Kode Ruang</label>
+                            <input v-model="form.kode" type="text" name="kode" class="form-control" :class="{ 'is-invalid': form.errors.has('kode') }">
+                            <has-error :form="form" field="kode"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Ruang</label>
+                            <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
                             <has-error :form="form" field="nama"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Registrasi Ruang</label>
+                            <input v-model="form.registrasi" type="text" name="registrasi" class="form-control" :class="{ 'is-invalid': form.errors.has('registrasi') }">
+                            <has-error :form="form" field="registrasi"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Lantai Ke-</label>
+                            <input v-model="form.lantai_ke" type="text" name="lebar" class="form-control" :class="{ 'is-invalid': form.errors.has('lantai_ke') }">
+                            <has-error :form="form" field="lantai_ke"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Panjang (m)</label>
+                            <input v-model="form.panjang" type="text" name="panjang" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang') }">
+                            <has-error :form="form" field="panjang"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Lebar (m)</label>
+                            <input v-model="form.lebar" type="text" name="lebar" class="form-control" :class="{ 'is-invalid': form.errors.has('lebar') }">
+                            <has-error :form="form" field="lebar"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas (m<sup>2</sup>)</label>
+                            <input v-model="form.luas" type="text" name="luas" class="form-control" :class="{ 'is-invalid': form.errors.has('luas') }">
+                            <has-error :form="form" field="luas"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas Plester (m<sup>2</sup>)</label>
+                            <input v-model="form.luas_plester" type="text" name="luas_plester" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_plester') }">
+                            <has-error :form="form" field="luas_plester"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas Plafon (m<sup>2</sup>)</label>
+                            <input v-model="form.luas_plafon" type="text" name="luas_plafon" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_plafon') }">
+                            <has-error :form="form" field="luas_plafon"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas dinding (m<sup>2</sup>)</label>
+                            <input v-model="form.luas_dinding" type="text" name="luas_dinding" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_dinding') }">
+                            <has-error :form="form" field="luas_dinding"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas Daun Jendela (m<sup>2</sup>)</label>
+                            <input v-model="form.luas_daun_jendela" type="text" name="luas_daun_jendela" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_daun_jendela') }">
+                            <has-error :form="form" field="luas_daun_jendela"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas Kusen (m<sup>2</sup>)</label>
+                            <input v-model="form.luas_kusen" type="text" name="luas_kusen" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_kusen') }">
+                            <has-error :form="form" field="luas_kusen"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas Tutup Lantai (m<sup>2</sup>)</label>
+                            <input v-model="form.luas_tutup_lantai" type="text" name="luas_tutup_lantai" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_tutup_lantai') }">
+                            <has-error :form="form" field="luas_tutup_lantai"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Jumlah Instalasi Listrik</label>
+                            <input v-model="form.jumlah_instalasi_listrik" type="text" name="jumlah_instalasi_listrik" class="form-control" :class="{ 'is-invalid': form.errors.has('jumlah_instalasi_listrik') }">
+                            <has-error :form="form" field="jumlah_instalasi_listrik"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Panjang Instalasi Air (m)</label>
+                            <input v-model="form.panjang_instalasi_air" type="text" name="panjang_instalasi_air" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang_instalasi_air') }">
+                            <has-error :form="form" field="panjang_instalasi_air"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Jumlah Instalasi Air</label>
+                            <input v-model="form.jumlah_instalasi_air" type="text" name="jumlah_instalasi_air" class="form-control" :class="{ 'is-invalid': form.errors.has('jumlah_instalasi_air') }">
+                            <has-error :form="form" field="jumlah_instalasi_air"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Panjang Drainase (m)</label>
+                            <input v-model="form.panjang_drainase" type="text" name="panjang_drainase" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang_drainase') }">
+                            <has-error :form="form" field="panjang_drainase"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas Finish Struktur (m<sup>2</sup>)</label>
+                            <input v-model="form.luas_finish_struktur" type="text" name="luas_finish_struktur" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_struktur') }">
+                            <has-error :form="form" field="luas_finish_struktur"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas Finish Plafon (m<sup>2</sup>)</label>
+                            <input v-model="form.luas_finish_plafon" type="text" name="luas_finish_plafon" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_plafon') }">
+                            <has-error :form="form" field="luas_finish_plafon"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas Finish Dinding (m<sup>2</sup>)</label>
+                            <input v-model="form.luas_finish_dinding" type="text" name="luas_finish_dinding" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_dinding') }">
+                            <has-error :form="form" field="luas_finish_dinding"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas Finish KPJ (m<sup>2</sup>)</label>
+                            <input v-model="form.luas_finish_kpj" type="text" name="luas_finish_kpj" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_kpj') }">
+                            <has-error :form="form" field="luas_finish_kpj"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Keterangan</label>
+                            <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
+                            <has-error :form="form" field="keterangan"></has-error>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -475,6 +598,34 @@ export default {
                 ket_finish_dinding	: '-',
                 rusak_finish_kpj: 0,
                 ket_finish_kpj: '-',
+                //edit
+                id: '',
+                sekolah_id: '',
+                tanah_id: '',
+                jenis_prasarana_id: '',
+                bangunan_id: '',
+                kode: '',
+                nama: '',
+                registrasi: '',
+                lantai_ke: 1,
+                panjang: 0,
+                lebar: 0,
+                luas: 0,
+                luas_plester: 0,
+                luas_plafon: 0,
+                luas_dinding: 0,
+                luas_daun_jendela: 0,
+                luas_kusen: 0,
+                luas_tutup_lantai: 0,
+                jumlah_instalasi_listrik: 0,
+                panjang_instalasi_air: 0,
+                jumlah_instalasi_air: 0,
+                panjang_drainase: 0,
+                luas_finish_struktur: 0,
+                luas_finish_plafon: 0,
+                luas_finish_dinding: 0,
+                luas_finish_kpj: 0,
+                keterangan: '',
             }),
             data_listrik: [
                 {label: 'Tidak ada kerusakan', code: 0},
@@ -492,6 +643,10 @@ export default {
                 {label: 'Sebagian besar pompa, sebagian besar motor terbakar, pipa utama bocor namun ditempat terbuka, beberapa keran tidak befungsi, sehingga biaya perbaikan 25- 50 % dari biaya instalasi baru', code: '1.2'},
                 {label: 'Pompa –pompa rusak total, motor terbakar, dibanyak tempat terbuka dan tutup pipa-pipa bocor, keran-keran tidak berfungsi, sehingga perbaikan instalasi perlu menyeluruh, dengan perkiraan biaya lebih dari 50% dari biaya instalasi baru', code: '1.5'},
             ],
+            data_sekolah: [],
+            data_tanah: [],
+            data_bangunan: [],
+            data_jenis: [],
         }
     },
     watch: {
@@ -550,14 +705,15 @@ export default {
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.value) {
-                    return fetch('/api/indikator/'+id, {
+                    return fetch('/api/referensi/delete-ruang/'+id, {
                         method: 'DELETE',
-                    }).then(()=>{
-                    //this.form.delete('api/komponen/'+id).then(()=>{
+                    })
+                    .then(response => response.json())
+                    .then(data => {
                         Swal.fire(
-                            'Berhasil!',
-                            'Data Indikator Kinerja berhasil dihapus',
-                            'success'
+                            data.title,
+                            data.message,
+                            data.status
                         ).then(()=>{
                             this.loadPerPage(10);
                         });
@@ -567,10 +723,83 @@ export default {
                 }
             })
         },
+        updateBangunan(data){
+            axios.get(`/api/referensi/all-bangunan`, {
+                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
+                params: {
+                    tanah_id: data.tanah_id,
+                }
+            })
+            .then((response) => {
+                let getData = response.data.data
+                this.data_bangunan = getData
+            })
+        },
+        updateJenis(){
+            axios.get(`/api/referensi/all-jenis-prasarana`, {
+                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
+                params: {
+                    query: 'a_ruang',
+                }
+            })
+            .then((response) => {
+                let getData = response.data.data
+                this.data_jenis = getData
+            })
+        },
+        updateTanah(data){
+            axios.get(`/api/referensi/all-tanah`, {
+                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
+                params: {
+                    sekolah_id: data.sekolah_id,
+                }
+            })
+            .then((response) => {
+                let getData = response.data.data
+                this.data_tanah = getData
+            })
+        },
+        getSekolah() {
+            axios.get(`/api/referensi/all-sekolah`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_sekolah = getData
+            })
+        },
         editData(row) {
-            //console.log(row);
+            let getData = row.item
             this.editmode = true
             this.editModal = true
+            this.form.id = getData.ruang_id
+            this.form.sekolah_id = {sekolah_id: getData.bangunan.tanah.sekolah_id, nama: getData.bangunan.tanah.sekolah.nama}
+            this.form.tanah_id = {tanah_id: getData.bangunan.tanah_id, nama: getData.bangunan.tanah.nama}
+            this.form.bangunan_id = {bangunan_id: getData.bangunan_id, nama: getData.bangunan.nama}
+            this.form.jenis_prasarana_id = {id: getData.jenis_prasarana_id, nama: getData.jenis_prasarana.nama}
+            this.form.kode = getData.kode
+            this.form.nama = getData.nama
+            this.form.registrasi = getData.registrasi
+            this.form.lantai_ke = getData.lantai_ke
+            this.form.panjang = getData.panjang
+            this.form.lebar = getData.lebar
+            this.form.luas = getData.luas
+            this.form.luas_plester = getData.luas_plester
+            this.form.luas_plafon = getData.luas_plafon
+            this.form.luas_dinding = getData.luas_dinding
+            this.form.luas_daun_jendela = getData.luas_daun_jendela
+            this.form.luas_kusen = getData.luas_kusen
+            this.form.luas_tutup_lantai = getData.luas_tutup_lantai
+            this.form.jumlah_instalasi_listrik = getData.jumlah_instalasi_listrik
+            this.form.panjang_instalasi_air = getData.panjang_instalasi_air
+            this.form.jumlah_instalasi_air = getData.jumlah_instalasi_air
+            this.form.panjang_drainase = getData.panjang_drainase
+            this.form.luas_finish_struktur = getData.luas_finish_struktur
+            this.form.luas_finish_plafon = getData.luas_finish_plafon
+            this.form.luas_finish_dinding = getData.luas_finish_dinding
+            this.form.luas_finish_kpj = getData.luas_finish_kpj
+            this.form.keterangan = getData.keterangan
             $('#modalEdit').modal('show');
         },
         inputKondisi(row){
@@ -586,9 +815,6 @@ export default {
                 //JIKA RESPONSENYA DITERIMA
                 let getData = response.data.data
                 if(getData){
-                    /*this.form.bangunan_id = getData.bangunan_id
-                    this.form.rusak_pondasi = number_format(getData.rusak_pondasi)
-                    this.form.ket_pondasi = getData.ket_pondasi*/
                     this.form.ruang_id = getData.ruang_id
                     this.form.rusak_bata_dinding = number_format(getData.rusak_bata_dinding)
                     this.form.ket_bata_dinding = getData.ket_bata_dinding
@@ -674,10 +900,10 @@ export default {
         },
         updateData(){
             let id = this.form.id;
-            this.form.put('/api/indikator/'+id).then((response)=>{
+            this.form.put('/api/referensi/update-ruang/'+id).then((response)=>{
                 $('#modalEdit').modal('hide');
                 Toast.fire({
-                    icon: 'success',
+                    icon: response.status,
                     title: response.message
                 });
                 this.loadPerPage(10);

@@ -32,8 +32,9 @@
             <b-table striped hover :items="items" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" show-empty>
                 <template v-slot:cell(actions)="row">
                     <b-dropdown id="dropdown-dropleft" dropleft text="Aksi" variant="success">
+                        <b-dropdown-item href="javascript:" @click="openShowModal(row)"><i class="fas fa-eye"></i> Detil</b-dropdown-item>
                         <b-dropdown-item href="javascript:" @click="editData(row)"><i class="fas fa-edit"></i> Edit</b-dropdown-item>
-                        <b-dropdown-item href="javascript:" @click="deleteData(row.item.id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
+                        <b-dropdown-item href="javascript:" @click="deleteData(row.item.tanah_id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
                     </b-dropdown>
                 </template>
             </b-table>   
@@ -84,12 +85,50 @@
                 <form @submit.prevent="updateData()">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Nama Aspek</label>
-                            <input v-model="form.id" type="hidden" name="id"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
-                            <input v-model="form.nama" type="text" name="nama"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
+                            <input v-model="form.id" type="hidden" name="id" class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
+                            <label>Sekolah</label>
+                            <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" />
+                            <has-error :form="form" field="sekolah_id"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama</label>
+                            <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
                             <has-error :form="form" field="nama"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Nomor Sertifikat Tanah</label>
+                            <input v-model="form.no_sertifikat_tanah" type="text" name="no_sertifikat_tanah" class="form-control" :class="{ 'is-invalid': form.errors.has('no_sertifikat_tanah') }">
+                            <has-error :form="form" field="no_sertifikat_tanah"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Panjang (m)</label>
+                            <input v-model="form.panjang" type="text" name="panjang" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang') }">
+                            <has-error :form="form" field="panjang"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Lebar (m)</label>
+                            <input v-model="form.lebar" type="text" name="lebar" class="form-control" :class="{ 'is-invalid': form.errors.has('lebar') }">
+                            <has-error :form="form" field="lebar"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas (m<sup>2</sup>)</label>
+                            <input v-model="form.luas" type="text" name="luas" class="form-control" :class="{ 'is-invalid': form.errors.has('luas') }">
+                            <has-error :form="form" field="luas"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Kepemilikan</label>
+                            <v-select label="nama" :options="data_kepemilikan" v-model="form.kepemilikan_sarpras_id" />
+                            <has-error :form="form" field="kepemilikan_sarpras_id"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Luas Lahan Tersedia (m<sup>2</sup>)</label>
+                            <input v-model="form.luas_lahan_tersedia" type="text" name="luas_lahan_tersedia" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_lahan_tersedia') }">
+                            <has-error :form="form" field="luas_lahan_tersedia"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>keterangan</label>
+                            <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
+                            <has-error :form="form" field="keterangan"></has-error>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -137,7 +176,7 @@ export default {
         return {
             editmode: false,
             form: new Form({
-                tanah_id: '',
+                id: '',
                 sekolah_id: '',
                 nama: '',
                 no_sertifikat_tanah: '',
@@ -145,9 +184,11 @@ export default {
                 lebar: '',
                 luas: '',
                 luas_lahan_tersedia: '',
-                kepemilikan: '',
+                kepemilikan_sarpras_id: '',
                 keterangan: '',
             }),
+            data_sekolah: [],
+            data_kepemilikan: [],
             //VARIABLE INI AKAN MENGHADLE SORTING DATA
             sortBy: null, //FIELD YANG AKAN DISORT AKAN OTOMATIS DISIMPAN DISINI
             sortDesc: false, //SEDANGKAN JENISNYA ASCENDING ATAU DESC AKAN DISIMPAN DISINI
@@ -197,6 +238,16 @@ export default {
             //KIRIM EMIT DENGAN NAMA SEARCH DAN VALUE SESUAI YANG DIKETIKKAN OLEH USER
             this.$emit('search', e.target.value)
         }, 500),
+        getSekolah() {
+            axios.get(`/api/referensi/all-sekolah`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_sekolah = getData
+            })
+        },
         deleteData(id){
             Swal.fire({
                 title: 'Apakah Anda yakin?',
@@ -209,14 +260,15 @@ export default {
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.value) {
-                    return fetch('/api/referensi/hapus-tanah/'+id, {
+                    return fetch('/api/referensi/delete-tanah/'+id, {
                         method: 'DELETE',
-                    }).then(()=>{
-                    //this.form.delete('api/komponen/'+id).then(()=>{
+                    })
+                    .then(response => response.json())
+                    .then(data => {
                         Swal.fire(
-                            'Berhasil!',
-                            'Data Aspek berhasil dihapus',
-                            'success'
+                            data.title,
+                            data.message,
+                            data.status
                         ).then(()=>{
                             this.loadPerPage(10);
                         });
@@ -226,20 +278,54 @@ export default {
                 }
             })
         },
+        openShowModal(row) {
+            this.showModal = true
+            this.modalText = row.item
+        },
+        getSekolah() {
+            axios.get(`/api/referensi/all-sekolah`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_sekolah = getData
+            })
+        },
+        getKepemilikan(){
+            axios.get(`/api/referensi/kepemilikan`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_kepemilikan = getData
+            })
+        },
         editData(row) {
-            //console.log(row);
+            this.getSekolah()
+            this.getKepemilikan()
+            let getData = row.item
             this.editmode = true
             this.editModal = true
-            this.form.id = row.item.id
-            this.form.nama = row.item.nama
+            this.form.id = getData.tanah_id
+            this.form.sekolah_id = {sekolah_id: getData.sekolah_id, nama: getData.sekolah.nama}
+            this.form.nama = getData.nama
+            this.form.no_sertifikat_tanah = getData.no_sertifikat_tanah
+            this.form.panjang = getData.panjang
+            this.form.lebar = getData.lebar
+            this.form.luas = getData.luas
+            this.form.luas_lahan_tersedia = getData.luas_lahan_tersedia
+            this.form.kepemilikan_sarpras_id = {kepemilikan_sarpras_id: getData.kepemilikan_sarpras_id, nama: getData.kepemilikan.nama}
+            this.form.keterangan = getData.keterangan
             $('#modalEdit').modal('show');
         },
         updateData(){
             let id = this.form.id;
-            this.form.put('/api/aspek/'+id).then((response)=>{
+            this.form.put('/api/referensi/update-tanah/'+id).then((response)=>{
                 $('#modalEdit').modal('hide');
                 Toast.fire({
-                    icon: 'success',
+                    icon: response.status,
                     title: response.message
                 });
                 this.loadPerPage(10);

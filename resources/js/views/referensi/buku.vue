@@ -52,17 +52,17 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Sekolah</label>
-                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" />
+                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" :class="{ 'is-invalid': form.errors.has('sekolah_id') }" />
                                 <has-error :form="form" field="sekolah_id"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Kelas</label>
-                                <v-select label="nama" :options="data_kelas" v-model="form.kelas" @input="updateMapel" />
+                                <v-select label="nama" :options="data_kelas" v-model="form.kelas" @input="updateMapel" :class="{ 'is-invalid': form.errors.has('kelas') }" />
                                 <has-error :form="form" field="kelas"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Mata Pelajaran</label>
-                                <v-select label="nama" :options="data_mapel" v-model="form.mata_pelajaran_id" />
+                                <v-select label="nama" :options="data_mapel" v-model="form.mata_pelajaran_id" :class="{ 'is-invalid': form.errors.has('mata_pelajaran_id') }" />
                                 <has-error :form="form" field="mata_pelajaran_id"></has-error>
                             </div>
                             <div class="form-group">
@@ -77,7 +77,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Nama Penerbit</label>
-                                <v-select label="nama" :options="data_penerbit" v-model="form.nama_penerbit" />
+                                <v-select label="nama" :options="data_penerbit" v-model="form.nama_penerbit" :class="{ 'is-invalid': form.errors.has('nama_penerbit') }" />
                                 <has-error :form="form" field="nama_penerbit"></has-error>
                             </div>
                             <div class="form-group">
@@ -274,10 +274,9 @@ export default {
         },
         insertData() {
             this.form.post('/api/referensi/simpan-buku').then((response) => {
-                console.log(response);
                 $('#modalAdd').modal('hide');
                 Toast.fire({
-                    icon: 'success',
+                    icon: response.status,
                     title: response.message
                 });
                 this.loadPostsData();

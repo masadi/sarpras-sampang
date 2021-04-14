@@ -15,4 +15,8 @@ class Bangunan extends Model
     public function tanah(){
         return $this->belongsTo('App\Tanah', 'tanah_id', 'tanah_id');
     }
+    public function kepemilikan()
+    {
+        return $this->belongsTo(Status_kepemilikan_sarpras::class, 'kepemilikan_sarpras_id', 'kepemilikan_sarpras_id');
+    }
 }

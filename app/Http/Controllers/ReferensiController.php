@@ -41,7 +41,7 @@ class ReferensiController extends Controller
                 $all_data = $all_data->where('nama', 'ilike', '%' . request()->q . '%')
                 ->orWhere('kepemilikan', 'ilike', '%' . request()->q . '%')
                 ->orWhere('keterangan', 'ilike', '%' . request()->q . '%');
-        })->with(['sekolah'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
+        })->with(['sekolah', 'kepemilikan'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_bangunan($request){
@@ -56,7 +56,7 @@ class ReferensiController extends Controller
                 $all_data = $all_data->where('nama', 'ilike', '%' . request()->q . '%')
                 ->orWhere('kepemilikan', 'ilike', '%' . request()->q . '%')
                 ->orWhere('keterangan', 'ilike', '%' . request()->q . '%');
-        })->with(['tanah.sekolah'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
+        })->with(['tanah.sekolah', 'kepemilikan'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_ruang($request){
@@ -73,7 +73,7 @@ class ReferensiController extends Controller
                 $all_data = $all_data->where('nama', 'ilike', '%' . request()->q . '%')
                 ->orWhere('kepemilikan', 'ilike', '%' . request()->q . '%')
                 ->orWhere('keterangan', 'ilike', '%' . request()->q . '%');
-        })->with(['bangunan.tanah.sekolah'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
+        })->with(['bangunan.tanah.sekolah', 'jenis_prasarana'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_alat($request){
@@ -225,7 +225,7 @@ class ReferensiController extends Controller
                 'lebar.numeric'	=> 'Lebar (m) harus berupa angka',
                 'luas.required' => 'Luas (m<sup>2</sup>) tidak boleh kosong',
                 'luas.numeric'	=> 'Luas (m) harus berupa angka',
-                'kepemilikan.required' => 'Kepemilikan tidak boleh kosong',
+                'kepemilikan_sarpras_id.required' => 'Kepemilikan tidak boleh kosong',
                 'luas_lahan_tersedia.required' => 'Luas Lahan Tersedia (m<sup>2</sup>) tidak boleh kosong',
                 'luas_lahan_tersedia.numeric'	=> 'Luas Lahan Tersedia (m<sup>2</sup>) harus berupa angka',
             ];
@@ -236,7 +236,7 @@ class ReferensiController extends Controller
                 'panjang' => 'required|numeric',
                 'lebar' => 'required|numeric',
                 'luas' => 'required|numeric',
-                'kepemilikan' => 'required',
+                'kepemilikan_sarpras_id' => 'required',
                 'luas_lahan_tersedia' => 'required|numeric',
             ],
             $messages
@@ -249,12 +249,11 @@ class ReferensiController extends Controller
                 'lebar' => $request->lebar,
                 'luas' => $request->luas,
                 'luas_lahan_tersedia' => $request->luas_lahan_tersedia,
-                'kepemilikan' => $request->kepemilikan,
+                'kepemilikan_sarpras_id' => $request->kepemilikan_sarpras_id['kepemilikan_sarpras_id'],
                 'keterangan' => $request->keterangan,
             ]);
             return response()->json(['status' => 'success', 'data' => $insert_data]);
         } elseif($request->route('query') == 'bangunan'){
-            $a = $request->tahun_bangun;
             $messages = [
                 'sekolah_id.required'	=> 'Sekolah tidak boleh kosong',
                 'tanah_id.required'	=> 'Tanah tidak boleh kosong',
@@ -590,13 +589,187 @@ class ReferensiController extends Controller
             } else {
                 return response()->json(['status' => 'error', 'message' => 'Data Angkutan gagal diperbaharui']);
             }
+        } elseif($request->route('query') == 'ruang'){
+            $messages = [
+                'sekolah_id.required'	=> 'Sekolah tidak boleh kosong',
+                'tanah_id.required'	=> 'Tanah tidak boleh kosong',
+                'bangunan_id.required'	=> 'Bangunan tidak boleh kosong',
+                'jenis_prasarana_id.required'	=> 'Jenis Ruang tidak boleh kosong',
+                'kode.required'	=> 'Panjang (m) tidak boleh kosong',
+                'nama.required'	=> 'Panjang (m) harus berupa angka',
+                'lantai_ke.numeric' => 'Lantai Ke- harus berupa angka',
+                'panjang.numeric' => 'Panjang harus berupa angka',
+                'lebar.numeric' => 'Lebar harus berupa angka',
+                'luas.numeric' => 'Luas harus berupa angka',
+                'luas_plester.numeric' => 'Luas Plester harus berupa angka',
+                'luas_plafon.numeric' => 'Luas Plafon harus berupa angka',
+                'luas_dinding.numeric' => 'Luas Dinding harus berupa angka',
+                'luas_daun_jendela.numeric' => 'Luas Daun Jendela harus berupa angka',
+                'luas_kusen.numeric' => 'Luas Kusen harus berupa angka',
+                'luas_tutup_lantai.numeric' => 'Luas Tutup Lantai harus berupa angka',
+                'jumlah_instalasi_listrik.numeric' => 'Jumlah Instalasi Listrik harus berupa angka',
+                'panjang_instalasi_air.numeric' => 'Panjang Instalasi Air harus berupa angka',
+                'jumlah_instalasi_air.numeric' => 'Jumlah Instalasi Air harus berupa angka',
+                'panjang_drainase.numeric' => 'Panjang Drainase harus berupa angka',
+                'luas_finish_struktur.numeric' => 'Luas Finish Struktur harus berupa angka',
+                'luas_finish_plafon.numeric' => 'Luas Finish Plafon harus berupa angka',
+                'luas_finish_dinding.numeric' => 'Luas Finish Dinding harus berupa angka',
+                'luas_finish_kpj.numeric' => 'Luas Finish KPJ harus berupa angka',
+            ];
+            $validator = Validator::make(request()->all(), [
+                'sekolah_id' => 'required',
+                'tanah_id' => 'required',
+                'bangunan_id' => 'required',
+                'jenis_prasarana_id' => 'required',
+                'kode' => 'required',
+                'nama' => 'required',
+                'lantai_ke' => 'numeric',
+                'panjang' => 'numeric',
+                'lebar' => 'numeric',
+                'luas' => 'numeric',
+                'luas_plester' => 'numeric',
+                'luas_plafon' => 'numeric',
+                'luas_dinding' => 'numeric',
+                'luas_daun_jendela' => 'numeric',
+                'luas_kusen' => 'numeric',
+                'luas_tutup_lantai' => 'numeric',
+                'jumlah_instalasi_listrik' => 'numeric',
+                'panjang_instalasi_air' => 'numeric',
+                'jumlah_instalasi_air' => 'numeric',
+                'panjang_drainase' => 'numeric',
+                'luas_finish_struktur' => 'numeric',
+                'luas_finish_plafon' => 'numeric',
+                'luas_finish_dinding' => 'numeric',
+                'luas_finish_kpj' => 'numeric',
+            ],
+            $messages
+            )->validate();
+            $update_data = Ruang::find($request->id);
+            $update_data->jenis_prasarana_id = $request->jenis_prasarana_id['id'];
+            $update_data->bangunan_id = $request->bangunan_id['bangunan_id'];
+            $update_data->kode = $request->kode;
+            $update_data->nama = $request->nama;
+            $update_data->registrasi = $request->registrasi;
+            $update_data->lantai_ke = $request->lantai_ke;
+            $update_data->panjang = $request->panjang;
+            $update_data->lebar = $request->lebar;
+            $update_data->luas = $request->luas;
+            $update_data->luas_plester = $request->luas_plester;
+            $update_data->luas_plafon = $request->luas_plafon;
+            $update_data->luas_dinding = $request->luas_dinding;
+            $update_data->luas_daun_jendela = $request->luas_daun_jendela;
+            $update_data->luas_kusen = $request->luas_kusen;
+            $update_data->luas_tutup_lantai = $request->luas_tutup_lantai;
+            $update_data->jumlah_instalasi_listrik = $request->jumlah_instalasi_listrik;
+            $update_data->panjang_instalasi_air = $request->panjang_instalasi_air;
+            $update_data->jumlah_instalasi_air = $request->jumlah_instalasi_air;
+            $update_data->panjang_drainase = $request->panjang_drainase;
+            $update_data->luas_finish_struktur = $request->luas_finish_struktur;
+            $update_data->luas_finish_plafon = $request->luas_finish_plafon;
+            $update_data->luas_finish_dinding = $request->luas_finish_dinding;
+            $update_data->luas_finish_kpj = $request->luas_finish_kpj;
+            $update_data->keterangan = $request->keterangan;
+            if($update_data->save()){
+                return response()->json(['status' => 'success', 'message' => 'Data Ruang berhasil diperbaharui']);
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'Data Ruang gagal diperbaharui']);
+            }
+        } elseif($request->route('query') == 'bangunan'){
+            $messages = [
+                'sekolah_id.required'	=> 'Sekolah tidak boleh kosong',
+                'tanah_id.required'	=> 'Tanah tidak boleh kosong',
+                'nama.required'	=> 'Nama tidak boleh kosong',
+                'imb.required'	=> 'Nomor IMB tidak boleh kosong',
+                'panjang.required'	=> 'Panjang (m) tidak boleh kosong',
+                'panjang.numeric'	=> 'Panjang (m) harus berupa angka',
+                'lebar.required'	=> 'Lebar (m) tidak boleh kosong',
+                'lebar.numeric'	=> 'Lebar (m) harus berupa angka',
+                'luas.required' => 'Luas (m<sup>2</sup>) tidak boleh kosong',
+                'luas.numeric'	=> 'Luas (m) harus berupa angka',
+                'lantai.required' => 'Jumlah Lantai tidak boleh kosong',
+                'lantai.numeric'	=> 'Jumlah Lantai harus berupa angka',
+                'kepemilikan_sarpras_id.required' => 'Kepemilikan tidak boleh kosong',
+                'tahun_bangun.required' => 'Tahun Bangun tidak boleh kosong',
+            ];
+            $validator = Validator::make(request()->all(), [
+                'tanah_id' => 'required',
+                'nama' => 'required',
+                'imb' => 'required',
+                'panjang' => 'required|numeric',
+                'lebar' => 'required|numeric',
+                'luas' => 'required|numeric',
+                'kepemilikan_sarpras_id' => 'required',
+                'lantai' => 'required|numeric',
+                'tahun_bangun' => 'required',
+            ],
+            $messages
+            )->validate();
+            $update_data = Bangunan::find($request->id);
+            $update_data->tanah_id = $request->tanah_id['tanah_id'];
+            $update_data->nama = $request->nama;
+            $update_data->imb = $request->imb;
+            $update_data->panjang = $request->panjang;
+            $update_data->lebar = $request->lebar;
+            $update_data->luas = $request->luas;
+            $update_data->lantai = $request->lantai;
+            $update_data->kepemilikan_sarpras_id = $request->kepemilikan_sarpras_id['kepemilikan_sarpras_id'];
+            $update_data->tahun_bangun = date('Y', strtotime($request->tahun_bangun));
+            $update_data->keterangan = $request->keterangan;
+            $update_data->tanggal_sk = $request->tanggal_sk;
+            if($update_data->save()){
+                return response()->json(['status' => 'success', 'message' => 'Data Bangunan berhasil diperbaharui']);
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'Data Bangunan gagal diperbaharui']);
+            }
+        } elseif($request->route('query') == 'tanah'){
+            $messages = [
+                'sekolah_id.required'	=> 'Sekolah tidak boleh kosong',
+                'nama.required'	=> 'Nama tidak boleh kosong',
+                'no_sertifikat_tanah.required'	=> 'Nomor Sertifikat Tanah tidak boleh kosong',
+                'panjang.required'	=> 'Panjang (m) tidak boleh kosong',
+                'panjang.numeric'	=> 'Panjang (m) harus berupa angka',
+                'lebar.required'	=> 'Lebar (m) tidak boleh kosong',
+                'lebar.numeric'	=> 'Lebar (m) harus berupa angka',
+                'luas.required' => 'Luas (m<sup>2</sup>) tidak boleh kosong',
+                'luas.numeric'	=> 'Luas (m) harus berupa angka',
+                'kepemilikan_sarpras_id.required' => 'Kepemilikan tidak boleh kosong',
+                'luas_lahan_tersedia.required' => 'Luas Lahan Tersedia (m<sup>2</sup>) tidak boleh kosong',
+                'luas_lahan_tersedia.numeric'	=> 'Luas Lahan Tersedia (m<sup>2</sup>) harus berupa angka',
+            ];
+            $validator = Validator::make(request()->all(), [
+                'sekolah_id' => 'required',
+                'nama' => 'required',
+                'no_sertifikat_tanah' => 'required',
+                'panjang' => 'required|numeric',
+                'lebar' => 'required|numeric',
+                'luas' => 'required|numeric',
+                'kepemilikan_sarpras_id' => 'required',
+                'luas_lahan_tersedia' => 'required|numeric',
+            ],
+            $messages
+            )->validate();
+            $update_data = Tanah::find($request->id);
+            $update_data->sekolah_id = $request->sekolah_id['sekolah_id'];
+            $update_data->nama = $request->nama;
+            $update_data->no_sertifikat_tanah = $request->no_sertifikat_tanah;
+            $update_data->panjang = $request->panjang;
+            $update_data->lebar = $request->lebar;
+            $update_data->luas = $request->luas;
+            $update_data->luas_lahan_tersedia = $request->luas_lahan_tersedia;
+            $update_data->kepemilikan_sarpras_id = $request->kepemilikan_sarpras_id['kepemilikan_sarpras_id'];
+            $update_data->keterangan = $request->keterangan;
+            if($update_data->save()){
+                return response()->json(['status' => 'success', 'message' => 'Data Tanah berhasil diperbaharui']);
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'Data Tanah gagal diperbaharui']);
+            }
         }
         return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Tidak ada data diperbaharui']);
     }
     public function delete_data(Request $request)
     {
+        $id = $request->route('id');
         if($request->route('query') == 'buku'){
-            $id = $request->route('id');
             $delete_data = Buku::find($id);
             if($delete_data->delete()){
                 return response()->json(['title' => 'Berhasil', 'status' => 'success', 'message' => 'Data Buku berhasil dihapus']);
@@ -604,12 +777,39 @@ class ReferensiController extends Controller
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Data Buku gagal dihapus']);
             }
         } elseif($request->route('query') == 'angkutan'){
-            $id = $request->route('id');
             $delete_data = Angkutan::find($id);
             if($delete_data->delete()){
                 return response()->json(['title' => 'Berhasil', 'status' => 'success', 'message' => 'Data Angkutan berhasil dihapus']);
             } else {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Data Buku Angkutan dihapus']);
+            }
+        } elseif($request->route('query') == 'alat'){
+            $delete_data = Alat::find($id);
+            if($delete_data->delete()){
+                return response()->json(['title' => 'Berhasil', 'status' => 'success', 'message' => 'Data Alat berhasil dihapus']);
+            } else {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Data Buku Alat dihapus']);
+            }
+        } elseif($request->route('query') == 'ruang'){
+            $delete_data = Ruang::find($id);
+            if($delete_data->delete()){
+                return response()->json(['title' => 'Berhasil', 'status' => 'success', 'message' => 'Data Ruang berhasil dihapus']);
+            } else {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Data Buku Ruang dihapus']);
+            }
+        } elseif($request->route('query') == 'bangunan'){
+            $delete_data = Bangunan::find($id);
+            if($delete_data->delete()){
+                return response()->json(['title' => 'Berhasil', 'status' => 'success', 'message' => 'Data Bangunan berhasil dihapus']);
+            } else {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Data Buku Bangunan dihapus']);
+            }
+        } elseif($request->route('query') == 'tanah'){
+            $delete_data = Tanah::find($id);
+            if($delete_data->delete()){
+                return response()->json(['title' => 'Berhasil', 'status' => 'success', 'message' => 'Data Tanah berhasil dihapus']);
+            } else {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Data Buku Tanah dihapus']);
             }
         }
         return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Tidak ada data terhapus']);

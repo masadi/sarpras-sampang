@@ -50,12 +50,12 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Sekolah</label>
-                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateTanah" />
+                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateTanah" :class="{ 'is-invalid': form.errors.has('sekolah_id') }" />
                                 <has-error :form="form" field="sekolah_id"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Tanah</label>
-                                <v-select label="nama" :options="data_tanah" v-model="form.tanah_id" />
+                                <v-select label="nama" :options="data_tanah" v-model="form.tanah_id" :class="{ 'is-invalid': form.errors.has('tanah_id') }" />
                                 <has-error :form="form" field="tanah_id"></has-error>
                             </div>
                             <div class="form-group">
@@ -90,18 +90,16 @@
                             </div>
                             <div class="form-group">
                                 <label>Kepemilikan</label>
-                                <v-select label="nama" :options="data_kepemilikan" v-model="form.kepemilikan_sarpras_id" />
+                                <v-select label="nama" :options="data_kepemilikan" v-model="form.kepemilikan_sarpras_id" :class="{ 'is-invalid': form.errors.has('kepemilikan_sarpras_id') }" />
                                 <has-error :form="form" field="kepemilikan_sarpras_id"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Tahun Bangun</label><br>
-                                <!--input v-model="form.tahun_bangun" type="text" name="tahun_bangun" class="form-control" :class="{ 'is-invalid': form.errors.has('tahun_bangun') }"-->
                                 <date-picker v-model="form.tahun_bangun" type="year" :class="{ 'is-invalid': form.errors.has('tahun_bangun') }"></date-picker>
                                 <has-error :form="form" field="tahun_bangun"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Tanggal SK</label><br>
-                                <!--input v-model="form.tanggal_sk" type="text" name="tanggal_sk" class="form-control" :class="{ 'is-invalid': form.errors.has('tanggal_sk') }"-->
                                 <date-picker v-model="form.tanggal_sk" valueType="format" :class="{ 'is-invalid': form.errors.has('tanggal_sk') }"></date-picker>
                                 <has-error :form="form" field="tanggal_sk"></has-error>
                             </div>
@@ -310,10 +308,9 @@ export default {
         },
         insertData(){
             this.form.post('/api/referensi/simpan-bangunan').then((response)=>{
-                console.log(response);
                 $('#modalAdd').modal('hide');
                 Toast.fire({
-                    icon: 'success',
+                    icon: response.status,
                     title: response.message
                 });
                 this.loadPostsData();
