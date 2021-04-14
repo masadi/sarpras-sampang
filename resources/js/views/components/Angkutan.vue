@@ -30,17 +30,11 @@
             <!-- :FIELDS AKAN MENJADI HEADER DARI TABLE, MAKA BERISI FIELD YANG SALING BERKORELASI DENGAN ITEMS -->
             <!-- :sort-by.sync & :sort-desc.sync AKAN MENGHANDLE FITUR SORTING -->
             <b-table striped hover :items="items" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" show-empty>
-                <template v-slot:cell(komponen)="row">
-                    {{row.item.indikator.atribut.aspek.komponen.nama}}
-                </template>
-                <template v-slot:cell(rumusan_pertanyaan)="row">
-                    {{row.item.pertanyaan}}
-                </template>
                 <template v-slot:cell(actions)="row">
                     <b-dropdown id="dropdown-dropleft" dropleft text="Aksi" variant="success" class="m-2">
                         <b-dropdown-item href="javascript:" @click="openShowModal(row)"><i class="fas fa-search"></i> Detil</b-dropdown-item>
                         <b-dropdown-item href="javascript:" @click="editData(row)"><i class="fas fa-edit"></i> Edit</b-dropdown-item>
-                        <b-dropdown-item href="javascript:" @click="deleteData(row.item.instrumen_id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
+                        <b-dropdown-item href="javascript:" @click="deleteData(row.item.angkutan_id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
                     </b-dropdown>
                 </template>
             </b-table>   
@@ -64,34 +58,43 @@
             ></b-pagination>
         </div>
         </div>
-        <b-modal id="modal-xl" size="xl" v-model="showModal" title="Detil Instrumen">
+        <b-modal id="modal-xl" size="xl" v-model="showModal" title="Detil Angkutan">
             <table class="table table-border">
                 <tr>
-                    <td>Komponen</td>
-                    <td>: {{ (modalText.indikator) ? (modalText.indikator.atribut) ? (modalText.indikator.atribut.aspek) ? modalText.indikator.atribut.aspek.komponen.nama : '-' : '-' : '-' }}</td>
+                    <td width="20%">Sekolah</td>
+                    <td width="80%">: {{ (modalText.sekolah) ? (modalText.sekolah.nama) : '-' }}</td>
                 </tr>
                 <tr>
-                    <td>Aspek</td>
-                    <td>: {{ (modalText.indikator) ? (modalText.indikator.atribut) ? modalText.indikator.atribut.aspek.nama : '-' : '-' }}</td>
+                    <td>Jenis Sarana</td>
+                    <td>: {{ (modalText.jenis_sarana) ? (modalText.jenis_sarana.nama) : '-' }}</td>
                 </tr>
                 <tr>
-                    <td>Atribut</td>
-                    <td>: {{ (modalText.indikator) ? (modalText.indikator.atribut) ? modalText.indikator.atribut.nama : '-' : '-' }}</td>
+                    <td>Nama</td>
+                    <td>: {{ modalText.nama }}</td>
                 </tr>
                 <tr>
-                    <td>Indikator</td>
-                    <td>: {{ (modalText.indikator) ? modalText.indikator.nama : '-' }}</td>
+                    <td>Spesifikasi</td>
+                    <td>: {{ modalText.spesifikasi }}</td>
                 </tr>
                 <tr>
-                    <td>Rumusan Pertanyaan</td>
-                    <td>: {{ modalText.pertanyaan }}</td>
+                    <td>Merk</td>
+                    <td>: {{ modalText.merk }}</td>
                 </tr>
-                <!--span v-for="(list, index) in row.item.kategori">
-                    <span>{{list.nama}}</span><span v-if="index+1 < row.item.kategori.length">, </span>
-                </span-->
-                <tr v-for="(list, index) in modalText.subs">
-                    <td>Capaian Kinerja {{list.urut}}</td>
-                    <td>: {{ list.pertanyaan }}</td>
+                <tr>
+                    <td>Nomor Polisi</td>
+                    <td>: {{ modalText.no_polisi }}</td>
+                </tr>
+                <tr>
+                    <td>Nomor BPKB</td>
+                    <td>: {{ modalText.no_bpkb }}</td>
+                </tr>
+                <tr>
+                    <td>Status Kepemilikan</td>
+                    <td>: {{ (modalText.kepemilikan) ? (modalText.kepemilikan.nama) : '-' }}</td>
+                </tr>
+                <tr>
+                    <td>keterangan</td>
+                    <td>: {{ modalText.keterangan }}</td>
                 </tr>
             </table>
             <template v-slot:modal-footer>
@@ -110,7 +113,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Perbaharui Instrumen</h5>
+                    <h5 class="modal-title">Perbaharui Data Angkutan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -119,25 +122,51 @@
                 <form @submit.prevent="updateData()">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Nama Aspek</label>
-                            <input v-model="form.id" type="hidden" name="id"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
-                            <!--input v-model="form.pertanyaan" type="text" name="pertanyaan" class="form-control" :class="{ 'is-invalid': form.errors.has('pertanyaan') }"-->
-                            <textarea rows="5" cols="5" class="form-control" v-model="form.pertanyaan"></textarea>
-                            <has-error :form="form" field="pertanyaan"></has-error>
+                            <input v-model="form.id" type="hidden" name="id" class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
+                            <label>Sekolah</label>
+                            <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateJenis" />
+                            <has-error :form="form" field="sekolah_id"></has-error>
                         </div>
                         <div class="form-group">
-                            <label>Petunjuk Pengisian</label>
-                            <textarea rows="10" cols="5" class="form-control" v-model="form.petunjuk_pengisian"></textarea>
-                            <has-error :form="form" field="petunjuk_pengisian"></has-error>
+                            <label>Jenis Sarana</label>
+                            <v-select label="nama" :options="data_jenis" v-model="form.jenis_sarana_id" />
+                            <has-error :form="form" field="jenis_sarana_id"></has-error>
                         </div>
-                            <template v-for="sub in data_subs">
-                                <div class="form-group">
-                                    <label>Jawaban Instrumen {{sub.urut}}</label>
-                                    <input v-model="form.pertanyaan_sub[sub.instrumen_id]" type="text" class="form-control" :class="{ 'is-invalid': form.errors.has('pertanyaan_sub') }">
-                                    <has-error :form="form" field="pertanyaan_sub"></has-error>
-                                </div>
-                            </template>
+                        <div class="form-group">
+                            <label>Nama</label>
+                            <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
+                            <has-error :form="form" field="nama"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Merk</label>
+                            <input v-model="form.merk" type="text" name="merk" class="form-control" :class="{ 'is-invalid': form.errors.has('merk') }">
+                            <has-error :form="form" field="merk"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Nomor Polisi</label>
+                            <input v-model="form.no_polisi" type="text" name="no_polisi" class="form-control" :class="{ 'is-invalid': form.errors.has('no_polisi') }">
+                            <has-error :form="form" field="no_polisi"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Nomor BPKB</label>
+                            <input v-model="form.no_bpkb" type="text" name="no_bpkb" class="form-control" :class="{ 'is-invalid': form.errors.has('no_bpkb') }">
+                            <has-error :form="form" field="no_bpkb"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Spesifikasi</label>
+                            <input v-model="form.spesifikasi" type="text" name="spesifikasi" class="form-control" :class="{ 'is-invalid': form.errors.has('spesifikasi') }">
+                            <has-error :form="form" field="spesifikasi"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Kepemilikan</label>
+                            <v-select label="nama" :options="data_kepemilikan" v-model="form.kepemilikan_sarpras_id" />
+                            <has-error :form="form" field="kepemilikan_sarpras_id"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Keterangan</label>
+                            <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
+                            <has-error :form="form" field="keterangan"></has-error>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -185,11 +214,20 @@ export default {
             data_subs: [],
             editmode: false,
             form: new Form({
-                id : '',
-                pertanyaan: '',
-                petunjuk_pengisian: '',
-                pertanyaan_sub: {},
+                sekolah_id: '',
+                jenis_sarana_id: '',
+                nama: '',
+                spesifikasi: '',
+                merk: '',
+                no_polisi: '',
+                no_bpkb: '',
+                alamat: '',
+                kepemilikan_sarpras_id: '',
+                keterangan: '',
             }),
+            data_sekolah: [],
+            data_jenis: [],
+            data_kepemilikan: [],
             //VARIABLE INI AKAN MENGHADLE SORTING DATA
             sortBy: null, //FIELD YANG AKAN DISORT AKAN OTOMATIS DISIMPAN DISINI
             sortDesc: false, //SEDANGKAN JENISNYA ASCENDING ATAU DESC AKAN DISIMPAN DISINI
@@ -222,8 +260,41 @@ export default {
         }
     },
     methods: {
+        updateJenis(){
+            axios.get(`/api/referensi/all-jenis-sarana`, {
+                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
+                params: {
+                    data: 'a_angkutan',
+                }
+            })
+            .then((response) => {
+                let getData = response.data.data
+                this.data_jenis = getData
+                this.getKepemilikan()
+            })
+        },
+        getSekolah() {
+            axios.get(`/api/referensi/all-sekolah`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_sekolah = getData
+            })
+        },
+        getKepemilikan(){
+            axios.get(`/api/referensi/kepemilikan`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_kepemilikan = getData
+            })
+        },
         openShowModal(row) {
-            console.log(row.item.title);
+            let getData = row
             this.showModal = true
             this.modalText = row.item
             this.selected = row.item
@@ -257,14 +328,15 @@ export default {
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.value) {
-                    return fetch('/api/instrumen/'+id, {
+                    return fetch('/api/referensi/delete-angkutan/'+id, {
                         method: 'DELETE',
-                    }).then(()=>{
-                    //this.form.delete('api/komponen/'+id).then(()=>{
+                    })
+                    .then(response => response.json())
+                    .then(data => {
                         Swal.fire(
-                            'Berhasil!',
-                            'Data Instrumen berhasil dihapus',
-                            'success'
+                            data.title,
+                            data.message,
+                            data.status
                         ).then(()=>{
                             this.loadPerPage(10);
                         });
@@ -275,29 +347,31 @@ export default {
             })
         },
         editData(row) {
+            this.getSekolah()
+            this.updateJenis()
+            let getData = row.item
+            console.log(getData);
             this.editmode = true
             this.editModal = true
-            this.form.id = row.item.instrumen_id
-            this.form.pertanyaan = row.item.pertanyaan
-            this.form.petunjuk_pengisian = row.item.petunjuk_pengisian
-            this.data_subs = row.item.subs
-            var tempSubID = {};
-            var SoalSub = {}
-            $.each(row.item.subs, function(key, value) {
-                tempSubID[value.instrumen_id] = value.instrumen_id
-                SoalSub[value.instrumen_id] = value.pertanyaan
-            });
-            console.log(SoalSub);
-            this.form.pertanyaan_sub = SoalSub
-            //this.form.urut = row.item.urut
+            this.form.id = getData.angkutan_id
+            this.form.sekolah_id= {sekolah_id : getData.sekolah_id, nama: getData.sekolah.nama}
+            this.form.jenis_sarana_id = {id: getData.jenis_sarana_id, nama: getData.jenis_sarana.nama}
+            this.form.nama = getData.nama
+            this.form.spesifikasi = getData.spesifikasi
+            this.form.merk = getData.merk
+            this.form.no_polisi = getData.no_polisi
+            this.form.no_bpkb = getData.no_bpkb
+            this.form.alamat = getData.alamat
+            this.form.kepemilikan_sarpras_id = {kepemilikan_sarpras_id: getData.kepemilikan_sarpras_id, nama: getData.kepemilikan.nama}
+            this.form.keterangan= getData.keterangan
             $('#modalEdit').modal('show');
         },
         updateData(){
             let id = this.form.id;
-            this.form.put('/api/instrumen/'+id).then((response)=>{
+            this.form.put('/api/referensi/update-angkutan/'+id).then((response)=>{
                 $('#modalEdit').modal('hide');
                 Toast.fire({
-                    icon: 'success',
+                    icon: response.status,
                     title: response.message
                 });
                 this.loadPerPage(10);

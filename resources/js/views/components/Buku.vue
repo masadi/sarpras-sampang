@@ -37,7 +37,7 @@
             <b-dropdown id="dropdown-dropleft" dropleft text="Aksi" size="sm" variant="success">
                 <b-dropdown-item href="javascript:" @click="openShowModal(row)"><i class="fas fa-eye"></i> Detil</b-dropdown-item>
                 <b-dropdown-item href="javascript:" @click="editData(row)"><i class="fas fa-edit"></i> Edit</b-dropdown-item>
-                <b-dropdown-item href="javascript:" @click="deleteData(row)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
+                <b-dropdown-item href="javascript:" @click="deleteData(row.item.buku_id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
             </b-dropdown>
         </template>
     </b-table>
@@ -286,15 +286,16 @@ export default {
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.value) {
-                    return fetch('/api/referensi/delete-pendamping/' + id, {
+                    return fetch('/api/referensi/delete-buku/' + id, {
                         method: 'DELETE',
-                    }).then(() => {
-                        //this.form.delete('api/komponen/'+id).then(()=>{
+                    })
+                    .then(response => response.json())
+                    .then(data => {
                         Swal.fire(
-                            'Berhasil!',
-                            'Data Pendamping berhasil dihapus',
-                            'success'
-                        ).then(() => {
+                            data.title,
+                            data.message,
+                            data.status
+                        ).then(()=>{
                             this.loadPerPage(10);
                         });
                     }).catch((data) => {

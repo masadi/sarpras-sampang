@@ -32,8 +32,9 @@
             <b-table striped hover :items="items" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" show-empty>
                 <template v-slot:cell(actions)="row">
                     <b-dropdown id="dropdown-dropleft" dropleft text="Aksi" variant="success">
+                        <b-dropdown-item href="javascript:" @click="openShowModal(row)"><i class="fas fa-search"></i> Detil</b-dropdown-item>
                         <b-dropdown-item href="javascript:" @click="editData(row)"><i class="fas fa-edit"></i> Edit</b-dropdown-item>
-                        <b-dropdown-item href="javascript:" @click="deleteData(row.item.id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
+                        <b-dropdown-item href="javascript:" @click="deleteData(row.item.alat_id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
                     </b-dropdown>
                 </template>
             </b-table>   
@@ -84,13 +85,51 @@
                 <form @submit.prevent="updateData()">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Nama Atribut</label>
-                            <input v-model="form.id" type="hidden" name="id"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
-                            <input v-model="form.nama" type="text" name="nama"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
-                            <has-error :form="form" field="nama"></has-error>
-                        </div>
+                            <input v-model="form.id" type="hidden" name="id" class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
+                                <label>Sekolah</label>
+                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateTanah" />
+                                <has-error :form="form" field="sekolah_id"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Tanah</label>
+                                <v-select label="nama" :options="data_tanah" v-model="form.tanah_id" @input="updateBangunan" />
+                                <has-error :form="form" field="tanah_id"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Bangunan</label>
+                                <v-select label="nama" :options="data_bangunan" v-model="form.bangunan_id" @input="updateRuang" />
+                                <has-error :form="form" field="bangunan_id"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Ruang</label>
+                                <v-select label="nama" :options="data_ruang" v-model="form.ruang_id" @input="updateJenis" />
+                                <has-error :form="form" field="ruang_id"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Jenis Sarana</label>
+                                <v-select label="nama" :options="data_jenis" v-model="form.jenis_sarana_id" />
+                                <has-error :form="form" field="jenis_sarana_id"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Nama</label>
+                                <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
+                                <has-error :form="form" field="nama"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Spesifikasi</label>
+                                <input v-model="form.spesifikasi" type="text" name="spesifikasi" class="form-control" :class="{ 'is-invalid': form.errors.has('spesifikasi') }">
+                                <has-error :form="form" field="spesifikasi"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Kepemilikan</label>
+                                <v-select label="nama" :options="data_kepemilikan" v-model="form.kepemilikan_sarpras_id" />
+                                <has-error :form="form" field="kepemilikan_sarpras_id"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Keterangan</label>
+                                <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
+                                <has-error :form="form" field="keterangan"></has-error>
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -137,9 +176,23 @@ export default {
         return {
             editmode: false,
             form: new Form({
-                id : '',
+                sekolah_id: '',
+                tanah_id: '',
+                bangunan_id: '',
+                ruang_id: '',
+                jenis_sarana_id: '',
                 nama: '',
+                spesifikasi: '',
+                registrasi: '',
+                kepemilikan_sarpras_id: '',
+                keterangan: '',
             }),
+            data_sekolah: [],
+            data_tanah: [],
+            data_bangunan: [],
+            data_jenis: [],
+            data_ruang: [],
+            data_kepemilikan: [],
             //VARIABLE INI AKAN MENGHADLE SORTING DATA
             sortBy: null, //FIELD YANG AKAN DISORT AKAN OTOMATIS DISIMPAN DISINI
             sortDesc: false, //SEDANGKAN JENISNYA ASCENDING ATAU DESC AKAN DISIMPAN DISINI
@@ -172,6 +225,80 @@ export default {
         }
     },
     methods: {
+        updateRuang(data){
+            axios.get(`/api/referensi/all-ruang`, {
+                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
+                params: {
+                    bangunan_id: data.bangunan_id,
+                }
+            })
+            .then((response) => {
+                let getData = response.data.data
+                this.data_ruang = getData
+            })
+        },
+        updateBangunan(data){
+            axios.get(`/api/referensi/all-bangunan`, {
+                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
+                params: {
+                    tanah_id: data.tanah_id,
+                }
+            })
+            .then((response) => {
+                let getData = response.data.data
+                this.data_bangunan = getData
+            })
+        },
+        updateJenis(){
+            axios.get(`/api/referensi/all-jenis-sarana`, {
+                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
+                params: {
+                    data: 'a_alat',
+                }
+            })
+            .then((response) => {
+                let getData = response.data.data
+                this.data_jenis = getData
+            })
+        },
+        updateTanah(data){
+            axios.get(`/api/referensi/all-tanah`, {
+                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
+                params: {
+                    sekolah_id: data.sekolah_id,
+                }
+            })
+            .then((response) => {
+                let getData = response.data.data
+                this.data_tanah = getData
+            })
+        },
+        getSekolah() {
+            axios.get(`/api/referensi/all-sekolah`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_sekolah = getData
+            })
+        },
+        getKepemilikan(){
+            axios.get(`/api/referensi/kepemilikan`)
+            .then((response) => {
+                //JIKA RESPONSENYA DITERIMA
+                let getData = response.data.data
+                //this.items = getData.data //MAKA ASSIGN DATA POSTINGAN KE DALAM VARIABLE ITEMS
+                //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
+                this.data_kepemilikan = getData
+            })
+        },
+        openShowModal(row) {
+            let getData = row
+            this.showModal = true
+            this.modalText = row.item
+            this.selected = row.item
+        },
         //JIKA SELECT BOX DIGANTI, MAKA FUNGSI INI AKAN DIJALANKAN
         loadPerPage(val) {
             //DAN KITA EMIT LAGI DENGAN NAMA per_page DAN VALUE SESUAI PER_PAGE YANG DIPILIH
@@ -201,14 +328,15 @@ export default {
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.value) {
-                    return fetch('/api/atribut/'+id, {
+                    return fetch('/api/referensi/delete-alat/'+id, {
                         method: 'DELETE',
-                    }).then(()=>{
-                    //this.form.delete('api/komponen/'+id).then(()=>{
+                    })
+                    .then(response => response.json())
+                    .then(data => {
                         Swal.fire(
-                            'Berhasil!',
-                            'Data Atribut berhasil dihapus',
-                            'success'
+                            data.title,
+                            data.message,
+                            data.status
                         ).then(()=>{
                             this.loadPerPage(10);
                         });
@@ -219,19 +347,34 @@ export default {
             })
         },
         editData(row) {
-            //console.log(row);
+            let getData = row.item
+            this.getSekolah()
+            this.getKepemilikan()
+            this.updateTanah(getData.ruang.bangunan.tanah)
+            this.updateBangunan(getData.ruang.bangunan)
+            this.updateRuang(getData.ruang)
+            this.updateJenis()
             this.editmode = true
             this.editModal = true
-            this.form.id = row.item.id
-            this.form.nama = row.item.nama
+            this.form.id = row.item.alat_id
+            this.form.sekolah_id = {sekolah_id: getData.ruang.bangunan.tanah.sekolah_id, nama: getData.ruang.bangunan.tanah.sekolah.nama}
+            this.form.tanah_id = {tanah_id: getData.ruang.bangunan.tanah_id, nama: getData.ruang.bangunan.tanah.nama}
+            this.form.bangunan_id = {bangunan_id: getData.ruang.bangunan_id, nama: getData.ruang.bangunan.nama}
+            this.form.ruang_id = {ruang_id: getData.ruang_id, nama: getData.ruang.nama}
+            this.form.jenis_sarana_id = {id: getData.jenis_sarana_id, nama: getData.jenis_sarana.nama}
+            this.form.nama = getData.nama
+            this.form.spesifikasi = getData.spesifikasi
+            this.form.registrasi = getData.registrasi
+            this.form.kepemilikan_sarpras_id = {kepemilikan_sarpras_id: getData.kepemilikan_sarpras_id, nama: getData.kepemilikan.nama}
+            this.form.keterangan = getData.keterangan
             $('#modalEdit').modal('show');
         },
         updateData(){
             let id = this.form.id;
-            this.form.put('/api/atribut/'+id).then((response)=>{
+            this.form.put('/api/referensi/update-alat/'+id).then((response)=>{
                 $('#modalEdit').modal('hide');
                 Toast.fire({
-                    icon: 'success',
+                    icon: response.status,
                     title: response.message
                 });
                 this.loadPerPage(10);

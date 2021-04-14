@@ -440,6 +440,7 @@ class ReferensiController extends Controller
                 'spesifikasi' => $request->spesifikasi,
                 'merk' => $request->merk,
                 'no_polisi' => $request->no_polisi,
+                'no_bpkb' => $request->no_bpkb,
                 'kepemilikan_sarpras_id' => $request->kepemilikan_sarpras_id['kepemilikan_sarpras_id'],
                 'keterangan' => $request->keterangan,
             ]);
@@ -518,20 +519,99 @@ class ReferensiController extends Controller
             } else {
                 return response()->json(['status' => 'error', 'message' => 'Data Buku gagal diperbaharui']);
             }
+        } elseif($request->route('query') == 'angkutan'){
+            $messages = [
+                'sekolah_id.required'	=> 'Sekolah tidak boleh kosong',
+                'jenis_sarana_id.required'	=> 'Jenis Sarana tidak boleh kosong',
+                'nama.required'	=> 'Nama tidak boleh kosong',
+                'spesifikasi.required'	=> 'Spesifikasi tidak boleh kosong',
+                'merk.required'	=> 'Merk tidak boleh kosong',
+                'no_polisi.required'	=> 'Nomor Polisi tidak boleh kosong',
+                'no_bpkb.required'	=> 'Nomor BPKB tidak boleh kosong',
+                'kepemilikan_sarpras_id.required'	=> 'Kepemilikan tidak boleh kosong',
+            ];
+            $validator = Validator::make(request()->all(), [
+                'sekolah_id' => 'required',
+                'jenis_sarana_id' => 'required',
+                'nama' => 'required',
+                'spesifikasi' => 'required',
+                'merk' => 'required',
+                'no_polisi' => 'required',
+                'no_bpkb' => 'required',
+                'kepemilikan_sarpras_id' => 'required',
+            ],
+            $messages
+            )->validate();
+            $update_data = Angkutan::find($request->id);
+            $update_data->sekolah_id = $request->sekolah_id['sekolah_id'];
+            $update_data->jenis_sarana_id = $request->jenis_sarana_id['id'];
+            $update_data->nama = $request->nama;
+            $update_data->spesifikasi = $request->spesifikasi;
+            $update_data->merk = $request->merk;
+            $update_data->no_polisi = $request->no_polisi;
+            $update_data->no_bpkb = $request->no_bpkb;
+            $update_data->kepemilikan_sarpras_id = $request->kepemilikan_sarpras_id['kepemilikan_sarpras_id'];
+            $update_data->keterangan = $request->keterangan;
+            if($update_data->save()){
+                return response()->json(['status' => 'success', 'message' => 'Data Angkutan berhasil diperbaharui']);
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'Data Angkutan gagal diperbaharui']);
+            }
+        } elseif($request->route('query') == 'alat'){
+            $messages = [
+                'sekolah_id.required'	=> 'Sekolah tidak boleh kosong',
+                'tanah_id.required'	=> 'Tanah tidak boleh kosong',
+                'bangunan_id.required'	=> 'Bangunan tidak boleh kosong',
+                'ruang_id.required'	=> 'Ruang tidak boleh kosong',
+                'jenis_sarana_id.required'	=> 'Jenis Sarana tidak boleh kosong',
+                'nama.required'	=> 'Nama tidak boleh kosong',
+                'kepemilikan_sarpras_id.required'	=> 'Kepemilikan tidak boleh kosong',
+            ];
+            $validator = Validator::make(request()->all(), [
+                'sekolah_id' => 'required',
+                'tanah_id' => 'required',
+                'bangunan_id' => 'required',
+                'ruang_id' => 'required',
+                'jenis_sarana_id' => 'required',
+                'nama' => 'required',
+                'kepemilikan_sarpras_id' => 'required',
+            ],
+            $messages
+            )->validate();
+            $update_data = Alat::find($request->id);
+            $update_data->jenis_sarana_id = $request->jenis_sarana_id['id'];
+            $update_data->ruang_id = $request->ruang_id['ruang_id'];
+            $update_data->nama = $request->nama;
+            $update_data->spesifikasi = $request->spesifikasi;
+            $update_data->kepemilikan_sarpras_id = $request->kepemilikan_sarpras_id['kepemilikan_sarpras_id'];
+            $update_data->keterangan = $request->keterangan;
+            if($update_data->save()){
+                return response()->json(['status' => 'success', 'message' => 'Data Angkutan berhasil diperbaharui']);
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'Data Angkutan gagal diperbaharui']);
+            }
         }
-        return response()->json(['status' => 'error', 'data' => NULL]);
+        return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Tidak ada data diperbaharui']);
     }
     public function delete_data(Request $request)
     {
-        if($request->route('query') == 'pendamping'){
+        if($request->route('query') == 'buku'){
             $id = $request->route('id');
-            Sekolah_sasaran::where('pendamping_id', $id)->update(['pendamping_id' => NULL]);
-            $pendamping = Pendamping::find($id);
-            if($pendamping->delete()){
-                return response()->json(['title' => 'Berhasil', 'status' => 'success', 'message' => 'Data Pendamping berhasil dihapus']);
+            $delete_data = Buku::find($id);
+            if($delete_data->delete()){
+                return response()->json(['title' => 'Berhasil', 'status' => 'success', 'message' => 'Data Buku berhasil dihapus']);
             } else {
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Data Pendamping gagal dihapus']);
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Data Buku gagal dihapus']);
+            }
+        } elseif($request->route('query') == 'angkutan'){
+            $id = $request->route('id');
+            $delete_data = Angkutan::find($id);
+            if($delete_data->delete()){
+                return response()->json(['title' => 'Berhasil', 'status' => 'success', 'message' => 'Data Angkutan berhasil dihapus']);
+            } else {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Data Buku Angkutan dihapus']);
             }
         }
+        return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Tidak ada data terhapus']);
     }
 }
