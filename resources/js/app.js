@@ -31,7 +31,7 @@ import Swal from 'sweetalert2';
 //Vue.use(CKEditor);
 import CKEditor from '@ckeditor/ckeditor5-vue';
 Vue.use(CKEditor);
-require('select2');
+//require('select2');
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
