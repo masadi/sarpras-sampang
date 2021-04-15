@@ -19,4 +19,7 @@ class Ruang extends Model
     {
         return $this->belongsTo(Jenis_prasarana::class, 'jenis_prasarana_id', 'id');
     }
+    public function kondisi_ruang(){
+        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id');
+    }
 }

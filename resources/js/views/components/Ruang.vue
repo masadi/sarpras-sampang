@@ -242,7 +242,8 @@
                                 <div class="info-box bg-info">
                                     <div class="info-box-content text-center">
                                         <h5 class="info-box-text">Tingkat Persentase Kerusakan</h5> 
-                                        <h3 class="info-box-number">{{presentase_kerusakan}}</h3> 
+                                        <h3 class="info-box-number">{{presentase_kerusakan}}</h3>
+                                        <input v-model="form.kerusakan_bangunan" type="hidden" name="kerusakan_bangunan"> 
                                     </div>
                                 </div>
                             </div>
@@ -261,7 +262,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Batu Bata/Partisi (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_bata_dinding" type="text" name="rusak_bata_dinding"
+                                        <input v-model="form.rusak_bata_dinding" type="text" name="rusak_bata_dinding" @input="getTotal"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_bata_dinding') }">
                                         <has-error :form="form" field="rusak_bata_dinding"></has-error>
                                     </div>
@@ -271,7 +272,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Batu Bata/Partisi</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_bata_dinding" type="text" name="ket_bata_dinding"
+                                        <input v-model="form.ket_bata_dinding" type="text" name="ket_bata_dinding" 
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('ket_bata_dinding') }">
                                         <has-error :form="form" field="ket_bata_dinding"></has-error>
                                     </div>
@@ -283,7 +284,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Kaca (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_daun_jendela" type="text" name="rusak_daun_jendela"
+                                        <input v-model="form.rusak_daun_jendela" type="text" name="rusak_daun_jendela" @input="getTotal"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_daun_jendela') }">
                                         <has-error :form="form" field="rusak_daun_jendela"></has-error>
                                     </div>
@@ -305,7 +306,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Pintu (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_daun_pintu" type="text" name="rusak_daun_pintu"
+                                        <input v-model="form.rusak_daun_pintu" type="text" name="rusak_daun_pintu" @input="getTotal"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_daun_pintu') }">
                                         <has-error :form="form" field="rusak_daun_pintu"></has-error>
                                     </div>
@@ -327,7 +328,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Kusen (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_kusen" type="text" name="rusak_kusen"
+                                        <input v-model="form.rusak_kusen" type="text" name="rusak_kusen" @input="getTotal"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_kusen') }">
                                         <has-error :form="form" field="rusak_kusen"></has-error>
                                     </div>
@@ -337,7 +338,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Kusen</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_kusen" type="text" name="ket_kusen"
+                                        <input v-model="form.ket_kusen" type="text" name="ket_kusen" 
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('ket_kusen') }">
                                         <has-error :form="form" field="ket_kusen"></has-error>
                                     </div>
@@ -349,7 +350,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Plafon (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_tutup_plafon" type="text" name="rusak_tutup_plafon"
+                                        <input v-model="form.rusak_tutup_plafon" type="text" name="rusak_tutup_plafon" @input="getTotal"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_tutup_plafon') }">
                                         <has-error :form="form" field="rusak_tutup_plafon"></has-error>
                                     </div>
@@ -371,7 +372,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Penutup Lantai (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_tutup_lantai" type="text" name="rusak_tutup_lantai"
+                                        <input v-model="form.rusak_tutup_lantai" type="text" name="rusak_tutup_lantai" @input="getTotal"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_tutup_lantai') }">
                                         <has-error :form="form" field="rusak_tutup_lantai"></has-error>
                                     </div>
@@ -381,7 +382,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Penutup Lantai</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_penutup_lantai" type="text" name="ket_penutup_lantai"
+                                        <input v-model="form.ket_penutup_lantai" type="text" name="ket_penutup_lantai" 
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('ket_penutup_lantai') }">
                                         <has-error :form="form" field="ket_penutup_lantai"></has-error>
                                     </div>
@@ -431,7 +432,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Drainase Limbah (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_drainase" type="text" name="rusak_drainase"
+                                        <input v-model="form.rusak_drainase" type="text" name="rusak_drainase" @input="getTotal"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_drainase') }">
                                         <has-error :form="form" field="rusak_drainase"></has-error>
                                     </div>
@@ -453,7 +454,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Finishing Langit-langit (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_finish_plafon" type="text" name="rusak_finish_plafon"
+                                        <input v-model="form.rusak_finish_plafon" type="text" name="rusak_finish_plafon" @input="getTotal"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_finish_plafon') }">
                                         <has-error :form="form" field="rusak_finish_plafon"></has-error>
                                     </div>
@@ -463,7 +464,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Finishing Langit-langit</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_finish_plafon" type="text" name="ket_finish_plafon"
+                                        <input v-model="form.ket_finish_plafon" type="text" name="ket_finish_plafon" 
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('ket_finish_plafon') }">
                                         <has-error :form="form" field="ket_finish_plafon"></has-error>
                                     </div>
@@ -475,7 +476,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Finishing Dinding (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_finish_dinding" type="text" name="rusak_finish_dinding"
+                                        <input v-model="form.rusak_finish_dinding" type="text" name="rusak_finish_dinding" @input="getTotal"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_finish_dinding') }">
                                         <has-error :form="form" field="rusak_finish_dinding"></has-error>
                                     </div>
@@ -497,7 +498,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Finishing Kusen/Pintu (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_finish_kpj" type="text" name="rusak_finish_kpj"
+                                        <input v-model="form.rusak_finish_kpj" type="text" name="rusak_finish_kpj" @input="getTotal"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_finish_kpj') }">
                                         <has-error :form="form" field="rusak_finish_kpj"></has-error>
                                     </div>
@@ -626,6 +627,7 @@ export default {
                 luas_finish_dinding: 0,
                 luas_finish_kpj: 0,
                 keterangan: '',
+                kerusakan_bangunan: 0,
             }),
             data_listrik: [
                 {label: 'Tidak ada kerusakan', code: 0},
@@ -637,7 +639,7 @@ export default {
             ],
             data_air: [
                 {label: 'Tidak ada kerusakan', code: 0},
-                {label: 'Kebocoran pipa terbats ditempat yang terlihat atau mudah dicapai, keran-keran kecil rusak, sehingga biaya perbaikan kurang dari 1 % biaya instalasi baru', code: '0.3'},
+                {label: 'Kebocoran pipa terbatas ditempat yang terlihat atau mudah dicapai, keran-keran kecil rusak, sehingga biaya perbaikan kurang dari 1 % biaya instalasi baru', code: '0.3'},
                 {label: 'Bagian-bagian kecil pemipaan bocor, motor pompa terbakar, keran-keran kecil rusak, sehingga biaya perbaikan antara 1-10% dari biaya instalasi baru', code: '0.6'},
                 {label: 'Pompa, motor, pipa, dan keran rusak apabuila diganti atau diperbaiki memerlukan biaya antara 10-25 % dari biaya instalasi baru', code: '0.9'},
                 {label: 'Sebagian besar pompa, sebagian besar motor terbakar, pipa utama bocor namun ditempat terbuka, beberapa keran tidak befungsi, sehingga biaya perbaikan 25- 50 % dari biaya instalasi baru', code: '1.2'},
@@ -672,9 +674,29 @@ export default {
     methods: {
         updateListrik(val){
             this.form.rusak_inst_listrik = val.code
+            this.getTotal()
         },
         updateAir(val){
             this.form.rusak_inst_air = val.code
+            this.getTotal()
+        },
+        getTotal(){
+            let kerusakan_ruang = Number(this.number_format(this.form.rusak_bata_dinding,2)) + Number(this.number_format(this.form.rusak_daun_jendela,2)) + Number(this.number_format(this.form.rusak_daun_pintu,2)) + Number(this.number_format(this.form.rusak_kusen,2)) + Number(this.number_format(this.form.rusak_tutup_plafon,2)) + Number(this.number_format(this.form.rusak_tutup_lantai,2)) + Number(this.number_format(this.form.rusak_inst_listrik,2)) + Number(this.number_format(this.form.rusak_inst_air,2)) + Number(this.number_format(this.form.rusak_drainase,2)) + Number(this.number_format(this.form.rusak_finish_plafon,2)) + Number(this.number_format(this.form.rusak_finish_dinding,2)) + Number(this.number_format(this.form.rusak_finish_kpj,2))
+            let total_kerusakan = Number(this.number_format(this.form.kerusakan_bangunan,2)) + Number(this.number_format(kerusakan_ruang,2))
+            let make_kriteria = null
+            if(total_kerusakan == 0){
+                make_kriteria = 'BAIK'
+            } else if(total_kerusakan > 0 && total_kerusakan <= 30){
+                make_kriteria = 'RINGAN'
+            } else if(total_kerusakan >= 31 && total_kerusakan <= 45){
+                make_kriteria = 'SEDANG'
+            } else if(total_kerusakan >= 46 && total_kerusakan <= 65){
+                make_kriteria = 'BERAT'
+            } else if(total_kerusakan > 66){
+                make_kriteria = 'SANGAT BERAT'
+            }
+            this.kriteria_kerusakan = make_kriteria
+            this.presentase_kerusakan = this.number_format(total_kerusakan,2)
         },
         //JIKA SELECT BOX DIGANTI, MAKA FUNGSI INI AKAN DIJALANKAN
         loadPerPage(val) {
@@ -813,40 +835,43 @@ export default {
             })
             .then((response) => {
                 //JIKA RESPONSENYA DITERIMA
-                let getData = response.data.data
+                let getDataRuang = response.data.data
+                let getData = getDataRuang.kondisi_ruang
+                this.form.ruang_id = getDataRuang.ruang_id
+                //let kerusakan_bangunan = Number(this.number_format(getDataRuang.bangunan.total_kerusakan, 2))
+                this.form.kerusakan_bangunan = getDataRuang.bangunan.total_kerusakan
                 if(getData){
-                    this.form.ruang_id = getData.ruang_id
-                    this.form.rusak_bata_dinding = number_format(getData.rusak_bata_dinding)
+                    this.form.rusak_bata_dinding = this.number_format(getData.rusak_bata_dinding)
                     this.form.ket_bata_dinding = getData.ket_bata_dinding
-                    this.form.rusak_daun_jendela = number_format(getData.rusak_daun_jendela)
+                    this.form.rusak_daun_jendela = this.number_format(getData.rusak_daun_jendela)
                     this.form.ket_daun_jendela = getData.ket_daun_jendela
-                    this.form.rusak_daun_pintu = number_format(getData.rusak_daun_pintu)
+                    this.form.rusak_daun_pintu = this.number_format(getData.rusak_daun_pintu)
                     this.form.ket_daun_pintu = getData.ket_daun_pintu
-                    this.form.rusak_kusen = number_format(getData.rusak_kusen)
+                    this.form.rusak_kusen = this.number_format(getData.rusak_kusen)
                     this.form.ket_kusen = getData.ket_kusen
-                    this.form.rusak_tutup_plafon = number_format(getData.rusak_tutup_plafon)
+                    this.form.rusak_tutup_plafon = this.number_format(getData.rusak_tutup_plafon)
                     this.form.ket_tutup_plafon = getData.ket_tutup_plafon
-                    this.form.rusak_tutup_lantai = number_format(getData.rusak_tutup_lantai)
+                    this.form.rusak_tutup_lantai = this.number_format(getData.rusak_tutup_lantai)
                     this.form.ket_penutup_lantai = getData.ket_penutup_lantai
                     this.form.rusak_inst_listrik = getData.rusak_inst_listrik
                     this.form.ket_inst_listrik = getData.ket_inst_listrik
                     this.form.rusak_inst_air = getData.rusak_inst_air
                     this.form.ket_inst_air = getData.ket_inst_air
-                    this.form.rusak_drainase = number_format(getData.rusak_drainase)
+                    this.form.rusak_drainase = this.number_format(getData.rusak_drainase)
                     this.form.ket_drainase = getData.ket_drainase
-                    this.form.rusak_finish_plafon = number_format(getData.rusak_finish_plafon)
+                    this.form.rusak_finish_plafon = this.number_format(getData.rusak_finish_plafon)
                     this.form.ket_finish_plafon = getData.ket_finish_plafon
-                    this.form.rusak_finish_dinding = number_format(getData.rusak_finish_dinding)
+                    this.form.rusak_finish_dinding = this.number_format(getData.rusak_finish_dinding)
                     this.form.ket_finish_dinding = getData.ket_finish_dinding	
-                    this.form.rusak_finish_kpj = number_format(getData.rusak_finish_kpj)
+                    this.form.rusak_finish_kpj = this.number_format(getData.rusak_finish_kpj)
                     this.form.ket_finish_kpj = getData.ket_finish_kpj
-                    let total_kerusakan = 0
-                    //Number(getData.rusak_pondasi) + Number(getData.rusak_bata_dinding) + Number(getData.rusak_daun_jendela) + Number(getData.rusak_daun_pintu) + Number(getData.rusak_kusen)
-                    this.presentase_kerusakan = number_format(total_kerusakan,2)
+                    let kerusakan_ruang = Number(this.number_format(this.form.rusak_bata_dinding,2)) + Number(this.number_format(this.form.rusak_daun_jendela,2)) + Number(this.number_format(this.form.rusak_daun_pintu,2)) + Number(this.number_format(this.form.rusak_kusen,2)) + Number(this.number_format(this.form.rusak_tutup_plafon,2)) + Number(this.number_format(this.form.rusak_tutup_lantai,2)) + Number(this.number_format(this.form.rusak_inst_listrik,2)) + Number(this.number_format(this.form.rusak_inst_air,2)) + Number(this.number_format(this.form.rusak_drainase,2)) + Number(this.number_format(this.form.rusak_finish_plafon,2)) + Number(this.number_format(this.form.rusak_finish_dinding,2)) + Number(this.number_format(this.form.rusak_finish_kpj,2))
+                    let total_kerusakan = Number(this.number_format(this.form.kerusakan_bangunan,2)) + Number(this.number_format(kerusakan_ruang,2))
+                    this.presentase_kerusakan = this.number_format(total_kerusakan,2)
                     let make_kriteria = null
                     if(total_kerusakan == 0){
                         make_kriteria = 'BAIK'
-                    } else if(total_kerusakan >= 1 && total_kerusakan <= 30){
+                    } else if(total_kerusakan > 0 && total_kerusakan <= 30){
                         make_kriteria = 'RINGAN'
                     } else if(total_kerusakan >= 31 && total_kerusakan <= 45){
                         make_kriteria = 'SEDANG'
@@ -856,30 +881,29 @@ export default {
                         make_kriteria = 'TOTAL'
                     }
                     this.kriteria_kerusakan = make_kriteria
-                    console.log(getData);
                 }
             })
             $('#modalKondisi').modal('show');
-            function number_format(number, decimals, dec_point, thousands_sep) {
-                var n = !isFinite(+number) ? 0 : +number, 
-                    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-                    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-                    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-                    toFixedFix = function (n, prec) {
-                        // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-                        var k = Math.pow(10, prec);
-                        return Math.round(n * k) / k;
-                    },
-                    s = (prec ? toFixedFix(n, prec) : Math.round(n)).toString().split('.');
-                    if (s[0].length > 3) {
-                        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-                    }
-                    if ((s[1] || '').length < prec) {
-                        s[1] = s[1] || '';
-                        s[1] += new Array(prec - s[1].length + 1).join('0');
-                    }
-                    return s.join(dec);
-                }
+        },
+        number_format(number, decimals, dec_point, thousands_sep) {
+            var n = !isFinite(+number) ? 0 : +number, 
+                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                toFixedFix = function (n, prec) {
+                    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+                    var k = Math.pow(10, prec);
+                    return Math.round(n * k) / k;
+                },
+                s = (prec ? toFixedFix(n, prec) : Math.round(n)).toString().split('.');
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            }
+            if ((s[1] || '').length < prec) {
+                s[1] = s[1] || '';
+                s[1] += new Array(prec - s[1].length + 1).join('0');
+            }
+            return s.join(dec);
         },
         updateKondisi(){
             this.form.post('/api/kondisi/simpan-ruang').then((response)=>{

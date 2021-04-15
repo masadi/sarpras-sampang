@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Bangunan;
+use App\Ruang;
 use App\Kondisi_ruang;
 use App\Kondisi_bangunan;
 use App\HelperModel;
@@ -19,7 +21,10 @@ class KondisiController extends Controller
         return response()->json(['status' => 'success', 'data' => $data]);
     }
     public function get_ruang($request){
-        $data = Kondisi_ruang::where('ruang_id', $request->ruang_id)->where('tahun_pendataan_id', HelperModel::tahun_pendataan())->first();
+        //$data = Kondisi_ruang::where('ruang_id', $request->ruang_id)->where('tahun_pendataan_id', HelperModel::tahun_pendataan())->first();
+        $data = Ruang::with(['bangunan', 'kondisi_ruang' => function($query){
+            $query->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
+        }])->find($request->ruang_id);
         return response()->json(['status' => 'success', 'data' => $data]);
     }
     public function simpan_data(Request $request){
@@ -132,6 +137,9 @@ class KondisiController extends Controller
             ],
             $messages
             )->validate();
+            $bangunan = Bangunan::find($request->bangunan_id);
+            $bangunan->total_kerusakan = $request->presentase_kerusakan;
+            $bangunan->save();
             $insert_data = Kondisi_bangunan::updateOrcreate(
                 [
                     'bangunan_id' => $request->bangunan_id,

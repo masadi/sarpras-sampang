@@ -159,7 +159,7 @@
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Input Kondisi Ruang</h5>
+                    <h5 class="modal-title">Input Kondisi Bangunan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -172,7 +172,8 @@
                                 <div class="info-box bg-info">
                                     <div class="info-box-content text-center">
                                         <h5 class="info-box-text">Tingkat Persentase Kerusakan</h5> 
-                                        <h3 class="info-box-number">{{presentase_kerusakan}}</h3> 
+                                        <h3 class="info-box-number">{{presentase_kerusakan}}</h3>
+                                        <input v-model="form.presentase_kerusakan" type="hidden" name="presentase_kerusakan">
                                     </div>
                                 </div>
                             </div>
@@ -210,8 +211,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Kolom (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_sloop_kolom_balok" type="text" name="rusak_sloop_kolom_balok"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_sloop_kolom_balok') }">
+                                        <input v-model="form.rusak_sloop_kolom_balok" type="text" name="rusak_sloop_kolom_balok" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_sloop_kolom_balok') }" @input="getTotal">
                                         <has-error :form="form" field="rusak_sloop_kolom_balok"></has-error>
                                     </div>
                                 </div>
@@ -220,8 +220,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Kolom</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_sloop_kolom_balok" type="text" name="ket_sloop_kolom_balok"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_sloop_kolom_balok') }">
+                                        <input v-model="form.ket_sloop_kolom_balok" type="text" name="ket_sloop_kolom_balok" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_sloop_kolom_balok') }">
                                         <has-error :form="form" field="ket_sloop_kolom_balok"></has-error>
                                     </div>
                                 </div>
@@ -232,8 +231,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Balok (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_kudakuda_atap" type="text" name="rusak_kudakuda_atap"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_kudakuda_atap') }">
+                                        <input v-model="form.rusak_kudakuda_atap" type="text" name="rusak_kudakuda_atap" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_kudakuda_atap') }"  @input="getTotal">
                                         <has-error :form="form" field="rusak_kudakuda_atap"></has-error>
                                     </div>
                                 </div>
@@ -242,8 +240,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Balok</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_kudakuda_atap" type="text" name="ket_kudakuda_atap"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_kudakuda_atap') }">
+                                        <input v-model="form.ket_kudakuda_atap" type="text" name="ket_kudakuda_atap" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_kudakuda_atap') }">
                                         <has-error :form="form" field="ket_kudakuda_atap"></has-error>
                                     </div>
                                 </div>
@@ -254,8 +251,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Pelat Lantai (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_plester_struktur" type="text" name="rusak_plester_struktur"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_plester_struktur') }">
+                                        <input v-model="form.rusak_plester_struktur" type="text" name="rusak_plester_struktur" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_plester_struktur') }"  @input="getTotal">
                                         <has-error :form="form" field="rusak_plester_struktur"></has-error>
                                     </div>
                                 </div>
@@ -276,8 +272,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Atap (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_tutup_atap" type="text" name="rusak_tutup_atap"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_tutup_atap') }">
+                                        <input v-model="form.rusak_tutup_atap" type="text" name="rusak_tutup_atap" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_tutup_atap') }"  @input="getTotal">
                                         <has-error :form="form" field="rusak_tutup_atap"></has-error>
                                     </div>
                                 </div>
@@ -299,8 +294,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button v-show="editmode" type="submit" class="btn btn-success">Perbaharui</button>
-                        <button v-show="!editmode" type="submit" class="btn btn-primary">Simpan</button>
+                        <button v-show="editmode" type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                   </form>
                 </div>
@@ -353,7 +347,7 @@ export default {
                 {label: 'Penurunan tidak merata, namun perbedaan penurunan tidak melebihi 1/250L', code: 40},
                 {label: 'Penurunan > 1/250L sehingga menimbulkan kerusakan struktur atasnya. Tanah di sekeliling bangunan naik', code: 60},
                 {label: 'Bangunan miring secara kasat mata, lantai dasar naik/menggelembung', code: 80},
-                {label: 'Pondasi patah, bergeser akibat longsor, stuktur atas menjadi rusak', code: 10},
+                {label: 'Pondasi patah, bergeser akibat longsor, stuktur atas menjadi rusak', code: 100},
             ],
             editmode: false,
             form: new Form({
@@ -382,6 +376,7 @@ export default {
                 kepemilikan_sarpras_id: '',
                 tanggal_sk: '',
                 keterangan: '',
+                presentase_kerusakan: 0,
             }),
             //VARIABLE INI AKAN MENGHADLE SORTING DATA
             sortBy: null, //FIELD YANG AKAN DISORT AKAN OTOMATIS DISIMPAN DISINI
@@ -420,6 +415,26 @@ export default {
     methods: {
         updatePondasi(val){
             this.form.rusak_pondasi = val.code
+            this.getTotal()
+        },
+        getTotal(){
+            let total_kerusakan = Number(this.number_format(this.form.rusak_pondasi,2)) + Number(this.number_format(this.form.rusak_sloop_kolom_balok,2)) + Number(this.number_format(this.form.rusak_kudakuda_atap,2)) + Number(this.number_format(this.form.rusak_plester_struktur,2)) + Number(this.number_format(this.form.rusak_tutup_atap,2)) + Number(this.number_format(this.form.ket_tutup_atap,2))
+            let make_kriteria = null
+            if(total_kerusakan == 0){
+                make_kriteria = 'BAIK'
+            } else if(total_kerusakan > 0 && total_kerusakan <= 30){
+                make_kriteria = 'RINGAN'
+            } else if(total_kerusakan >= 31 && total_kerusakan <= 45){
+                make_kriteria = 'SEDANG'
+            } else if(total_kerusakan >= 46 && total_kerusakan <= 65){
+                make_kriteria = 'BERAT'
+            } else if(total_kerusakan > 66){
+                make_kriteria = 'SANGAT BERAT'
+            }
+            console.log(total_kerusakan);
+            this.kriteria_kerusakan = make_kriteria
+            this.presentase_kerusakan = this.number_format(total_kerusakan,2)+'%'
+            this.form.presentase_kerusakan = this.number_format(total_kerusakan,2)
         },
         //JIKA SELECT BOX DIGANTI, MAKA FUNGSI INI AKAN DIJALANKAN
         loadPerPage(val) {
@@ -538,18 +553,19 @@ export default {
                 let getData = response.data.data
                 if(getData){
                     this.form.bangunan_id = getData.bangunan_id
-                    this.form.rusak_pondasi = number_format(getData.rusak_pondasi)
+                    this.form.rusak_pondasi = this.number_format(getData.rusak_pondasi)
                     this.form.ket_pondasi = getData.ket_pondasi
-                    this.form.rusak_sloop_kolom_balok = number_format(getData.rusak_sloop_kolom_balok)
+                    this.form.rusak_sloop_kolom_balok = this.number_format(getData.rusak_sloop_kolom_balok)
                     this.form.ket_sloop_kolom_balok = getData.ket_sloop_kolom_balok
-                    this.form.rusak_kudakuda_atap = number_format(getData.rusak_kudakuda_atap)
+                    this.form.rusak_kudakuda_atap = this.number_format(getData.rusak_kudakuda_atap)
                     this.form.ket_kudakuda_atap = getData.ket_kudakuda_atap
-                    this.form.rusak_plester_struktur = number_format(getData.rusak_plester_struktur)
+                    this.form.rusak_plester_struktur = this.number_format(getData.rusak_plester_struktur)
                     this.form.ket_plester_struktur = getData.ket_plester_struktur
-                    this.form.rusak_tutup_atap = number_format(getData.rusak_tutup_atap)
+                    this.form.rusak_tutup_atap = this.number_format(getData.rusak_tutup_atap)
                     this.form.ket_tutup_atap = getData.ket_tutup_atap
                     let total_kerusakan = Number(getData.rusak_pondasi) + Number(getData.rusak_sloop_kolom_balok) + Number(getData.rusak_kudakuda_atap) + Number(getData.rusak_plester_struktur) + Number(getData.rusak_tutup_atap)
-                    this.presentase_kerusakan = number_format(total_kerusakan,2)
+                    this.presentase_kerusakan = this.number_format(total_kerusakan,2)+'%'
+                    this.form.presentase_kerusakan = this.number_format(total_kerusakan,2)
                     let make_kriteria = null
                     if(total_kerusakan == 0){
                         make_kriteria = 'BAIK'
@@ -566,26 +582,26 @@ export default {
                 }
             })
             $('#modalKondisi').modal('show');
-            function number_format(number, decimals, dec_point, thousands_sep) {
-                var n = !isFinite(+number) ? 0 : +number, 
-                    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-                    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-                    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-                    toFixedFix = function (n, prec) {
-                        // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-                        var k = Math.pow(10, prec);
-                        return Math.round(n * k) / k;
-                    },
-                    s = (prec ? toFixedFix(n, prec) : Math.round(n)).toString().split('.');
-                    if (s[0].length > 3) {
-                        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-                    }
-                    if ((s[1] || '').length < prec) {
-                        s[1] = s[1] || '';
-                        s[1] += new Array(prec - s[1].length + 1).join('0');
-                    }
-                    return s.join(dec);
-                }
+        },
+        number_format(number, decimals, dec_point, thousands_sep) {
+            var n = !isFinite(+number) ? 0 : +number, 
+                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                toFixedFix = function (n, prec) {
+                    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+                    var k = Math.pow(10, prec);
+                    return Math.round(n * k) / k;
+                },
+                s = (prec ? toFixedFix(n, prec) : Math.round(n)).toString().split('.');
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            }
+            if ((s[1] || '').length < prec) {
+                s[1] = s[1] || '';
+                s[1] += new Array(prec - s[1].length + 1).join('0');
+            }
+            return s.join(dec);
         },
         updateKondisi(){
             this.form.post('/api/kondisi/simpan-bangunan').then((response)=>{
