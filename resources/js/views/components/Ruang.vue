@@ -248,7 +248,8 @@
                                     <div class="info-box-content text-center">
                                         <h5 class="info-box-text">Tingkat Persentase Kerusakan</h5> 
                                         <h3 class="info-box-number">{{presentase_kerusakan}}</h3>
-                                        <input v-model="form.kerusakan_bangunan" type="hidden" name="kerusakan_bangunan"> 
+                                        <input v-model="form.kerusakan_bangunan" type="hidden" name="kerusakan_bangunan">
+                                        <input v-model="form.presentase_kerusakan" type="hidden" name="presentase_kerusakan">
                                     </div>
                                 </div>
                             </div>
@@ -648,6 +649,7 @@ export default {
                 luas_finish_kpj: 0,
                 keterangan: '',
                 kerusakan_bangunan: 0,
+                presentase_kerusakan: 0,
             }),
             data_listrik: [
                 {label: 'Tidak ada kerusakan', code: 0},
@@ -727,7 +729,8 @@ export default {
                 make_kriteria = 'SANGAT BERAT'
             }
             this.kriteria_kerusakan = make_kriteria
-            this.presentase_kerusakan = this.number_format(total_kerusakan,2)
+            this.presentase_kerusakan = this.number_format(total_kerusakan,2)+'%'
+            this.form.presentase_kerusakan = this.number_format(total_kerusakan,2)
         },
         getTotalKaca(){
             let jmlJendela = Number(this.form.luas_daun_jendela) + Number(this.form.luas_daun_pintu) + Number(this.form.luas_kusen)
@@ -967,7 +970,8 @@ export default {
                         make_kriteria = 'SANGAT BERAT'
                     }
                     this.kriteria_kerusakan = make_kriteria
-                    this.presentase_kerusakan = this.number_format(total_kerusakan,2)
+                    this.presentase_kerusakan = this.number_format(total_kerusakan,2)+'%'
+                    this.form.presentase_kerusakan = this.number_format(total_kerusakan,2)
                 } else {
                     let total_kerusakan = Number(this.number_format(this.form.kerusakan_bangunan,2))
                     console.log(this.form.kerusakan_bangunan);
@@ -984,7 +988,8 @@ export default {
                         make_kriteria = 'SANGAT BERAT'
                     }
                     this.kriteria_kerusakan = make_kriteria
-                    this.presentase_kerusakan = this.number_format(total_kerusakan,2)
+                    this.presentase_kerusakan = this.number_format(total_kerusakan,2)+'%'
+                    this.form.presentase_kerusakan = this.number_format(total_kerusakan,2)
                 }
             })
             $('#modalKondisi').modal('show');

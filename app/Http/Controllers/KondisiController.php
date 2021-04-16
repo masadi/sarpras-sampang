@@ -115,6 +115,7 @@ class KondisiController extends Controller
                     'ket_finish_dinding' => $request->ket_finish_dinding,
                     'rusak_finish_kpj' => $request->rusak_finish_kpj,
                     'ket_finish_kpj' => $request->ket_finish_kpj,
+                    'nilai_saat_ini' => $request->presentase_kerusakan,
                 ]
             );
             return response()->json(['status' => 'success', 'data' => $insert_data]);
@@ -156,6 +157,7 @@ class KondisiController extends Controller
                     'ket_plester_struktur' => $request->ket_plester_struktur,
                     'rusak_tutup_atap' => $request->rusak_tutup_atap,
                     'ket_tutup_atap' => $request->ket_tutup_atap,
+                    'nilai_saat_ini' => $request->presentase_kerusakan,
                 ]
             );
             return response()->json(['status' => 'success', 'data' => $insert_data]);
