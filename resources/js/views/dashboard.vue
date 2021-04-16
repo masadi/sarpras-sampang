@@ -126,23 +126,23 @@ export default {
             chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
             chart.legend = new am4charts.Legend();
-
+            console.log(chartData);
             chart.data = [
                 {
                     category: "Baik",
-                    value: 501.9
+                    value: chartData.baik
                 },
                 {
                     category: "Rusak Ringan",
-                    value: 301.9
+                    value: chartData.ringan
                 },
                 {
                     category: "Rusak Sedang",
-                    value: 201.1
+                    value: chartData.sedang
                 },
                 {
                     category: "Rusak Berat",
-                    value: 165.8
+                    value: chartData.berat
                 }
             ];
 
@@ -166,8 +166,8 @@ export default {
                     this.jml_ruang = getData.jml_ruang
                     this.jml_alat_dll = getData.jml_alat_dll
                     let vm = this
-                    vm.createChart('chartBangunan', getData)
-                    vm.createChart('chartRuang', getData)
+                    vm.createChart('chartBangunan', getData.kondisi_bangunan)
+                    vm.createChart('chartRuang', getData.kondisi_ruang)
                 })
         },
     },

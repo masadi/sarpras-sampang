@@ -424,11 +424,11 @@ export default {
                 make_kriteria = 'BAIK'
             } else if(total_kerusakan > 0 && total_kerusakan <= 30){
                 make_kriteria = 'RINGAN'
-            } else if(total_kerusakan >= 31 && total_kerusakan <= 45){
+            } else if(total_kerusakan > 30 && total_kerusakan <= 45){
                 make_kriteria = 'SEDANG'
-            } else if(total_kerusakan >= 46 && total_kerusakan <= 65){
+            } else if(total_kerusakan > 45 && total_kerusakan <= 65){
                 make_kriteria = 'BERAT'
-            } else if(total_kerusakan > 66){
+            } else if(total_kerusakan > 65){
                 make_kriteria = 'SANGAT BERAT'
             }
             console.log(total_kerusakan);
