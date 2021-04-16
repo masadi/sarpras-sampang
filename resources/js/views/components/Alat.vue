@@ -58,8 +58,45 @@
             ></b-pagination>
         </div>
         </div>
-        <b-modal id="modal-xl" size="xl" v-model="showModal" title="Detil Berita">
-            {{ modalText }}
+        <b-modal id="modal-xl" size="xl" v-model="showModal" title="Detil Alat">
+            <table class="table table-border">
+                <tr>
+                    <td width="20%">Sekolah</td>
+                    <td width="80%">: {{ (modalText.ruang) ? (modalText.ruang.bangunan) ? (modalText.ruang.bangunan.tanah) ? (modalText.ruang.bangunan.tanah.sekolah) ? modalText.ruang.bangunan.tanah.sekolah.nama : '-' : '-' : '-' : '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Tanah</td>
+                    <td>: {{ (modalText.ruang) ? (modalText.ruang.bangunan) ? (modalText.ruang.bangunan.tanah) ? modalText.ruang.bangunan.tanah.nama : '-' : '-' : '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Bangunan</td>
+                    <td>: {{ (modalText.ruang) ? (modalText.ruang.bangunan) ? modalText.ruang.bangunan.nama : '-' : '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Ruang</td>
+                    <td>: {{ (modalText.ruang) ? modalText.ruang.nama : '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Jenis Sarana</td>
+                    <td>: {{ (modalText.jenis_sarana) ? (modalText.jenis_sarana.nama) : '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Nama</td>
+                    <td>: {{ modalText.nama }}</td>
+                </tr>
+                <tr>
+                    <td>Spesifikasi</td>
+                    <td>: {{ modalText.spesifikasi }}</td>
+                </tr>
+                <tr>
+                    <td>Status Kepemilikan</td>
+                    <td>: {{ (modalText.kepemilikan) ? (modalText.kepemilikan.nama) : '-' }}</td>
+                </tr>
+                <tr>
+                    <td>keterangan</td>
+                    <td>: {{ modalText.keterangan }}</td>
+                </tr>
+            </table>
             <template v-slot:modal-footer>
                 <div class="w-100 float-right">
                     <b-button
@@ -76,7 +113,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Perbaharui Atribut</h5>
+                    <h5 class="modal-title">Perbaharui Angkutan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
