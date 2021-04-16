@@ -923,6 +923,22 @@ export default {
                     this.form.ket_finish_dinding = getData.ket_finish_dinding	
                     this.form.rusak_finish_kpj = this.number_format(getData.rusak_finish_kpj)
                     this.form.ket_finish_kpj = getData.ket_finish_kpj
+                    /*let kerusakan_ruang = Number(this.number_format(this.form.rusak_bata_dinding,2)) + Number(this.number_format(this.form.rusak_daun_jendela,2)) + Number(this.number_format(this.form.rusak_daun_pintu,2)) + Number(this.number_format(this.form.rusak_kusen,2)) + Number(this.number_format(this.form.rusak_tutup_plafon,2)) + Number(this.number_format(this.form.rusak_tutup_lantai,2)) + Number(this.number_format(this.form.rusak_inst_listrik,2)) + Number(this.number_format(this.form.rusak_inst_air,2)) + Number(this.number_format(this.form.rusak_drainase,2)) + Number(this.number_format(this.form.rusak_finish_plafon,2)) + Number(this.number_format(this.form.rusak_finish_dinding,2)) + Number(this.number_format(this.form.rusak_finish_kpj,2))
+                    let total_kerusakan = Number(this.number_format(this.form.kerusakan_bangunan,2)) + Number(this.number_format(kerusakan_ruang,2))
+                    this.presentase_kerusakan = this.number_format(total_kerusakan,2)
+                    let make_kriteria = null
+                    if(total_kerusakan == 0){
+                        make_kriteria = 'BAIK'
+                    } else if(total_kerusakan > 0 && total_kerusakan <= 30){
+                        make_kriteria = 'RINGAN'
+                    } else if(total_kerusakan >= 31 && total_kerusakan <= 45){
+                        make_kriteria = 'SEDANG'
+                    } else if(total_kerusakan >= 46 && total_kerusakan <= 65){
+                        make_kriteria = 'BERAT'
+                    } else if(total_kerusakan > 66){
+                        make_kriteria = 'TOTAL'
+                    }
+                    this.kriteria_kerusakan = make_kriteria*/
                     let getTotalKaca = this.getTotalKaca()
                     let kerusakanKaca = Number(this.number_format(this.form.rusak_daun_jendela,2)) + Number(this.number_format(this.form.rusak_daun_pintu,2)) + Number(this.number_format(this.form.rusak_kusen,2))
                     let totalKerusakanKaca = (kerusakanKaca / getTotalKaca) * 100 / 100
@@ -936,6 +952,7 @@ export default {
                     let totalKerusakanFinishing = (kerusakanFinishing / getTotalFinishing) * 100 / 100
                     let kerusakan_ruang = Number(this.number_format(totalKerusakanKaca,2)) + Number(this.number_format(this.form.rusak_bata_dinding,2)) + Number(this.number_format(kerusakanPlafon,2)) + Number(this.number_format(kerusakanLantai,2)) + Number(this.number_format(totalKerusakanUtilitas,2)) + Number(this.number_format(totalKerusakanFinishing,2))
                     let total_kerusakan = Number(this.number_format(this.form.kerusakan_bangunan,2)) + Number(this.number_format(kerusakan_ruang,2))
+                    console.log(this.form.kerusakan_bangunan);
                     let make_kriteria = null
                     if(total_kerusakan == 0){
                         make_kriteria = 'BAIK'
