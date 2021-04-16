@@ -114,7 +114,7 @@ class UsersController extends Controller
 		$validator = Validator::make(request()->all(), [
 			'image'					=> 'nullable|image|mimes:jpg,png,jpeg',
 			'name'					=> 'required',
-			'token'					=> 'required|unique:users,token,' . $id .',user_id',
+			//'token'					=> 'required|unique:users,token,' . $id .',user_id',
             'email'					=> 'required|email|unique:users,email,' . $id .',user_id',
 			//'current_password'		=> 'nullable',
 			'current_password'		=> ['nullable', new MatchOldPassword($request->user_id)],

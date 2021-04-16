@@ -76,13 +76,12 @@
                                             <input v-model="form.nomor_hp" type="text" id="nomor_hp" name="nomor_hp" class="form-control" :class="{ 'is-invalid': form.errors.has('nomor_hp') }">
                                             <has-error :form="form" field="nomor_hp"></has-error>
                                         </div>
-
+                                        <label for="token" class="col-form-label">Token</label>
+                                        <div class="form-group">
+                                            <input v-model="form.token" type="text" id="token" name="token" class="form-control" :class="{ 'is-invalid': form.errors.has('token') }">
+                                            <has-error :form="form" field="token"></has-error>
+                                        </div>
                                     </template>
-                                    <label for="token" class="col-form-label">Token</label>
-                                    <div class="form-group">
-                                        <input v-model="form.token" type="text" id="token" name="token" class="form-control" :class="{ 'is-invalid': form.errors.has('token') }">
-                                        <has-error :form="form" field="token"></has-error>
-                                    </div>
                                     <label for="current-password" class="col-form-label">Sandi Saat Ini (Biarkan kosong jika tidak ingin
                                         merubah)</label>
                                     <div class="form-group">
