@@ -313,6 +313,7 @@ class ReferensiController extends Controller
                 'luas_plafon.numeric' => 'Luas Plafon harus berupa angka',
                 'luas_dinding.numeric' => 'Luas Dinding harus berupa angka',
                 'luas_daun_jendela.numeric' => 'Luas Daun Jendela harus berupa angka',
+                'luas_daun_pintu.numeric' => 'Luas Daun Pintu harus berupa angka',
                 'luas_kusen.numeric' => 'Luas Kusen harus berupa angka',
                 'luas_tutup_lantai.numeric' => 'Luas Tutup Lantai harus berupa angka',
                 'jumlah_instalasi_listrik.numeric' => 'Jumlah Instalasi Listrik harus berupa angka',
@@ -339,6 +340,7 @@ class ReferensiController extends Controller
                 'luas_plafon' => 'numeric',
                 'luas_dinding' => 'numeric',
                 'luas_daun_jendela' => 'numeric',
+                'luas_daun_pintu' => 'numeric',
                 'luas_kusen' => 'numeric',
                 'luas_tutup_lantai' => 'numeric',
                 'jumlah_instalasi_listrik' => 'numeric',
@@ -366,6 +368,7 @@ class ReferensiController extends Controller
                 'luas_plafon' => $request->luas_plafon,
                 'luas_dinding' => $request->luas_dinding,
                 'luas_daun_jendela' => $request->luas_daun_jendela,
+                'luas_daun_pintu' => $request->luas_daun_pintu,
                 'luas_kusen' => $request->luas_kusen,
                 'luas_tutup_lantai' => $request->luas_tutup_lantai,
                 'jumlah_instalasi_listrik' => $request->jumlah_instalasi_listrik,
@@ -605,6 +608,7 @@ class ReferensiController extends Controller
                 'luas_plafon.numeric' => 'Luas Plafon harus berupa angka',
                 'luas_dinding.numeric' => 'Luas Dinding harus berupa angka',
                 'luas_daun_jendela.numeric' => 'Luas Daun Jendela harus berupa angka',
+                'luas_daun_pintu.numeric' => 'Luas Daun Pintu harus berupa angka',
                 'luas_kusen.numeric' => 'Luas Kusen harus berupa angka',
                 'luas_tutup_lantai.numeric' => 'Luas Tutup Lantai harus berupa angka',
                 'jumlah_instalasi_listrik.numeric' => 'Jumlah Instalasi Listrik harus berupa angka',
@@ -631,6 +635,7 @@ class ReferensiController extends Controller
                 'luas_plafon' => 'numeric',
                 'luas_dinding' => 'numeric',
                 'luas_daun_jendela' => 'numeric',
+                'luas_daun_pintu' => 'numeric',
                 'luas_kusen' => 'numeric',
                 'luas_tutup_lantai' => 'numeric',
                 'jumlah_instalasi_listrik' => 'numeric',
@@ -658,6 +663,7 @@ class ReferensiController extends Controller
             $update_data->luas_plafon = $request->luas_plafon;
             $update_data->luas_dinding = $request->luas_dinding;
             $update_data->luas_daun_jendela = $request->luas_daun_jendela;
+            $update_data->luas_daun_pintu = $request->luas_daun_pintu;
             $update_data->luas_kusen = $request->luas_kusen;
             $update_data->luas_tutup_lantai = $request->luas_tutup_lantai;
             $update_data->jumlah_instalasi_listrik = $request->jumlah_instalasi_listrik;

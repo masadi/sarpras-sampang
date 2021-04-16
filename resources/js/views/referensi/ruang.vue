@@ -115,14 +115,18 @@
                                 <input v-model="form.luas_dinding" type="text" name="luas_dinding" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_dinding') }">
                                 <has-error :form="form" field="luas_dinding"></has-error>
                             </div>
-
                             <div class="form-group">
                                 <label>Luas Daun Jendela (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_daun_jendela" type="text" name="luas_daun_jendela" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_daun_jendela') }">
                                 <has-error :form="form" field="luas_daun_jendela"></has-error>
                             </div>
                             <div class="form-group">
-                                <label>Luas Kusen (m<sup>2</sup>)</label>
+                                <label>Luas Daun Pintu (m<sup>2</sup>)</label>
+                                <input v-model="form.luas_daun_pintu" type="text" name="luas_daun_pintu" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_daun_pintu') }">
+                                <has-error :form="form" field="luas_daun_pintu"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Panjang Kusen (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_kusen" type="text" name="luas_kusen" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_kusen') }">
                                 <has-error :form="form" field="luas_kusen"></has-error>
                             </div>
@@ -238,6 +242,7 @@ export default {
                 luas_plafon: 0,
                 luas_dinding: 0,
                 luas_daun_jendela: 0,
+                luas_daun_pintu: 0,
                 luas_kusen: 0,
                 luas_tutup_lantai: 0,
                 jumlah_instalasi_listrik: 0,

@@ -161,7 +161,12 @@
                             <has-error :form="form" field="luas_daun_jendela"></has-error>
                         </div>
                         <div class="form-group">
-                            <label>Luas Kusen (m<sup>2</sup>)</label>
+                            <label>Luas Daun Pintu (m<sup>2</sup>)</label>
+                            <input v-model="form.luas_daun_pintu" type="text" name="luas_daun_pintu" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_daun_pintu') }">
+                            <has-error :form="form" field="luas_daun_pintu"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Panjang Kusen (m<sup>2</sup>)</label>
                             <input v-model="form.luas_kusen" type="text" name="luas_kusen" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_kusen') }">
                             <has-error :form="form" field="luas_kusen"></has-error>
                         </div>
@@ -257,6 +262,20 @@
                             </div>
                         </div>
                         <input v-model="form.bangunan_id" type="hidden" name="ruang_id" class="form-control" :class="{ 'is-invalid': form.errors.has('ruang_id') }">
+                        <input v-model="form.luas_daun_jendela" type="hidden" name="luas_daun_jendela" class="form-control">
+                        <input v-model="form.luas_kusen" type="hidden" name="luas_kusen" class="form-control">
+                        <input v-model="form.luas_daun_pintu" type="hidden" name="luas_daun_pintu" class="form-control">
+                        <input v-model="form.luas_plafon" type="hidden" name="luas_plafon" class="form-control">
+                        <input v-model="form.luas_dinding" type="hidden" name="luas_dinding" class="form-control">
+                        <input v-model="form.luas_tutup_lantai" type="hidden" name="luas_tutup_lantai" class="form-control">
+                        <input v-model="form.jumlah_instalasi_listrik" type="hidden" name="jumlah_instalasi_listrik" class="form-control">
+                        <input v-model="form.panjang_instalasi_air" type="hidden" name="panjang_instalasi_air" class="form-control">
+                        <input v-model="form.jumlah_instalasi_air" type="hidden" name="jumlah_instalasi_air" class="form-control">
+                        <input v-model="form.panjang_drainase" type="hidden" name="panjang_drainase" class="form-control">
+                        <input v-model="form.luas_finish_struktur" type="hidden" name="luas_finish_struktur" class="form-control">
+                        <input v-model="form.luas_finish_plafon" type="hidden" name="luas_finish_plafon" class="form-control">
+                        <input v-model="form.luas_finish_dinding" type="hidden" name="luas_finish_dinding" class="form-control">
+                        <input v-model="form.luas_finish_kpj" type="hidden" name="luas_finish_kpj" class="form-control">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
@@ -616,6 +635,7 @@ export default {
                 luas_plafon: 0,
                 luas_dinding: 0,
                 luas_daun_jendela: 0,
+                luas_daun_pintu: 0,
                 luas_kusen: 0,
                 luas_tutup_lantai: 0,
                 jumlah_instalasi_listrik: 0,
@@ -681,7 +701,18 @@ export default {
             this.getTotal()
         },
         getTotal(){
-            let kerusakan_ruang = Number(this.number_format(this.form.rusak_bata_dinding,2)) + Number(this.number_format(this.form.rusak_daun_jendela,2)) + Number(this.number_format(this.form.rusak_daun_pintu,2)) + Number(this.number_format(this.form.rusak_kusen,2)) + Number(this.number_format(this.form.rusak_tutup_plafon,2)) + Number(this.number_format(this.form.rusak_tutup_lantai,2)) + Number(this.number_format(this.form.rusak_inst_listrik,2)) + Number(this.number_format(this.form.rusak_inst_air,2)) + Number(this.number_format(this.form.rusak_drainase,2)) + Number(this.number_format(this.form.rusak_finish_plafon,2)) + Number(this.number_format(this.form.rusak_finish_dinding,2)) + Number(this.number_format(this.form.rusak_finish_kpj,2))
+            let getTotalKaca = this.getTotalKaca()
+            let kerusakanKaca = Number(this.number_format(this.form.rusak_daun_jendela,2)) + Number(this.number_format(this.form.rusak_daun_pintu,2)) + Number(this.number_format(this.form.rusak_kusen,2))
+            let totalKerusakanKaca = (kerusakanKaca / getTotalKaca) * 100 / 100
+            let kerusakanPlafon = (Number(this.number_format(this.form.rusak_tutup_plafon,2)) / this.form.luas_plafon) * 100 / 100
+            let kerusakanLantai = (Number(this.number_format(this.form.rusak_tutup_lantai,2)) / this.form.luas_tutup_lantai) * 100 / 100
+            let getTotalUtilitas = this.getTotalUtilitas()
+            let kerusakanUtilitas = Number(this.form.rusak_inst_listrik) + Number(this.form.rusak_inst_air) + Number(this.form.rusak_drainase)
+            let totalKerusakanUtilitas = (kerusakanUtilitas / getTotalUtilitas) * 100 / 100
+            let getTotalFinishing = this.getTotalFinishing()
+            let kerusakanFinishing = Number(this.number_format(this.form.rusak_finish_plafon,2)) + Number(this.number_format(this.form.rusak_finish_dinding,2)) + Number(this.number_format(this.form.rusak_finish_kpj,2))
+            let totalKerusakanFinishing = (kerusakanFinishing / getTotalFinishing) * 100 / 100
+            let kerusakan_ruang = Number(this.number_format(totalKerusakanKaca,2)) + Number(this.number_format(this.form.rusak_bata_dinding,2)) + Number(this.number_format(kerusakanPlafon,2)) + Number(this.number_format(kerusakanLantai,2)) + Number(this.number_format(totalKerusakanUtilitas,2)) + Number(this.number_format(totalKerusakanFinishing,2))
             let total_kerusakan = Number(this.number_format(this.form.kerusakan_bangunan,2)) + Number(this.number_format(kerusakan_ruang,2))
             let make_kriteria = null
             if(total_kerusakan == 0){
@@ -697,6 +728,18 @@ export default {
             }
             this.kriteria_kerusakan = make_kriteria
             this.presentase_kerusakan = this.number_format(total_kerusakan,2)
+        },
+        getTotalKaca(){
+            let jmlJendela = Number(this.form.luas_daun_jendela) + Number(this.form.luas_daun_pintu) + Number(this.form.luas_kusen)
+            return jmlJendela
+        },
+        getTotalUtilitas(){
+            let jmlUtilitas = Number(this.form.jumlah_instalasi_listrik) + Number(this.form.panjang_instalasi_air) + Number(this.form.jumlah_instalasi_air) + Number(this.form.panjang_drainase)
+            return jmlUtilitas
+        },
+        getTotalFinishing(){
+            let jmlFinishing = Number(this.form.luas_finish_struktur) + Number(this.form.luas_finish_plafon) + Number(this.form.luas_finish_dinding) + Number(this.form.luas_finish_kpj)
+            return jmlFinishing
         },
         //JIKA SELECT BOX DIGANTI, MAKA FUNGSI INI AKAN DIJALANKAN
         loadPerPage(val) {
@@ -811,6 +854,7 @@ export default {
             this.form.luas_plafon = getData.luas_plafon
             this.form.luas_dinding = getData.luas_dinding
             this.form.luas_daun_jendela = getData.luas_daun_jendela
+            this.form.luas_daun_pintu = getData.luas_daun_pintu
             this.form.luas_kusen = getData.luas_kusen
             this.form.luas_tutup_lantai = getData.luas_tutup_lantai
             this.form.jumlah_instalasi_listrik = getData.jumlah_instalasi_listrik
@@ -836,6 +880,20 @@ export default {
             .then((response) => {
                 //JIKA RESPONSENYA DITERIMA
                 let getDataRuang = response.data.data
+                this.form.luas_daun_jendela = getDataRuang.luas_daun_jendela
+                this.form.luas_daun_pintu = getDataRuang.luas_daun_pintu
+                this.form.luas_kusen = getDataRuang.luas_kusen
+                this.form.luas_plafon = getDataRuang.luas_plafon
+                this.form.luas_dinding = getDataRuang.luas_dinding
+                this.form.luas_tutup_lantai = getDataRuang.luas_tutup_lantai
+                this.form.jumlah_instalasi_listrik = getDataRuang.jumlah_instalasi_listrik
+                this.form.panjang_instalasi_air = getDataRuang.panjang_instalasi_air
+                this.form.jumlah_instalasi_air = getDataRuang.jumlah_instalasi_air
+                this.form.panjang_drainase = getDataRuang.panjang_drainase
+                this.form.luas_finish_struktur = getDataRuang.luas_finish_struktur
+                this.form.luas_finish_plafon = getDataRuang.luas_finish_plafon
+                this.form.luas_finish_dinding = getDataRuang.luas_finish_dinding
+                this.form.luas_finish_kpj = getDataRuang.luas_finish_kpj
                 let getData = getDataRuang.kondisi_ruang
                 this.form.ruang_id = getDataRuang.ruang_id
                 //let kerusakan_bangunan = Number(this.number_format(getDataRuang.bangunan.total_kerusakan, 2))
@@ -865,9 +923,19 @@ export default {
                     this.form.ket_finish_dinding = getData.ket_finish_dinding	
                     this.form.rusak_finish_kpj = this.number_format(getData.rusak_finish_kpj)
                     this.form.ket_finish_kpj = getData.ket_finish_kpj
-                    let kerusakan_ruang = Number(this.number_format(this.form.rusak_bata_dinding,2)) + Number(this.number_format(this.form.rusak_daun_jendela,2)) + Number(this.number_format(this.form.rusak_daun_pintu,2)) + Number(this.number_format(this.form.rusak_kusen,2)) + Number(this.number_format(this.form.rusak_tutup_plafon,2)) + Number(this.number_format(this.form.rusak_tutup_lantai,2)) + Number(this.number_format(this.form.rusak_inst_listrik,2)) + Number(this.number_format(this.form.rusak_inst_air,2)) + Number(this.number_format(this.form.rusak_drainase,2)) + Number(this.number_format(this.form.rusak_finish_plafon,2)) + Number(this.number_format(this.form.rusak_finish_dinding,2)) + Number(this.number_format(this.form.rusak_finish_kpj,2))
+                    let getTotalKaca = this.getTotalKaca()
+                    let kerusakanKaca = Number(this.number_format(this.form.rusak_daun_jendela,2)) + Number(this.number_format(this.form.rusak_daun_pintu,2)) + Number(this.number_format(this.form.rusak_kusen,2))
+                    let totalKerusakanKaca = (kerusakanKaca / getTotalKaca) * 100 / 100
+                    let kerusakanPlafon = (Number(this.number_format(this.form.rusak_tutup_plafon,2)) / this.form.luas_plafon) * 100 / 100
+                    let kerusakanLantai = (Number(this.number_format(this.form.rusak_tutup_lantai,2)) / this.form.luas_tutup_lantai) * 100 / 100
+                    let getTotalUtilitas = this.getTotalUtilitas()
+                    let kerusakanUtilitas = Number(this.form.rusak_inst_listrik) + Number(this.form.rusak_inst_air) + Number(this.form.rusak_drainase)
+                    let totalKerusakanUtilitas = (kerusakanUtilitas / getTotalUtilitas) * 100 / 100
+                    let getTotalFinishing = this.getTotalFinishing()
+                    let kerusakanFinishing = Number(this.number_format(this.form.rusak_finish_plafon,2)) + Number(this.number_format(this.form.rusak_finish_dinding,2)) + Number(this.number_format(this.form.rusak_finish_kpj,2))
+                    let totalKerusakanFinishing = (kerusakanFinishing / getTotalFinishing) * 100 / 100
+                    let kerusakan_ruang = Number(this.number_format(totalKerusakanKaca,2)) + Number(this.number_format(this.form.rusak_bata_dinding,2)) + Number(this.number_format(kerusakanPlafon,2)) + Number(this.number_format(kerusakanLantai,2)) + Number(this.number_format(totalKerusakanUtilitas,2)) + Number(this.number_format(totalKerusakanFinishing,2))
                     let total_kerusakan = Number(this.number_format(this.form.kerusakan_bangunan,2)) + Number(this.number_format(kerusakan_ruang,2))
-                    this.presentase_kerusakan = this.number_format(total_kerusakan,2)
                     let make_kriteria = null
                     if(total_kerusakan == 0){
                         make_kriteria = 'BAIK'
@@ -878,9 +946,10 @@ export default {
                     } else if(total_kerusakan >= 46 && total_kerusakan <= 65){
                         make_kriteria = 'BERAT'
                     } else if(total_kerusakan > 66){
-                        make_kriteria = 'TOTAL'
+                        make_kriteria = 'SANGAT BERAT'
                     }
                     this.kriteria_kerusakan = make_kriteria
+                    this.presentase_kerusakan = this.number_format(total_kerusakan,2)
                 }
             })
             $('#modalKondisi').modal('show');

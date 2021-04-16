@@ -129,26 +129,26 @@ export default {
 
             chart.data = [
                 {
-                    country: "Baik",
-                    litres: 501.9
+                    category: "Baik",
+                    value: 501.9
                 },
                 {
-                    country: "Rusak Ringan",
-                    litres: 301.9
+                    category: "Rusak Ringan",
+                    value: 301.9
                 },
                 {
-                    country: "Rusak Sedang",
-                    litres: 201.1
+                    category: "Rusak Sedang",
+                    value: 201.1
                 },
                 {
-                    country: "Rusak Berat",
-                    litres: 165.8
+                    category: "Rusak Berat",
+                    value: 165.8
                 }
             ];
 
             let series = chart.series.push(new am4charts.PieSeries3D());
-            series.dataFields.value = "litres";
-            series.dataFields.category = "country";
+            series.dataFields.value = "value";
+            series.dataFields.category = "category";
         },
         loadPostsData() {
             axios.post(`/api/dashboard`, {

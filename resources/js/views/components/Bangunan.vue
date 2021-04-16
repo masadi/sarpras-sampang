@@ -211,7 +211,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Kolom (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_sloop_kolom_balok" type="text" name="rusak_sloop_kolom_balok" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_sloop_kolom_balok') }" @input="getTotal">
+                                        <input v-model="form.rusak_sloop_kolom_balok" type="text" name="rusak_sloop_kolom_balok" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_sloop_kolom_balok') }" @input="getTotal" :readonly="form.presentase_kerusakan >= 100">
                                         <has-error :form="form" field="rusak_sloop_kolom_balok"></has-error>
                                     </div>
                                 </div>
@@ -231,7 +231,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Balok (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_kudakuda_atap" type="text" name="rusak_kudakuda_atap" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_kudakuda_atap') }"  @input="getTotal">
+                                        <input v-model="form.rusak_kudakuda_atap" type="text" name="rusak_kudakuda_atap" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_kudakuda_atap') }"  @input="getTotal" :readonly="form.presentase_kerusakan >= 100">
                                         <has-error :form="form" field="rusak_kudakuda_atap"></has-error>
                                     </div>
                                 </div>
@@ -251,7 +251,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Pelat Lantai (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_plester_struktur" type="text" name="rusak_plester_struktur" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_plester_struktur') }"  @input="getTotal">
+                                        <input v-model="form.rusak_plester_struktur" type="text" name="rusak_plester_struktur" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_plester_struktur') }"  @input="getTotal" :readonly="form.presentase_kerusakan >= 100">
                                         <has-error :form="form" field="rusak_plester_struktur"></has-error>
                                     </div>
                                 </div>
@@ -272,7 +272,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Atap (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_tutup_atap" type="text" name="rusak_tutup_atap" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_tutup_atap') }"  @input="getTotal">
+                                        <input v-model="form.rusak_tutup_atap" type="text" name="rusak_tutup_atap" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_tutup_atap') }"  @input="getTotal" :readonly="form.presentase_kerusakan >= 100">
                                         <has-error :form="form" field="rusak_tutup_atap"></has-error>
                                     </div>
                                 </div>
