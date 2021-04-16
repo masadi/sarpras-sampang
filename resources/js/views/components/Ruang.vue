@@ -878,6 +878,7 @@ export default {
                 }
             })
             .then((response) => {
+                console.log(response);
                 //JIKA RESPONSENYA DITERIMA
                 let getDataRuang = response.data.data
                 this.form.luas_daun_jendela = getDataRuang.luas_daun_jendela
