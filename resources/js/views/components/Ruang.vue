@@ -968,6 +968,23 @@ export default {
                     }
                     this.kriteria_kerusakan = make_kriteria
                     this.presentase_kerusakan = this.number_format(total_kerusakan,2)
+                } else {
+                    let total_kerusakan = Number(this.number_format(this.form.kerusakan_bangunan,2))
+                    console.log(this.form.kerusakan_bangunan);
+                    let make_kriteria = null
+                    if(total_kerusakan == 0){
+                        make_kriteria = 'BAIK'
+                    } else if(total_kerusakan > 0 && total_kerusakan <= 30){
+                        make_kriteria = 'RINGAN'
+                    } else if(total_kerusakan >= 31 && total_kerusakan <= 45){
+                        make_kriteria = 'SEDANG'
+                    } else if(total_kerusakan >= 46 && total_kerusakan <= 65){
+                        make_kriteria = 'BERAT'
+                    } else if(total_kerusakan > 66){
+                        make_kriteria = 'SANGAT BERAT'
+                    }
+                    this.kriteria_kerusakan = make_kriteria
+                    this.presentase_kerusakan = this.number_format(total_kerusakan,2)
                 }
             })
             $('#modalKondisi').modal('show');
