@@ -22,4 +22,12 @@ class Ruang extends Model
     public function kondisi_ruang(){
         return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id');
     }
+    /**
+     * Get all of the comments for the Ruang
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function foto(){
+        return $this->hasMany('App\Foto', 'ruang_id', 'ruang_id');
+    }
 }

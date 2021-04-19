@@ -26,6 +26,7 @@ use App\Mata_pelajaran;
 use App\Penerbit;
 use App\Wilayah;
 use App\Data_sekolah;
+use App\Foto;
 
 class ReferensiController extends Controller
 {
@@ -58,7 +59,7 @@ class ReferensiController extends Controller
                 $all_data = $all_data->where('nama', 'ilike', '%' . request()->q . '%')
                 ->orWhere('kepemilikan', 'ilike', '%' . request()->q . '%')
                 ->orWhere('keterangan', 'ilike', '%' . request()->q . '%');
-        })->with(['tanah.sekolah', 'kepemilikan'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
+        })->with(['foto', 'tanah.sekolah', 'kepemilikan'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_ruang($request){
@@ -75,7 +76,7 @@ class ReferensiController extends Controller
                 $all_data = $all_data->where('nama', 'ilike', '%' . request()->q . '%')
                 ->orWhere('kepemilikan', 'ilike', '%' . request()->q . '%')
                 ->orWhere('keterangan', 'ilike', '%' . request()->q . '%');
-        })->with(['bangunan.tanah.sekolah', 'jenis_prasarana'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
+        })->with(['foto', 'bangunan.tanah.sekolah', 'jenis_prasarana'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_alat($request){
@@ -517,6 +518,26 @@ class ReferensiController extends Controller
                 'jumlah_pd' => $request->jumlah_pd,
             ]);
             return response()->json(['status' => 'success', 'data' => $insert_data]);
+        } elseif($request->route('query') == 'file'){
+            $messages = [
+                'file.required'	=> 'File Upload tidak boleh kosong',
+                'file.mimes'	=> 'File Upload harus berekstensi .XLSX',
+            ];
+            $validator = Validator::make(request()->all(), [
+                'file' => 'required|image',
+                //'file' => 'required',
+            ],
+            $messages
+            )->validate();
+            $file = $request->file('file');
+            $image = Carbon::now()->timestamp . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move('uploads', $image);
+            Foto::create([
+                'tahun_pendataan_id' => HelperModel::tahun_pendataan(),
+                'ruang_id' => ($request->ruang_id) ? $request->ruang_id : NULL,
+                'bangunan_id' => ($request->bangunan_id) ? $request->bangunan_id : NULL,
+                'nama' => $image,
+            ]);
         }
         return response()->json(['status' => 'failed', 'data' => NULL]);
     }
@@ -915,6 +936,14 @@ class ReferensiController extends Controller
                 return response()->json(['title' => 'Berhasil', 'status' => 'success', 'message' => 'Data Tanah berhasil dihapus']);
             } else {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Data Buku Tanah dihapus']);
+            }
+        } elseif($request->route('query') == 'foto'){
+            $delete_data = Foto::find($id);
+            File::delete('uploads/'.$delete_data->nama);
+            if($delete_data->delete()){
+                return response()->json(['title' => 'Berhasil', 'status' => 'success', 'message' => 'Foto berhasil dihapus']);
+            } else {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Foto Tanah dihapus']);
             }
         }
         return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Tidak ada data terhapus']);

@@ -19,4 +19,7 @@ class Bangunan extends Model
     {
         return $this->belongsTo(Status_kepemilikan_sarpras::class, 'kepemilikan_sarpras_id', 'kepemilikan_sarpras_id');
     }
+    public function foto(){
+        return $this->hasMany('App\Foto', 'bangunan_id', 'bangunan_id');
+    }
 }

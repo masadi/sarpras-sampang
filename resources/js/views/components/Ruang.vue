@@ -32,6 +32,8 @@
             <b-table striped hover :items="items" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" show-empty>
                 <template v-slot:cell(actions)="row">
                     <b-dropdown id="dropdown-dropleft" dropleft text="Aksi" variant="success">
+                        <b-dropdown-item href="javascript:" @click="openShowModal(row)"><i class="fas fa-eye"></i> Detil</b-dropdown-item>
+                        <b-dropdown-item href="javascript:" @click="uploadFoto(row.item.ruang_id)"><i class="fas fa-upload"></i> Upload Foto</b-dropdown-item>
                         <b-dropdown-item href="javascript:" @click="inputKondisi(row)"><i class="fas fa-list"></i> Input Kondisi</b-dropdown-item>
                         <b-dropdown-item href="javascript:" @click="editData(row)"><i class="fas fa-edit"></i> Edit</b-dropdown-item>
                         <b-dropdown-item href="javascript:" @click="deleteData(row.item.ruang_id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
@@ -58,8 +60,125 @@
             ></b-pagination>
         </div>
         </div>
-        <b-modal id="modal-xl" size="xl" v-model="showModal" title="Detil Berita">
-            {{ modalText }}
+        <b-modal id="modal-xl" size="xl" v-model="showModal" title="Detil Ruang">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td width="30%">Sekolah</td>
+                    <td width="70%">: {{(modalText.bangunan) ? (modalText.bangunan.tanah) ? (modalText.bangunan.tanah.sekolah) ? modalText.bangunan.tanah.sekolah.nama : '-' : '-' : '-'}}</td>
+                </tr>
+                <tr>
+                    <td>Bangunan</td>
+                    <td>: {{(modalText.bangunan) ? modalText.bangunan.nama : '-'}}</td>
+                </tr>
+                <tr>
+                    <td>Jenis Prasarana</td>
+                    <td>: {{(modalText.jenis_prasarana) ? modalText.jenis_prasarana.nama : '-'}}</td>
+                </tr>
+                <tr>
+                    <td>Kode Ruang</td>
+                    <td>: {{modalText.kode}}</td>
+                </tr>
+                <tr>
+                    <td>Nama Ruang</td>
+                    <td>: {{modalText.nama}}</td>
+                </tr>
+                <tr>
+                    <td>Tahun Bangun</td>
+                    <td>: {{modalText.tahun_bangun}}</td>
+                </tr>
+                <tr>
+                    <td>Tahun Renovasi</td>
+                    <td>: {{modalText.tahun_renovasi}}</td>
+                </tr>
+                <tr>
+                    <td>Lantai Ke-</td>
+                    <td>: {{modalText.lantai_ke}}</td>
+                </tr>
+                <tr>
+                    <td>Panjang Ruang</td>
+                    <td>: {{modalText.panjang}} m</td>
+                </tr>
+                <tr>
+                    <td>Lebar Ruang</td>
+                    <td>: {{modalText.lebar}} m</td>
+                </tr>
+                <tr>
+                    <td>Luas Ruang</td>
+                    <td>: {{modalText.luas}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Luas Plester</td>
+                    <td>: {{modalText.luas_plester}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Luas Plafon</td>
+                    <td>: {{modalText.luas_plafon}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Luas Dinding</td>
+                    <td>: {{modalText.luas_dinding}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Luas Daun Jendela</td>
+                    <td>: {{modalText.luas_daun_jendela}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Luas Daun Pintu</td>
+                    <td>: {{modalText.luas_daun_pintu}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Luas Kusen</td>
+                    <td>: {{modalText.luas_kusen}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Luas Tutup Lantai</td>
+                    <td>: {{modalText.luas_tutup_lantai}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Jumlah Instalasi Listrik</td>
+                    <td>: {{modalText.jumlah_instalasi_listrik}}</td>
+                </tr>
+                <tr>
+                    <td>Panjang Instalasi Air</td>
+                    <td>: {{modalText.panjang_instalasi_air}} m</td>
+                </tr>
+                <tr>
+                    <td>Jumlah Instalasi Air</td>
+                    <td>: {{modalText.jumlah_instalasi_air}}</td>
+                </tr>
+                <tr>
+                    <td>Panjang Drainase</td>
+                    <td>: {{modalText.panjang_drainase}} m</td>
+                </tr>
+                <tr>
+                    <td>Luas Finish Struktur</td>
+                    <td>: {{modalText.luas_finish_struktur}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Luas Finish Plafon</td>
+                    <td>: {{modalText.luas_finish_plafon}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Luas Finish Dinding</td>
+                    <td>: {{modalText.luas_finish_dinding}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Luas Finish Kusen/Pintu/Jendela</td>
+                    <td>: {{modalText.luas_finish_kpj}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Keterangan</td>
+                    <td>: {{modalText.keterangan}}</td>
+                </tr>
+            </table>
+            <template v-for="foto in modalText.foto">
+                <div class="show-image">
+                    <img :src="'/uploads/' + foto.nama" class="img-thumbnail" width="200">
+                    <a :href="'/uploads/' + foto.nama" target="_blank"></a>
+                    <button class="view btn btn-primary" @click="viewImage(foto)"><i class="fas fa-search-plus"></i></button>
+                    <button class="delete btn btn-danger" @click="trashImage(foto)"><i class="fas fa-trash"></i></button>
+                </div>
+            </template>
             <template v-slot:modal-footer>
                 <div class="w-100 float-right">
                     <b-button
@@ -545,6 +664,40 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modalUpload" tabindex="-1" role="dialog" aria-labelledby="modalUpload" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <form>
+                        <div class="modal-header">
+                            <h5 class="modal-title">Upload Foto Bangunan</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div v-for="(foto, index) in fotos">
+                                <div class="row">
+                                    <div class="form-group col-lg-10">
+                                        <b-form-file v-model="foto.file" :state="Boolean(foto.file)" accept=".jpg, .png, .jpeg" placeholder="Choose a file or drop it here..." drop-placeholder="Drop file here..." ></b-form-file>
+                                        <div class="progress-bar" role="progressbar"  :style="{width: progressBar + '%'}"  :aria-valuenow="progressBar"  aria-valuemin="0"  aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <button type="button" v-on:click="removeApartment(index)" class="btn btn-block btn-danger">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="button" v-on:click="addNewApartment" class="btn btn-success">+Tambah Form</button>
+                            <button type="submit" v-on:click.prevent="sumbitForm" class="btn btn-primary">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -584,6 +737,12 @@ export default {
     },
     data() {
         return {
+            progressBar: 0,
+            foto: {
+                file: '',
+            },
+            fotos: [],
+            foto_ruang_id: '',
             presentase_kerusakan: '0%',
             kriteria_kerusakan : '-',
             editmode: false,
@@ -699,6 +858,87 @@ export default {
         }
     },
     methods: {
+        viewImage(foto){
+            window.open('/uploads/' + foto.nama, '_blank');
+        },
+        trashImage(foto){
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Tindakan ini tidak dapat dikembalikan!",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.value) {
+                    return fetch('/api/referensi/delete-foto/'+foto.foto_id, {
+                        method: 'DELETE',
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.fire(
+                            data.title,
+                            data.message,
+                            data.status
+                        ).then(()=>{
+                            this.showModal = false
+                            this.loadPerPage(10);
+                        });
+                    }).catch((data)=> {
+                        Swal.fire("Failed!", data.message, "warning");
+                    });
+                }
+            })
+        },
+        addNewApartment: function () {
+            this.fotos.push(Vue.util.extend({}, this.apartment))
+        },
+        removeApartment: function (index) {
+            Vue.delete(this.fotos, index);
+        },
+        sumbitForm: function () {
+            /*
+            * You can remove or replace the "submitForm" method.
+            * Remove: if you handle form sumission on server side.
+            * Replace: for example you need an AJAX submission.
+            */
+            console.log('<< Form Submitted >>')
+            console.log('Vue.js fotos object:', this.fotos)
+            var foto_ruang_id = this.foto_ruang_id
+            $.each(this.fotos, function (key, value) {
+                console.log(value.file);
+                let formData = new FormData();
+                formData.append('file', value.file);
+                formData.append('ruang_id', foto_ruang_id);
+                axios.post('/api/referensi/simpan-file', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    //FUNGSI INI YANG MEMILIKI PERAN UNTUK MENGUBAH SEBERAPA JAUH PROGRESS UPLOAD FILE BERJALAN
+                    onUploadProgress: function( progressEvent ) {
+                        //DATA TERSEBUT AKAN DI ASSIGN KE VARIABLE progressBar
+                        this.progressBar = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total))
+                    }.bind(this)
+                }).then((response) => {
+                    setTimeout(() => {
+                        this.progressBar = 0
+                    });
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Upload berhasil'
+                    });
+                })
+            })
+            $('#modalUpload').modal('hide');
+            this.loadPerPage(10);
+        },
+        uploadFoto(ruang_id){
+            this.foto_ruang_id = ruang_id
+            this.addNewApartment()
+            $('#modalUpload').modal('show');
+        },
         updateListrik(val){
             this.form.rusak_inst_listrik = val.code
             this.getTotal()
@@ -832,6 +1072,10 @@ export default {
                 //DAN ASSIGN INFORMASI LAINNYA KE DALAM VARIABLE META
                 this.data_sekolah = getData
             })
+        },
+        openShowModal(row) {
+            this.showModal = true
+            this.modalText = row.item
         },
         editData(row) {
             this.getSekolah();
@@ -1049,3 +1293,28 @@ export default {
     }
 }
 </script>
+<style>
+div.show-image {
+    position: relative;
+    float:left;
+    margin:5px;
+}
+div.show-image:hover img{
+    opacity:0.5;
+}
+div.show-image:hover button {
+    display: block;
+}
+div.show-image button {
+    position:absolute;
+    display:none;
+}
+div.show-image button.view {
+    top:50%;
+    left:30%;
+}
+div.show-image button.delete {
+    top:50%;
+    left:50%;
+}
+</style>
