@@ -19,4 +19,8 @@ class Tanah extends Model
     {
         return $this->belongsTo(Status_kepemilikan_sarpras::class, 'kepemilikan_sarpras_id', 'kepemilikan_sarpras_id');
     }
+    public function bangunan()
+    {
+        return $this->hasMany('App\Bangunan', 'tanah_id', 'tanah_id');
+    }
 }

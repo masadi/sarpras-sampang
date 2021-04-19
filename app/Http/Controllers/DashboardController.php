@@ -18,10 +18,21 @@ class DashboardController extends Controller
 {
     public function index(Request $request){
         $all_data = [
-            'jml_sekolah' => Sekolah::count(),
-            'jml_bangunan' => Bangunan::count(),
-            'jml_ruang' => Ruang::count(),
-            'jml_alat_dll' => Alat::count() + Angkutan::count() + Buku::count(),
+            'rusak_ringan' => Sekolah::whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                $query->where('nilai_saat_ini', '>', 0);
+                $query->where('nilai_saat_ini', '<=', 30);
+            })->count(),
+            'rusak_sedang' => Sekolah::whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                $query->where('nilai_saat_ini', '>', 30);
+                $query->where('nilai_saat_ini', '<=', 45);
+            })->count(),
+            'rusak_berat' => Sekolah::whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                $query->where('nilai_saat_ini', '>', 45);
+                $query->where('nilai_saat_ini', '<=', 65);
+            })->count(),
+            'rusak_sangat_berat' => Sekolah::whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                $query->where('nilai_saat_ini', '>', 65);
+            })->count(),
             'kondisi_bangunan' => Kondisi_bangunan::where('tahun_pendataan_id', HelperModel::tahun_pendataan())->select(
                 'tahun_pendataan_id',
                     DB::raw('count(*) jml_bangunan'),

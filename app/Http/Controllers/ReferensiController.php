@@ -180,6 +180,28 @@ class ReferensiController extends Controller
     {
         $sortBy = request()->sortby;
         $all_data = Sekolah::where(function($query){
+            if(request()->rusak){
+                if(request()->rusak == 'ringan'){
+                    $query->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                        $query->where('nilai_saat_ini', '>', 0);
+                        $query->where('nilai_saat_ini', '<=', 30);
+                    });
+                } elseif(request()->rusak == 'sedang'){
+                    $query->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                        $query->where('nilai_saat_ini', '>', 30);
+                        $query->where('nilai_saat_ini', '<=', 45);
+                    });
+                } elseif(request()->rusak == 'berat'){
+                    $query->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                        $query->where('nilai_saat_ini', '>', 45);
+                        $query->where('nilai_saat_ini', '<=', 65);
+                    });
+                } elseif(request()->rusak == 'sangat-berat'){
+                    $query->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                        $query->where('nilai_saat_ini', '>', 65);
+                    });
+                }
+            }
             if(request()->q){
                 $query->where(function($query){
                     $query->where('nama', 'ilike', '%' . request()->q . '%');
@@ -947,5 +969,32 @@ class ReferensiController extends Controller
             }
         }
         return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Tidak ada data terhapus']);
+    }
+    public function download_data(Request $request){
+        $all_data = Sekolah::where(function($query){
+            if(request()->rusak){
+                if(request()->rusak == 'ringan'){
+                    $query->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                        $query->where('nilai_saat_ini', '>', 0);
+                        $query->where('nilai_saat_ini', '<=', 30);
+                    });
+                } elseif(request()->rusak == 'sedang'){
+                    $query->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                        $query->where('nilai_saat_ini', '>', 30);
+                        $query->where('nilai_saat_ini', '<=', 45);
+                    });
+                } elseif(request()->rusak == 'berat'){
+                    $query->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                        $query->where('nilai_saat_ini', '>', 45);
+                        $query->where('nilai_saat_ini', '<=', 65);
+                    });
+                } elseif(request()->rusak == 'sangat-berat'){
+                    $query->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                        $query->where('nilai_saat_ini', '>', 65);
+                    });
+                }
+            }
+        })->get();
+        return (new FastExcel($all_data))->download('file.xlsx');
     }
 }

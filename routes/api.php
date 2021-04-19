@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/dashboard', 'DashboardController@index');
 Route::resource('sekolah', 'SekolahController');
 Route::group(['prefix' => 'referensi'], function(){
+    Route::get('/download-{query}', 'ReferensiController@download_data');
     Route::get('/{query}', 'ReferensiController@index');
     Route::post('/simpan-{query}', 'ReferensiController@simpan_data');
     Route::put('/update-{query}/{id}', 'ReferensiController@update_data');

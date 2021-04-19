@@ -29,9 +29,9 @@ class Sekolah extends Model
             'rombongan_belajar_id' // Local key on Rombongan_belajar table...
         );
     }
-    public function jurusan_sp()
+    public function tanah()
     {
-        return $this->hasMany('App\Jurusan_sp', 'sekolah_id', 'sekolah_id');
+        return $this->hasMany('App\Tanah', 'sekolah_id', 'sekolah_id');
     }
     public function guru(){
         return $this->hasMany('App\Ptk', 'sekolah_id', 'sekolah_id')->whereIn('jenis_ptk_id', [11,30,40,41,42,43,44,57,58,59]);

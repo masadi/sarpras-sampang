@@ -28,7 +28,8 @@
                                 Data Sekolah
                             </h3>
                             <div class="card-tools" v-show="hasRole('admin')">
-                                <button class="btn btn-success btn-sm btn-block btn-flat" v-on:click="newModal">Tambah Data</button>
+                                <button v-if="rusak" class="btn btn-primary btn-sm btn-flat" v-on:click="downloadData">Download Data</button>
+                                <button class="btn btn-success btn-sm btn-flat" v-on:click="newModal">Tambah Data</button>
                             </div>
                         </div>
                         <div class="card-body">
@@ -217,6 +218,7 @@ export default {
             kecamatan: [],
             desa: [],
             checkResetDB: null,
+            rusak: null,
         }
     },
     components: {
@@ -224,6 +226,27 @@ export default {
         'app-datatable': Datatable //REGISTER COMPONENT DATATABLE
     },
     methods: {
+        downloadData(){
+            console.log(this.rusak);
+            window.open(`/api/referensi/download-sekolah?rusak=`+this.rusak);
+            /*axios.post(`/api/referensi/download-sekolah`, {
+                params: {
+                    kondisi: this.rusak
+                },
+                responseType: 'blob'
+            })
+            .then((response) => {
+                console.log(response.data);
+                //return false
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(
+                    new Blob([response.data])
+                );
+                link.setAttribute('download', 'file.xlsx');
+                document.body.appendChild(link);
+                link.click();
+            });*/
+        },
         newModal() {
             this.editmode = false;
             this.form.reset();
@@ -248,6 +271,7 @@ export default {
             });
         },
         loadPostsData() {
+            this.rusak = this.$route.query.rusak
             let current_page = this.search == '' ? this.current_page : 1
             //LAKUKAN REQUEST KE API UNTUK MENGAMBIL DATA POSTINGAN
             axios.get(`/api/referensi/sekolah`, {
@@ -259,7 +283,8 @@ export default {
                         per_page: this.per_page,
                         q: this.search,
                         sortby: this.sortBy,
-                        sortbydesc: this.sortByDesc ? 'DESC' : 'ASC'
+                        sortbydesc: this.sortByDesc ? 'DESC' : 'ASC',
+                        rusak: this.rusak
                     }
                 })
                 .then((response) => {

@@ -10,29 +10,29 @@
             <div class="col-12 row">
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-info">
+                    <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>{{jml_sekolah}}</h3>
-                        <p>Sekolah</p>
+                        <h3>{{rusak_ringan}}</h3>
+                        <p>Jumlah Kodisi Ruang Rusak Ringan</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <router-link :to="'/sekolah?rusak=ringan'" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-success">
+                    <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>{{jml_bangunan}}</h3>
-                        <p>Bangunan</p>
+                        <h3>{{rusak_sedang}}</h3>
+                        <p>Jumlah Kodisi Ruang Rusak Sedang</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <router-link :to="'/sekolah?rusak=sedang'" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -40,13 +40,13 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>{{jml_ruang}}</h3>
-                        <p>Ruang</p>
+                        <h3>{{rusak_berat}}</h3>
+                        <p>Jumlah Kodisi Ruang Rusak Berat</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <router-link :to="'/sekolah?rusak=berat'" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -54,13 +54,13 @@
                     <!-- small box -->
                     <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>{{jml_alat_dll}}</h3>
-                        <p>Alat, Angkutan & Buku</p>
+                        <h3>{{rusak_sangat_berat}}</h3>
+                        <p>Jumlah Kodisi Ruang Rusak Sangat Berat</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <router-link :to="'/sekolah?rusak=sangat-berat'" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -105,10 +105,10 @@ export default {
     data() {
         return {
             user: user,
-            jml_sekolah: 0,
-            jml_bangunan: 0,
-            jml_ruang: 0,
-            jml_alat_dll: 0,
+            rusak_ringan: 0,
+            rusak_sedang: 0,
+            rusak_berat: 0,
+            rusak_sangat_berat: 0,
         }
     },
     //mounted() {
@@ -163,10 +163,10 @@ export default {
                     if (!getData) {
                         return false
                     }
-                    this.jml_sekolah = getData.jml_sekolah
-                    this.jml_bangunan = getData.jml_bangunan
-                    this.jml_ruang = getData.jml_ruang
-                    this.jml_alat_dll = getData.jml_alat_dll
+                    this.rusak_ringan = getData.rusak_ringan
+                    this.rusak_sedang = getData.rusak_sedang
+                    this.rusak_berat = getData.rusak_berat
+                    this.rusak_sangat_berat = getData.rusak_sangat_berat
                     let vm = this
                     vm.createChart('chartBangunan', getData.kondisi_bangunan)
                     vm.createChart('chartRuang', getData.kondisi_ruang)
