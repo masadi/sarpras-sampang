@@ -315,7 +315,7 @@ class ReferensiController extends Controller
                 'kode.required'	=> 'Kode Ruang tidak boleh kosong',
                 'nama.required'	=> 'Nama Ruang tidak boleh kosong',
                 'tahun_bangun.required'	=> 'Tahun Bangun tidak boleh kosong',
-                'tahun_renovasi.required'	=> 'Tahun Terakhir direnovasi tidak boleh kosong',
+                //'tahun_renovasi.required'	=> 'Tahun Terakhir direnovasi tidak boleh kosong',
                 'lantai_ke.numeric' => 'Lantai Ke- harus berupa angka',
                 'panjang.numeric' => 'Panjang (m) harus berupa angka',
                 'lebar.numeric' => 'Lebar (m) harus berupa angka',
@@ -343,7 +343,7 @@ class ReferensiController extends Controller
                 'kode' => 'required',
                 'nama' => 'required',
                 'tahun_bangun' => 'required',
-                'tahun_renovasi' => 'required',
+                //'tahun_renovasi' => 'required',
                 'lantai_ke' => 'numeric',
                 'panjang' => 'numeric',
                 'lebar' => 'numeric',
@@ -372,7 +372,7 @@ class ReferensiController extends Controller
                 'kode' => $request->kode,
                 'nama' => $request->nama,
                 'tahun_bangun' => date('Y', strtotime($request->tahun_bangun)),
-                'tahun_renovasi' => date('Y', strtotime($request->tahun_renovasi)),
+                'tahun_renovasi' => ($request->tahun_renovasi) ? date('Y', strtotime($request->tahun_renovasi)) : NULL,
                 'lantai_ke' => $request->lantai_ke,
                 'panjang' => $request->panjang,
                 'lebar' => $request->lebar,
@@ -637,7 +637,7 @@ class ReferensiController extends Controller
                 'kode.required'	=> 'Kode Ruang tidak boleh kosong',
                 'nama.required'	=> 'Nama Ruang tidak boleh kosong',
                 'tahun_bangun.required'	=> 'Tahun Bangun tidak boleh kosong',
-                'tahun_renovasi.required'	=> 'Tahun Terakhir direnovasi tidak boleh kosong',
+                //'tahun_renovasi.required'	=> 'Tahun Terakhir direnovasi tidak boleh kosong',
                 'lantai_ke.numeric' => 'Lantai Ke- harus berupa angka',
                 'panjang.numeric' => 'Panjang harus berupa angka',
                 'lebar.numeric' => 'Lebar harus berupa angka',
@@ -665,7 +665,7 @@ class ReferensiController extends Controller
                 'kode' => 'required',
                 'nama' => 'required',
                 'tahun_bangun' => 'required',
-                'tahun_renovasi' => 'required',
+                //'tahun_renovasi' => 'required',
                 'lantai_ke' => 'numeric',
                 'panjang' => 'numeric',
                 'lebar' => 'numeric',
@@ -694,7 +694,7 @@ class ReferensiController extends Controller
             $update_data->kode = $request->kode;
             $update_data->nama = $request->nama;
             $update_data->tahun_bangun = date('Y', strtotime($request->tahun_bangun));
-            $update_data->tahun_renovasi = date('Y', strtotime($request->tahun_renovasi));
+            $update_data->tahun_renovasi = ($request->tahun_renovasi) ? date('Y', strtotime($request->tahun_renovasi)) : NULL;
             $update_data->lantai_ke = $request->lantai_ke;
             $update_data->panjang = $request->panjang;
             $update_data->lebar = $request->lebar;

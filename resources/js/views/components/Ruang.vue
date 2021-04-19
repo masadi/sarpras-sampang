@@ -206,12 +206,12 @@
                             <has-error :form="form" field="luas_finish_plafon"></has-error>
                         </div>
                         <div class="form-group">
-                            <label>Luas Finish Dinding (m<sup>2</sup>)</label>
+                            <label>Luas Finish Dinding (m<sup>2</sup>) </label>
                             <input v-model="form.luas_finish_dinding" type="text" name="luas_finish_dinding" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_dinding') }">
                             <has-error :form="form" field="luas_finish_dinding"></has-error>
                         </div>
                         <div class="form-group">
-                            <label>Luas Finish KPJ (m<sup>2</sup>)</label>
+                            <label>Luas Finish KPJ (m<sup>2</sup>) (Kusen, Pintu, Jendela)</label>
                             <input v-model="form.luas_finish_kpj" type="text" name="luas_finish_kpj" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_kpj') }">
                             <has-error :form="form" field="luas_finish_kpj"></has-error>
                         </div>
@@ -516,7 +516,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">Kerusakan Finishing Kusen/Pintu (%)</label>
+                                    <label class="col-sm-6 col-form-label">Kerusakan Finishing Kusen/Pintu/Jendela (%)</label>
                                     <div class="col-sm-6">
                                         <input v-model="form.rusak_finish_kpj" type="text" name="rusak_finish_kpj" @input="getTotal"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_finish_kpj') }">
@@ -526,7 +526,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">Keterangan Finishing Kusen/Pintu</label>
+                                    <label class="col-sm-6 col-form-label">Keterangan Finishing Kusen/Pintu/Jendela</label>
                                     <div class="col-sm-6">
                                         <input v-model="form.ket_finish_kpj" type="text" name="ket_finish_kpj"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('ket_finish_kpj') }">
@@ -579,6 +579,9 @@ export default {
             default: null
         }
     },
+    components: {
+        DatePicker
+    },
     data() {
         return {
             presentase_kerusakan: '0%',
@@ -624,7 +627,6 @@ export default {
                 //edit
                 id: '',
                 sekolah_id: '',
-                tanah_id: '',
                 jenis_prasarana_id: '',
                 bangunan_id: '',
                 kode: '',
@@ -795,6 +797,8 @@ export default {
             })
         },
         updateBangunan(data){
+            this.form.bangunan_id = {bangunan_id: '', nama: '== Pilih Bangunan =='}
+            this.form.jenis_prasarana_id = {id: '', nama: '== Pilih Jenis Ruang =='}
             axios.get(`/api/referensi/all-bangunan`, {
                 //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
                 params: {
@@ -807,6 +811,7 @@ export default {
             })
         },
         updateJenis(){
+            this.form.jenis_prasarana_id = {id: '', nama: '== Pilih Jenis Ruang =='}
             axios.get(`/api/referensi/all-jenis-prasarana`, {
                 //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
                 params: {
@@ -829,12 +834,12 @@ export default {
             })
         },
         editData(row) {
+            this.getSekolah();
             let getData = row.item
             this.editmode = true
             this.editModal = true
             this.form.id = getData.ruang_id
             this.form.sekolah_id = {sekolah_id: getData.bangunan.tanah.sekolah_id, nama: getData.bangunan.tanah.sekolah.nama}
-            this.form.tanah_id = {tanah_id: getData.bangunan.tanah_id, nama: getData.bangunan.tanah.nama}
             this.form.bangunan_id = {bangunan_id: getData.bangunan_id, nama: getData.bangunan.nama}
             this.form.jenis_prasarana_id = {id: getData.jenis_prasarana_id, nama: getData.jenis_prasarana.nama}
             this.form.kode = getData.kode

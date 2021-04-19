@@ -353,8 +353,6 @@ export default {
             let getData = row.item
             this.getSekolah()
             this.getKepemilikan()
-            this.updateTanah(getData.ruang.bangunan.tanah)
-            this.updateBangunan(getData.ruang.bangunan)
             this.updateRuang(getData.ruang)
             this.updateJenis()
             this.editmode = true

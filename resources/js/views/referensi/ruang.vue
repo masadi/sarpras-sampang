@@ -264,6 +264,7 @@ export default {
         }
     },
     components: {
+        DatePicker,
         'app-datatable': Datatable //REGISTER COMPONENT DATATABLE
     },
     methods: {
