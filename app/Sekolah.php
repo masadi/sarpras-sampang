@@ -5,9 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 //use Illuminate\Database\Eloquent\SoftDeletes;
 use App\HelperModel;
+use App\Traits\Uuid;
 class Sekolah extends Model
 {
     //use SoftDeletes;
+    use Uuid;
     public $incrementing = false;
     protected $keyType = 'string';
 	protected $table = 'sekolah';

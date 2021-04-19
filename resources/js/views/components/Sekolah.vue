@@ -68,7 +68,7 @@
             </tr>
             <tr>
                 <td>Alamat</td>
-                <td>: {{modalText.alamat_jalan}}</td>
+                <td>: {{modalText.alamat}}</td>
             </tr>
             <tr>
                 <td>Desa/Kelurahan</td>
@@ -91,14 +91,6 @@
                 <td>: {{modalText.kode_pos}}</td>
             </tr>
             <tr>
-                <td>Telepon</td>
-                <td>: {{modalText.no_telp}}</td>
-            </tr>
-            <tr>
-                <td>Fax</td>
-                <td>: {{modalText.no_fax}}</td>
-            </tr>
-            <tr>
                 <td>Email</td>
                 <td>: {{modalText.email}}</td>
             </tr>
@@ -115,20 +107,8 @@
                 <td>: {{modalText.nama_kepsek}}</td>
             </tr>
             <tr>
-                <td>NIP Kepala Sekolah</td>
-                <td>: {{modalText.nip_kepsek}}</td>
-            </tr>
-            <tr>
-                <td>Nama Pengawas Pembina</td>
-                <td>: {{modalText.nama_pengawas}}</td>
-            </tr>
-            <tr>
-                <td>NIP Pengawas Pembina</td>
-                <td>: {{modalText.nip_pengawas}}</td>
-            </tr>
-            <tr>
-                <td>Verifikator</td>
-                <td>: {{(modalText.sekolah_sasaran) ? modalText.sekolah_sasaran.verifikator.name : 'Belum dipilih'}}</td>
+                <td>Nomor HP Kepala Sekolah</td>
+                <td>: {{modalText.no_telp}}</td>
             </tr>
         </table>
         <template v-slot:modal-footer>
@@ -148,31 +128,66 @@
         </template>
         <template v-slot:default="{ hide }">
             <div class="form-group">
-                <label>Nama Sekolah</label>
                 <input v-model="form.id" type="hidden" name="id" class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
-                <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('npsn') }">
-                <has-error :form="form" field="npsn"></has-error>
-            </div>
-            <div class="form-group">
-                <label>Nama Kepala Sekolah</label>
-                <input v-model="form.nama_kepsek" type="text" name="nama_kepsek" class="form-control" :class="{ 'is-invalid': form.errors.has('nama_kepsek') }">
-                <has-error :form="form" field="nama_kepsek"></has-error>
-            </div>
-            <div class="form-group">
-                <label>NIP Kepala Sekolah</label>
-                <input v-model="form.nip_kepsek" type="text" name="nip_kepsek" class="form-control" :class="{ 'is-invalid': form.errors.has('nip_kepsek') }">
-                <has-error :form="form" field="nip_kepsek"></has-error>
-            </div>
-            <div class="form-group">
-                <label>Nama Pengawas Pembina</label>
-                <input v-model="form.nama_pengawas" type="text" name="nama_pengawas" class="form-control" :class="{ 'is-invalid': form.errors.has('nama_pengawas') }">
-                <has-error :form="form" field="nama_pengawas"></has-error>
-            </div>
-            <div class="form-group">
-                <label>NIP Pengawas Pembina</label>
-                <input v-model="form.nip_pengawas" type="text" name="nip_pengawas" class="form-control" :class="{ 'is-invalid': form.errors.has('nip_pengawas') }">
-                <has-error :form="form" field="nip_pengawas"></has-error>
-            </div>
+                    <label>NPSN</label>
+                    <input v-model="form.npsn" type="text" name="npsn" class="form-control" :class="{ 'is-invalid': form.errors.has('npsn') }">
+                    <has-error :form="form" field="npsn"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>Nama Sekolah</label>
+                    <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
+                    <has-error :form="form" field="nama"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>NSS</label>
+                    <input v-model="form.nss" type="text" name="nss" class="form-control" :class="{ 'is-invalid': form.errors.has('nss') }">
+                    <has-error :form="form" field="nss"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>Alamat</label>
+                    <input v-model="form.alamat" type="text" name="alamat" class="form-control" :class="{ 'is-invalid': form.errors.has('alamat') }">
+                    <has-error :form="form" field="alamat"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>Kecamatan</label>
+                    <v-select label="nama" :options="kecamatan" v-model="form.kecamatan_id" @input="getDesa" :class="{ 'is-invalid': form.errors.has('kecamatan_id') }" />
+                    <has-error :form="form" field="kecamatan_id"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>Desa/Kelurahan</label>
+                    <v-select label="nama" :options="desa" v-model="form.desa_id" :class="{ 'is-invalid': form.errors.has('desa_id') }" />
+                    <has-error :form="form" field="desa_id"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>Kodepos</label>
+                    <input v-model="form.kode_pos" type="text" name="kode_pos" class="form-control" :class="{ 'is-invalid': form.errors.has('kode_pos') }">
+                    <has-error :form="form" field="kode_pos"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input v-model="form.email" type="email" name="email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                    <has-error :form="form" field="email"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>Website</label>
+                    <input v-model="form.website" type="text" name="website" class="form-control" :class="{ 'is-invalid': form.errors.has('website') }">
+                    <has-error :form="form" field="website"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>Status Sekolah</label>
+                    <v-select label="nama" :options="[{nama: 'Negeri', key: 1}, {nama: 'Swasta', key:2}]" v-model="form.status_sekolah" :class="{ 'is-invalid': form.errors.has('status_sekolah') }" />
+                    <has-error :form="form" field="status_sekolah"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>Nama Kepala Sekolah</label>
+                    <input v-model="form.nama_kepsek" type="text" name="nama_kepsek" class="form-control" :class="{ 'is-invalid': form.errors.has('nama_kepsek') }">
+                    <has-error :form="form" field="nama_kepsek"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>Nomor HP Kepala Sekolah</label>
+                    <input v-model="form.no_telp" type="text" name="no_telp" class="form-control" :class="{ 'is-invalid': form.errors.has('no_telp') }">
+                    <has-error :form="form" field="no_telp"></has-error>
+                </div>
         </template>
         <template v-slot:modal-footer="{ hide }">
             <b-button variant="secondary" size="sm" @click="hide()">Tutup</b-button>
@@ -217,11 +232,18 @@ export default {
             editmode: false,
             form: new Form({
                 id: '',
+                npsn: '',
                 nama: '',
+                nss: '',
+                alamat: '',
+                kode_pos: '',
+                email: '',
+                website: '',
+                status_sekolah: '',
                 nama_kepsek: '',
-                nip_kepsek: '',
-                nama_pengawas: '',
-                nip_pengawas: '',
+                no_telp: '',
+                kecamatan_id: '',
+                desa_id: '',
             }),
             //VARIABLE INI AKAN MENGHADLE SORTING DATA
             sortBy: null, //FIELD YANG AKAN DISORT AKAN OTOMATIS DISIMPAN DISINI
@@ -233,7 +255,8 @@ export default {
             editModalVerifikator: false,
             modalText: {},
             selected: null,
-            sasaran: false,
+            kecamatan: [],
+            desa: [],
         }
     },
     watch: {
@@ -256,143 +279,23 @@ export default {
             })
         }
     },
-    /*computed: {
-        isDisabled: function(){
-            return this.sasaran
-        }
-    },*/
     methods: {
-        sektorCoe(row) {
-            axios.get(`/api/referensi/sektor`, {
+        getKecamatan(){
+            axios.get(`/api/referensi/kecamatan`)
+            .then((response) => {
+                this.kecamatan = response.data.data
+            });
+        },
+        getDesa(val){
+            this.form.desa_id = {nama: '== Pilih Desa/Kelurahan ==', kode_wilayah: ''}
+            axios.get(`/api/referensi/desa`, {
                 params: {
-                    sekolah_sasaran_id: row.item.sekolah_sasaran.sekolah_sasaran_id,
-                },
-            }).then((response) => {
-                let getData = response.data
-                //console.log(getData)
-                //return false;
-                Swal.fire({
-                    title: 'Pilih Sektor',
-                    input: 'select',
-                    inputOptions: getData.data.sektor,
-                    inputValue: (row.item.sekolah_sasaran.sektor_id) ? row.item.sekolah_sasaran.sektor_id : '',
-                    inputPlaceholder: 'Pilih Sektor',
-                    showCancelButton: true,
-                    inputValidator: (value) => {
-                        return new Promise((resolve) => {
-                            if (value) {
-                                axios.post(`/api/referensi/sektor-coe`, {
-                                    sekolah_sasaran_id: row.item.sekolah_sasaran.sekolah_sasaran_id,
-                                    sektor_id: value,
-                                }).then((response) => {
-                                    let getData = response.data
-                                    Swal.fire(
-                                        getData.title,
-                                        getData.text,
-                                        getData.icon
-                                    ).then(() => {
-                                        this.loadPerPage(10);
-                                    });
-                                })
-                                resolve()
-                            } else {
-                                resolve('Sektor tidak boleh kosong')
-                            }
-                        })
-                    }
-                })
-            })
-        },
-        tetapkanCoe(row) {
-            axios.post(`/api/referensi/status-coe`, {
-                sekolah_id: row.item.sekolah_id,
-                status_coe: 1,
-            }).then((response) => {
-                let getData = response.data
-                Swal.fire(
-                    getData.title,
-                    getData.text,
-                    getData.icon
-                ).then(() => {
-                    this.loadPerPage(10);
-                });
-            })
-        },
-        batalkanCoe(row) {
-            axios.post(`/api/referensi/status-coe`, {
-                sekolah_id: row.item.sekolah_id,
-                status_coe: 0,
-            }).then((response) => {
-                let getData = response.data
-                Swal.fire(
-                    getData.title,
-                    getData.text,
-                    getData.icon
-                ).then(() => {
-                    this.loadPerPage(10);
-                });
-            })
-        },
-        checkResetDB(row) {
-            if (row.item.sekolah_sasaran) {
-                if (row.item.sekolah_sasaran.pakta_integritas) {
-                    if (row.item.sekolah_sasaran.pakta_integritas.terkirim == 1) {
-                        return true
-                    }
-                    return false
+                    kecamatan_id: val.kode_wilayah.trim()
                 }
-                return false
-            }
-            return false
-        },
-        resetDb(row) {
-            let npsn = row.item.npsn
-            axios.post(`/api/referensi/reset-isian-instrumen`, {
-                npsn: npsn,
-            }).then((response) => {
-                let getData = response.data
-                Swal.fire(
-                    'Sukses',
-                    'Isian Instrumen berhasil di reset',
-                    'success'
-                ).then(() => {
-                    this.loadPerPage(10);
-                });
             })
-        },
-        cetakInstrumen(row) {
-            let nama_sekolah = row.nama
-            axios.get(`/api/cetak-instrumen`, {
-                params: {
-                    user_id: row.user.user_id,
-                },
-                responseType: 'arraybuffer'
-            }).then((response) => {
-                let blob = new Blob([response.data], {
-                    type: 'application/pdf'
-                })
-                let link = document.createElement('a')
-                link.href = window.URL.createObjectURL(blob)
-                link.download = 'Instrumen Penjaminan Mutu SMK ' + nama_sekolah + '.pdf'
-                link.click()
-            })
-        },
-        isDisabled(row) {
-            if (row) {
-                if (row.pakta_integritas) {
-                    if (row.pakta_integritas.terkirim == 1) {
-                        return true
-                    }
-                    return false
-                }
-                return false
-            }
-            return false
-        },
-        openVerifikasi(sekolah_id) {
-            this.$router.push({
-                path: `proses-verifikasi/${sekolah_id}/${user.user_id}`
-            })
+            .then((response) => {
+                this.desa = response.data.data
+            });
         },
         //JIKA SELECT BOX DIGANTI, MAKA FUNGSI INI AKAN DIJALANKAN
         loadPerPage(val) {
@@ -445,103 +348,28 @@ export default {
             this.modalText = row.item
         },
         editData(row) {
-            //console.log(row);
+            this.getKecamatan()
             this.editmode = true
             this.editModal = true
             this.form.id = row.item.sekolah_id
+            this.form.npsn = row.item.npsn
             this.form.nama = row.item.nama
+            this.form.nss = row.item.nss
+            this.form.alamat = row.item.alamat
+            this.form.kode_pos = row.item.kode_pos
+            this.form.email = row.item.email
+            this.form.website = row.item.website
+            this.form.status_sekolah = (row.item.status_sekolah == 1) ? {nama: 'Negeri', key: 1} : {nama: 'Swasta', key: 2}
             this.form.nama_kepsek = row.item.nama_kepsek
-            this.form.nip_kepsek = row.item.nip_kepsek
-            this.form.nama_pengawas = row.item.nama_pengawas
-            this.form.nip_pengawas = row.item.nip_pengawas
+            this.form.no_telp = row.item.no_telp
+            this.form.kecamatan_id = {nama: row.item.kecamatan, kode_wilayah: row.item.kecamatan_id}
+            this.form.desa_id = {nama: row.item.desa_kelurahan, kode_wilayah: row.item.kode_wilayah}
+            console.log(this.form.desa_id);
             $('#modalEdit').modal('show');
-        },
-        editVerifikator(row) {
-            axios.get(`/api/referensi/verifikator`, {
-                params: {
-                    sekolah_sasaran_id: row.item.sekolah_sasaran.sekolah_sasaran_id,
-                },
-            }).then((response) => {
-                let getData = response.data
-                //console.log(getData)
-                //return false;
-                Swal.fire({
-                    title: 'Pilih Verifikator',
-                    input: 'select',
-                    inputOptions: getData.data.verifikator,
-                    inputValue: (row.item.sekolah_sasaran.verifikator_id) ? row.item.sekolah_sasaran.verifikator_id : '',
-                    inputPlaceholder: 'Pilih Verifikator',
-                    showCancelButton: true,
-                    inputValidator: (value) => {
-                        return new Promise((resolve) => {
-                            if (value) {
-                                axios.post(`/api/referensi/simpan-verifikator`, {
-                                    sekolah_sasaran_id: row.item.sekolah_sasaran.sekolah_sasaran_id,
-                                    verifikator_id: value,
-                                }).then((response) => {
-                                    let getData = response.data
-                                    Swal.fire(
-                                        getData.data.title,
-                                        getData.data.text,
-                                        getData.data.icon
-                                    ).then(() => {
-                                        this.loadPerPage(10);
-                                    });
-                                })
-                                resolve()
-                            } else {
-                                resolve('Verifikator_id tidak boleh kosong')
-                            }
-                        })
-                    }
-                })
-            })
-        },
-        editPendamping(row) {
-            axios.get(`/api/referensi/list-pendamping`, {
-                params: {
-                    sekolah_sasaran_id: row.item.sekolah_sasaran.sekolah_sasaran_id,
-                },
-            }).then((response) => {
-                let getData = response.data
-                //console.log(getData)
-                //return false;
-                Swal.fire({
-                    title: 'Pilih Pendamping',
-                    input: 'select',
-                    inputOptions: getData.data.pendamping,
-                    inputValue: (row.item.sekolah_sasaran.pendamping_id) ? row.item.sekolah_sasaran.pendamping_id : '',
-                    inputPlaceholder: 'Pilih Pendamping',
-                    showCancelButton: true,
-                    inputValidator: (value) => {
-                        return new Promise((resolve) => {
-                            if (value) {
-                                axios.post(`/api/referensi/sekolah-sasaran-pendamping`, {
-                                    sekolah_sasaran_id: row.item.sekolah_sasaran.sekolah_sasaran_id,
-                                    pendamping_id: value,
-                                    permintaan: 'ganti',
-                                }).then((response) => {
-                                    let getData = response.data
-                                    Swal.fire(
-                                        getData.title,
-                                        getData.text,
-                                        getData.icon
-                                    ).then(() => {
-                                        this.loadPerPage(10);
-                                    });
-                                })
-                                resolve()
-                            } else {
-                                resolve('Pendamping tidak boleh kosong')
-                            }
-                        })
-                    }
-                })
-            })
         },
         updateData() {
             let id = this.form.id;
-            this.form.put('/api/sekolah/' + id).then((response) => {
+            this.form.put('/api/referensi/update-sekolah/' + id).then((response) => {
                 this.editModal = false
                 Toast.fire({
                     icon: 'success',

@@ -60,7 +60,7 @@ $user = auth()->user();
                         <p>Alat</p>
                     </router-link>
                 </li>
-                <li class="nav-item">
+                <!--li class="nav-item">
                     <router-link tag="a" to="/angkutan" class="nav-link">
                         <i class="nav-icon fas fa-car"></i>
                         <p>Angkutan</p>
@@ -71,7 +71,7 @@ $user = auth()->user();
                         <i class="nav-icon fas fa-book"></i>
                         <p>Buku</p>
                     </router-link>
-                </li>
+                </li-->
                 @endif
                 <!--
                 @if($user->isAbleTo('users-create'))

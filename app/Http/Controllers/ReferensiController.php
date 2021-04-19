@@ -24,6 +24,7 @@ use App\Jenis_sarana;
 use App\Status_kepemilikan_sarpras;
 use App\Mata_pelajaran;
 use App\Penerbit;
+use App\Wilayah;
 
 class ReferensiController extends Controller
 {
@@ -123,6 +124,14 @@ class ReferensiController extends Controller
     }
     public function get_all_sekolah($request){
         $all_data = Sekolah::select('sekolah_id', 'nama')->get();//->pluck('nama', 'sekolah_id');
+        return response()->json(['status' => 'success', 'data' => $all_data]);
+    }
+    public function get_kecamatan($request){
+        $all_data = Wilayah::select('kode_wilayah', 'nama')->where('id_level_wilayah', 3)->where('mst_kode_wilayah', '052700 ')->get();//->pluck('nama', 'sekolah_id');
+        return response()->json(['status' => 'success', 'data' => $all_data]);
+    }
+    public function get_desa($request){
+        $all_data = Wilayah::select('kode_wilayah', 'nama')->where('id_level_wilayah', 4)->where('mst_kode_wilayah', $request->kecamatan_id)->get();//->pluck('nama', 'sekolah_id');
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_all_mapel($request){
@@ -447,37 +456,49 @@ class ReferensiController extends Controller
                 'keterangan' => $request->keterangan,
             ]);
             return response()->json(['status' => 'success', 'data' => $insert_data]);
-        } elseif($request->route('query') == 'buku'){
+        } elseif($request->route('query') == 'sekolah'){
             $messages = [
-                'sekolah_id.required'	=> 'Sekolah tidak boleh kosong',
-                'kode.required'	=> 'Kode Buku tidak boleh kosong',
-                'judul.required'	=> 'Judul tidak boleh kosong',
-                'mata_pelajaran_id.required'	=> 'Mata Pelajaran tidak boleh kosong',
-                'nama_penerbit.required'	=> 'Nama Penerbit tidak boleh kosong',
-                'isbn_issn.required'	=> 'ISBN/ISSN tidak boleh kosong',
-                'kelas.required'	=> 'Kelas tidak boleh kosong',
+                'npsn.required'	=> 'NPSN tidak boleh kosong',
+                'nama.required'	=> 'Nama Sekolah tidak boleh kosong',
+                'alamat.required'	=> 'Alamat tidak boleh kosong',
+                'kecamatan_id.required'	=> 'Kecamatan tidak boleh kosong',
+                'desa_id.required'	=> 'Desa/Kelurahab tidak boleh kosong',
+                'status_sekolah.required'	=> 'Status Sekolah tidak boleh kosong',
+                'nama_kepsek.required'	=> 'Nama Kepala Sekolah tidak boleh kosong',
+                'no_telp.required'	=> 'Nomor HP Kepala Sekolah tidak boleh kosong',
             ];
             $validator = Validator::make(request()->all(), [
-                'sekolah_id' => 'required',
-                'kode' => 'required',
-                'judul' => 'required',
-                'mata_pelajaran_id' => 'required',
-                'nama_penerbit' => 'required',
-                'isbn_issn' => 'required',
-                'kelas' => 'required',
+                'npsn' => 'required',
+                'nama' => 'required',
+                'alamat' => 'required',
+                'kecamatan_id' => 'required',
+                'desa_id' => 'required',
+                'status_sekolah' => 'required',
+                'nama_kepsek' => 'required',
+                'no_telp' => 'required',
             ],
             $messages
             )->validate();
-            $insert_data = Buku::create([
-                'sekolah_id' => $request->sekolah_id['sekolah_id'],
-                'kode' => $request->kode,
-                'judul' => $request->judul,
-                'mata_pelajaran_id' => $request->mata_pelajaran_id['mata_pelajaran_id'],
-                'nama_penerbit' => (is_array($request->nama_penerbit)) ? $request->nama_penerbit['nama'] : $request->nama_penerbit,
-                'penerbit_id' => (is_array($request->nama_penerbit)) ? $request->nama_penerbit['penerbit_id'] : NULL,
-                'isbn_issn' => $request->isbn_issn,
-                'kelas' => $request->kelas,
-                'keterangan' => $request->keterangan,
+            $wilayah = Wilayah::with('parrentRecursive')->find($request->desa_id['kode_wilayah']);
+            $insert_data = Sekolah::create([
+                'npsn' => $request->npsn,
+                'nama' => $request->nama,
+                'nss' => $request->nss,
+                'alamat' => $request->alamat,
+                'kode_pos' => $request->kode_pos,
+                'email' => $request->email,
+                'website' => $request->website,
+                'status_sekolah' => $request->status_sekolah['key'],
+                'nama_kepsek' => $request->nama_kepsek,
+                'no_telp' => $request->no_telp,
+                'kecamatan_id' => $request->kecamatan_id['kode_wilayah'],
+                'kode_wilayah' => $request->desa_id['kode_wilayah'],
+                'desa_kelurahan' => $wilayah->nama,
+                'kecamatan' => $wilayah->parrentRecursive->nama,
+                'kabupaten' => $wilayah->parrentRecursive->parrentRecursive->nama,
+                'provinsi' => $wilayah->parrentRecursive->parrentRecursive->parrentRecursive->nama,
+                'kabupaten_id' => $wilayah->parrentRecursive->parrentRecursive->kode_wilayah,
+                'provinsi_id' => $wilayah->parrentRecursive->parrentRecursive->parrentRecursive->kode_wilayah,
             ]);
             return response()->json(['status' => 'success', 'data' => $insert_data]);
         }
@@ -768,6 +789,54 @@ class ReferensiController extends Controller
                 return response()->json(['status' => 'success', 'message' => 'Data Tanah berhasil diperbaharui']);
             } else {
                 return response()->json(['status' => 'error', 'message' => 'Data Tanah gagal diperbaharui']);
+            }
+        } elseif($request->route('query') == 'sekolah'){
+            $messages = [
+                'npsn.required'	=> 'NPSN tidak boleh kosong',
+                'nama.required'	=> 'Nama Sekolah tidak boleh kosong',
+                'alamat.required'	=> 'Alamat tidak boleh kosong',
+                'kecamatan_id.required'	=> 'Kecamatan tidak boleh kosong',
+                'desa_id.required'	=> 'Desa/Kelurahab tidak boleh kosong',
+                'status_sekolah.required'	=> 'Status Sekolah tidak boleh kosong',
+                'nama_kepsek.required'	=> 'Nama Kepala Sekolah tidak boleh kosong',
+                'no_telp.required'	=> 'Nomor HP Kepala Sekolah tidak boleh kosong',
+            ];
+            $validator = Validator::make(request()->all(), [
+                'npsn' => 'required',
+                'nama' => 'required',
+                'alamat' => 'required',
+                'kecamatan_id' => 'required',
+                'desa_id' => 'required',
+                'status_sekolah' => 'required',
+                'nama_kepsek' => 'required',
+                'no_telp' => 'required',
+            ],
+            $messages
+            )->validate();
+            $wilayah = Wilayah::with('parrentRecursive')->find($request->desa_id['kode_wilayah']);
+            $update_data = Sekolah::find($request->id);
+            $update_data->npsn = $request->npsn;
+            $update_data->nama = $request->nama;
+            $update_data->nss = $request->nss;
+            $update_data->alamat = $request->alamat;
+            $update_data->kode_pos = $request->kode_pos;
+            $update_data->email = $request->email;
+            $update_data->website = $request->website;
+            $update_data->status_sekolah = $request->status_sekolah['key'];
+            $update_data->nama_kepsek = $request->nama_kepsek;
+            $update_data->no_telp = $request->no_telp;
+            $update_data->kecamatan_id = $request->kecamatan_id['kode_wilayah'];
+            $update_data->kode_wilayah = $request->desa_id['kode_wilayah'];
+            $update_data->desa_kelurahan = $wilayah->nama;
+            $update_data->kecamatan = $wilayah->parrentRecursive->nama;
+            $update_data->kabupaten = $wilayah->parrentRecursive->parrentRecursive->nama;
+            $update_data->provinsi = $wilayah->parrentRecursive->parrentRecursive->parrentRecursive->nama;
+            $update_data->kabupaten_id = $wilayah->parrentRecursive->parrentRecursive->kode_wilayah;
+            $update_data->provinsi_id = $wilayah->parrentRecursive->parrentRecursive->parrentRecursive->kode_wilayah;
+            if($update_data->save()){
+                return response()->json(['status' => 'success', 'message' => 'Data Sekolah berhasil diperbaharui']);
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'Data Sekolah gagal diperbaharui']);
             }
         }
         return response()->json(['title' => 'Gagal', 'status' => 'error', 'message' => 'Tidak ada data diperbaharui']);

@@ -27,6 +27,9 @@
                                 <i class="fas fa-th mr-1"></i>
                                 Data Sekolah
                             </h3>
+                            <div class="card-tools" v-show="hasRole('admin')">
+                                <button class="btn btn-success btn-sm btn-block btn-flat" v-on:click="newModal">Tambah Data</button>
+                            </div>
                         </div>
                         <div class="card-body">
                             <app-datatable :items="items" :fields="fields" :meta="meta" :title="'Hapus Sekolah'" @per_page="handlePerPage" @pagination="handlePagination" @search="handleSearch" @sort="handleSort" />
@@ -52,10 +55,65 @@
                             <input v-model="form.npsn" type="text" name="npsn" class="form-control" :class="{ 'is-invalid': form.errors.has('npsn') }">
                             <has-error :form="form" field="npsn"></has-error>
                         </div>
+                        <div class="form-group">
+                            <label>Nama Sekolah</label>
+                            <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
+                            <has-error :form="form" field="nama"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>NSS</label>
+                            <input v-model="form.nss" type="text" name="nss" class="form-control" :class="{ 'is-invalid': form.errors.has('nss') }">
+                            <has-error :form="form" field="nss"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Alamat</label>
+                            <input v-model="form.alamat" type="text" name="alamat" class="form-control" :class="{ 'is-invalid': form.errors.has('alamat') }">
+                            <has-error :form="form" field="alamat"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Kecamatan</label>
+                            <v-select label="nama" :options="kecamatan" v-model="form.kecamatan_id" @input="getDesa" :class="{ 'is-invalid': form.errors.has('kecamatan_id') }" />
+                            <has-error :form="form" field="kecamatan_id"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Desa/Kelurahan</label>
+                            <v-select label="nama" :options="desa" v-model="form.desa_id" :class="{ 'is-invalid': form.errors.has('desa_id') }" />
+                            <has-error :form="form" field="desa_id"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Kodepos</label>
+                            <input v-model="form.kode_pos" type="text" name="kode_pos" class="form-control" :class="{ 'is-invalid': form.errors.has('kode_pos') }">
+                            <has-error :form="form" field="kode_pos"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input v-model="form.email" type="email" name="email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                            <has-error :form="form" field="email"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Website</label>
+                            <input v-model="form.website" type="text" name="website" class="form-control" :class="{ 'is-invalid': form.errors.has('website') }">
+                            <has-error :form="form" field="website"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Status Sekolah</label>
+                            <v-select label="nama" :options="[{nama: 'Negeri', key: 1}, {nama: 'Swasta', key:2}]" v-model="form.status_sekolah" :class="{ 'is-invalid': form.errors.has('status_sekolah') }" />
+                            <has-error :form="form" field="status_sekolah"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Kepala Sekolah</label>
+                            <input v-model="form.nama_kepsek" type="text" name="nama_kepsek" class="form-control" :class="{ 'is-invalid': form.errors.has('nama_kepsek') }">
+                            <has-error :form="form" field="nama_kepsek"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Nomor HP Kepala Sekolah</label>
+                            <input v-model="form.no_telp" type="text" name="no_telp" class="form-control" :class="{ 'is-invalid': form.errors.has('no_telp') }">
+                            <has-error :form="form" field="no_telp"></has-error>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Sinkronisasi</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -118,7 +176,20 @@ export default {
             sekolah_id: user.sekolah_id,
             form: new Form({
                 npsn: '',
+                nama: '',
+                nss: '',
+                alamat: '',
+                kode_pos: '',
+                email: '',
+                website: '',
+                status_sekolah: '',
+                nama_kepsek: '',
+                no_telp: '',
+                kecamatan_id: '',
+                desa_id: '',
             }),
+            kecamatan: [],
+            desa: [],
             checkResetDB: null,
         }
     },
@@ -129,8 +200,25 @@ export default {
         newModal() {
             this.editmode = false;
             this.form.reset();
-            this.form.user_id = user.user_id;
+            this.getKecamatan();
             $('#modalAdd').modal('show');
+        },
+        getKecamatan(){
+            axios.get(`/api/referensi/kecamatan`)
+            .then((response) => {
+                this.kecamatan = response.data.data
+            });
+        },
+        getDesa(val){
+            this.desa_id = {nama: '== Pilih Desa/Kelurahan ==', kode_wilayah: ''}
+            axios.get(`/api/referensi/desa`, {
+                params: {
+                    kecamatan_id: val.kode_wilayah.trim()
+                }
+            })
+            .then((response) => {
+                this.desa = response.data.data
+            });
         },
         loadPostsData() {
             let current_page = this.search == '' ? this.current_page : 1
@@ -188,7 +276,7 @@ export default {
             }
         },
         insertData() {
-            this.form.post('/api/sinkronisasi').then((response) => {
+            this.form.post('/api/referensi/simpan-sekolah').then((response) => {
                 //console.log(response);
                 $('#modalAdd').modal('hide');
                 Toast.fire({
