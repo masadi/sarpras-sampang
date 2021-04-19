@@ -25,7 +25,6 @@ class CreateBangunansTable extends Migration
             $table->integer('lantai')->unsigned()->nullable();
             $table->decimal('kepemilikan_sarpras_id', 1,0);
             $table->integer('tahun_bangun')->unsigned()->nullable();
-            $table->date('tanggal_sk')->nullable();
             $table->string('keterangan')->nullable();
             $table->timestamps();
             $table->primary('bangunan_id');

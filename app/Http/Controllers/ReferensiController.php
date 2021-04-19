@@ -146,7 +146,9 @@ class ReferensiController extends Controller
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_all_bangunan($request){
-        $all_data = Bangunan::select('bangunan_id', 'nama')->where('tanah_id', $request->tanah_id)->get();//->pluck('nama', 'sekolah_id');
+        $all_data = Bangunan::select('bangunan_id', 'nama')->whereHas('tanah', function($query) use ($request){
+            $query->where('sekolah_id', $request->sekolah_id);
+        })->get();//->pluck('nama', 'sekolah_id');
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_all_ruang($request){
@@ -299,21 +301,21 @@ class ReferensiController extends Controller
                 'kepemilikan_sarpras_id' => $request->kepemilikan_sarpras_id['kepemilikan_sarpras_id'],
                 'tahun_bangun' => date('Y', strtotime($request->tahun_bangun)),
                 'keterangan' => $request->keterangan,
-                'tanggal_sk' => $request->tanggal_sk,
             ]);
             return response()->json(['status' => 'success', 'data' => $insert_data]);
         } elseif($request->route('query') == 'ruang'){
             $messages = [
                 'sekolah_id.required'	=> 'Sekolah tidak boleh kosong',
-                'tanah_id.required'	=> 'Tanah tidak boleh kosong',
                 'bangunan_id.required'	=> 'Bangunan tidak boleh kosong',
                 'jenis_prasarana_id.required'	=> 'Jenis Ruang tidak boleh kosong',
-                'kode.required'	=> 'Panjang (m) tidak boleh kosong',
-                'nama.required'	=> 'Panjang (m) harus berupa angka',
+                'kode.required'	=> 'Kode Ruang tidak boleh kosong',
+                'nama.required'	=> 'Nama Ruang tidak boleh kosong',
+                'tahun_bangun.required'	=> 'Tahun Bangun tidak boleh kosong',
+                'tahun_renovasi.required'	=> 'Tahun Terakhir direnovasi tidak boleh kosong',
                 'lantai_ke.numeric' => 'Lantai Ke- harus berupa angka',
-                'panjang.numeric' => 'Panjang harus berupa angka',
-                'lebar.numeric' => 'Lebar harus berupa angka',
-                'luas.numeric' => 'Luas harus berupa angka',
+                'panjang.numeric' => 'Panjang (m) harus berupa angka',
+                'lebar.numeric' => 'Lebar (m) harus berupa angka',
+                'luas.numeric' => 'Luas (m) harus berupa angka',
                 'luas_plester.numeric' => 'Luas Plester harus berupa angka',
                 'luas_plafon.numeric' => 'Luas Plafon harus berupa angka',
                 'luas_dinding.numeric' => 'Luas Dinding harus berupa angka',
@@ -332,11 +334,12 @@ class ReferensiController extends Controller
             ];
             $validator = Validator::make(request()->all(), [
                 'sekolah_id' => 'required',
-                'tanah_id' => 'required',
                 'bangunan_id' => 'required',
                 'jenis_prasarana_id' => 'required',
                 'kode' => 'required',
                 'nama' => 'required',
+                'tahun_bangun' => 'required',
+                'tahun_renovasi' => 'required',
                 'lantai_ke' => 'numeric',
                 'panjang' => 'numeric',
                 'lebar' => 'numeric',
@@ -364,7 +367,8 @@ class ReferensiController extends Controller
                 'bangunan_id' => $request->bangunan_id['bangunan_id'],
                 'kode' => $request->kode,
                 'nama' => $request->nama,
-                'registrasi' => $request->registrasi,
+                'tahun_bangun' => date('Y', strtotime($request->tahun_bangun)),
+                'tahun_renovasi' => date('Y', strtotime($request->tahun_renovasi)),
                 'lantai_ke' => $request->lantai_ke,
                 'panjang' => $request->panjang,
                 'lebar' => $request->lebar,
@@ -624,11 +628,12 @@ class ReferensiController extends Controller
         } elseif($request->route('query') == 'ruang'){
             $messages = [
                 'sekolah_id.required'	=> 'Sekolah tidak boleh kosong',
-                'tanah_id.required'	=> 'Tanah tidak boleh kosong',
                 'bangunan_id.required'	=> 'Bangunan tidak boleh kosong',
                 'jenis_prasarana_id.required'	=> 'Jenis Ruang tidak boleh kosong',
-                'kode.required'	=> 'Panjang (m) tidak boleh kosong',
-                'nama.required'	=> 'Panjang (m) harus berupa angka',
+                'kode.required'	=> 'Kode Ruang tidak boleh kosong',
+                'nama.required'	=> 'Nama Ruang tidak boleh kosong',
+                'tahun_bangun.required'	=> 'Tahun Bangun tidak boleh kosong',
+                'tahun_renovasi.required'	=> 'Tahun Terakhir direnovasi tidak boleh kosong',
                 'lantai_ke.numeric' => 'Lantai Ke- harus berupa angka',
                 'panjang.numeric' => 'Panjang harus berupa angka',
                 'lebar.numeric' => 'Lebar harus berupa angka',
@@ -651,11 +656,12 @@ class ReferensiController extends Controller
             ];
             $validator = Validator::make(request()->all(), [
                 'sekolah_id' => 'required',
-                'tanah_id' => 'required',
                 'bangunan_id' => 'required',
                 'jenis_prasarana_id' => 'required',
                 'kode' => 'required',
                 'nama' => 'required',
+                'tahun_bangun' => 'required',
+                'tahun_renovasi' => 'required',
                 'lantai_ke' => 'numeric',
                 'panjang' => 'numeric',
                 'lebar' => 'numeric',
@@ -683,7 +689,8 @@ class ReferensiController extends Controller
             $update_data->bangunan_id = $request->bangunan_id['bangunan_id'];
             $update_data->kode = $request->kode;
             $update_data->nama = $request->nama;
-            $update_data->registrasi = $request->registrasi;
+            $update_data->tahun_bangun = date('Y', strtotime($request->tahun_bangun));
+            $update_data->tahun_renovasi = date('Y', strtotime($request->tahun_renovasi));
             $update_data->lantai_ke = $request->lantai_ke;
             $update_data->panjang = $request->panjang;
             $update_data->lebar = $request->lebar;
@@ -750,7 +757,6 @@ class ReferensiController extends Controller
             $update_data->kepemilikan_sarpras_id = $request->kepemilikan_sarpras_id['kepemilikan_sarpras_id'];
             $update_data->tahun_bangun = date('Y', strtotime($request->tahun_bangun));
             $update_data->keterangan = $request->keterangan;
-            $update_data->tanggal_sk = $request->tanggal_sk;
             if($update_data->save()){
                 return response()->json(['status' => 'success', 'message' => 'Data Bangunan berhasil diperbaharui']);
             } else {

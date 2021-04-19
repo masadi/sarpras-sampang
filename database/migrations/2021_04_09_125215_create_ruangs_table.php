@@ -20,7 +20,8 @@ class CreateRuangsTable extends Migration
             $table->foreign('bangunan_id')->references('bangunan_id')->on('bangunan')->onDelete('cascade');
             $table->string('kode')->nullable();
             $table->string('nama');
-            $table->string('registrasi')->nullable();
+            $table->integer('tahun_bangun')->unsigned()->nullable();
+            $table->integer('tahun_renovasi')->unsigned()->nullable();
             $table->integer('lantai_ke')->unsigned()->nullable()->default(0);
             $table->integer('panjang')->unsigned()->nullable()->default(0);
             $table->integer('lebar')->unsigned()->nullable()->default(0);

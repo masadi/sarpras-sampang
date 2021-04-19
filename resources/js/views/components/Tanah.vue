@@ -59,7 +59,44 @@
         </div>
         </div>
         <b-modal id="modal-xl" size="xl" v-model="showModal" title="Detil Tanah">
-            {{ modalText }}
+            <table class="table">
+                <tr>
+                    <td width="30%">Sekolah</td>
+                    <td width="70%">: {{(modalText.sekolah) ? modalText.sekolah.nama : '-'}}</td>
+                </tr>
+                <tr>
+                    <td>Nama Sertifikat Tanah</td>
+                    <td>: {{modalText.nama}}</td>
+                </tr>
+                <tr>
+                    <td>Nomor Sertifikat Tanah</td>
+                    <td>: {{modalText.no_sertifikat_tanah}}</td>
+                </tr>
+                <tr>
+                    <td>Panjang</td>
+                    <td>: {{modalText.panjang}} m</td>
+                </tr>
+                <tr>
+                    <td>Lebar</td>
+                    <td>: {{modalText.lebar}} m</td>
+                </tr>
+                <tr>
+                    <td>Luas</td>
+                    <td>: {{modalText.luas}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Luas Lahan Tersedia</td>
+                    <td>: {{modalText.luas_lahan_tersedia}} m<sup>2</sup></td>
+                </tr>
+                <tr>
+                    <td>Kepemilikan</td>
+                    <td>: {{(modalText.kepemilikan) ? modalText.kepemilikan.nama : '-'}}</td>
+                </tr>
+                <tr>
+                    <td>Keterangan</td>
+                    <td>: {{modalText.keterangan}}</td>
+                </tr>
+            </table>
             <template v-slot:modal-footer>
                 <div class="w-100 float-right">
                     <b-button
@@ -91,7 +128,7 @@
                             <has-error :form="form" field="sekolah_id"></has-error>
                         </div>
                         <div class="form-group">
-                            <label>Nama</label>
+                            <label>Nama Sertifikat Tanah</label>
                             <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
                             <has-error :form="form" field="nama"></has-error>
                         </div>

@@ -87,13 +87,8 @@
                         <div class="form-group">
                             <input v-model="form.id" type="hidden" name="id" class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
                             <label>Sekolah</label>
-                            <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateTanah" />
+                            <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateBangunan" />
                             <has-error :form="form" field="sekolah_id"></has-error>
-                        </div>
-                        <div class="form-group">
-                            <label>Tanah</label>
-                            <v-select label="nama" :options="data_tanah" v-model="form.tanah_id" @input="updateBangunan" />
-                            <has-error :form="form" field="tanah_id"></has-error>
                         </div>
                         <div class="form-group">
                             <label>Bangunan</label>
@@ -116,9 +111,14 @@
                             <has-error :form="form" field="nama"></has-error>
                         </div>
                         <div class="form-group">
-                            <label>Registrasi Ruang</label>
-                            <input v-model="form.registrasi" type="text" name="registrasi" class="form-control" :class="{ 'is-invalid': form.errors.has('registrasi') }">
-                            <has-error :form="form" field="registrasi"></has-error>
+                            <label>Tahun Bangun</label><br>
+                            <date-picker v-model="form.tahun_bangun" type="year" :class="{ 'is-invalid': form.errors.has('tahun_bangun') }"></date-picker>
+                            <has-error :form="form" field="tahun_bangun"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Tahun Terakhir direnovasi</label><br>
+                            <date-picker v-model="form.tahun_renovasi" type="year" :class="{ 'is-invalid': form.errors.has('tahun_renovasi') }"></date-picker>
+                            <has-error :form="form" field="tahun_renovasi"></has-error>
                         </div>
                         <div class="form-group">
                             <label>Lantai Ke-</label>
@@ -550,7 +550,9 @@
 
 <script>
 import _ from 'lodash' //IMPORT LODASH, DIMANA AKAN DIGUNAKAN UNTUK MEMBUAT DELAY KETIKA KOLOM PENCARIAN DIISI
-
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import moment from 'moment'
 export default {
     //PROPS INI ADALAH DATA YANG AKAN DIMINTA DARI PENGGUNA COMPONENT DATATABLE YANG KITA BUAT
     props: {
@@ -627,7 +629,8 @@ export default {
                 bangunan_id: '',
                 kode: '',
                 nama: '',
-                registrasi: '',
+                tahun_bangun: '',
+                tahun_renovasi: '',
                 lantai_ke: 1,
                 panjang: 0,
                 lebar: 0,
@@ -795,7 +798,7 @@ export default {
             axios.get(`/api/referensi/all-bangunan`, {
                 //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
                 params: {
-                    tanah_id: data.tanah_id,
+                    sekolah_id: data.sekolah_id,
                 }
             })
             .then((response) => {
@@ -813,18 +816,6 @@ export default {
             .then((response) => {
                 let getData = response.data.data
                 this.data_jenis = getData
-            })
-        },
-        updateTanah(data){
-            axios.get(`/api/referensi/all-tanah`, {
-                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
-                params: {
-                    sekolah_id: data.sekolah_id,
-                }
-            })
-            .then((response) => {
-                let getData = response.data.data
-                this.data_tanah = getData
             })
         },
         getSekolah() {
@@ -848,7 +839,10 @@ export default {
             this.form.jenis_prasarana_id = {id: getData.jenis_prasarana_id, nama: getData.jenis_prasarana.nama}
             this.form.kode = getData.kode
             this.form.nama = getData.nama
-            this.form.registrasi = getData.registrasi
+            let tahunBangun = moment(String(getData.tahun_bangun))
+            let tahunRenovasi = moment(String(getData.tahun_renovasi))
+            this.form.tahun_bangun = tahunBangun._d
+            this.form.tahun_renovasi = tahunRenovasi._d
             this.form.lantai_ke = getData.lantai_ke
             this.form.panjang = getData.panjang
             this.form.lebar = getData.lebar

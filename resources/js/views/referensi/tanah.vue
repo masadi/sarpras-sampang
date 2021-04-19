@@ -51,7 +51,7 @@
                                 <has-error :form="form" field="sekolah_id"></has-error>
                             </div>
                             <div class="form-group">
-                                <label>Nama</label>
+                                <label>Nama Sertifikat Tanah</label>
                                 <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
                                 <has-error :form="form" field="nama"></has-error>
                             </div>

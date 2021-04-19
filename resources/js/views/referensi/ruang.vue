@@ -38,7 +38,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Tambah Data Tanah</h5>
+                        <h5 class="modal-title">Tambah Data Ruang</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -47,13 +47,8 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Sekolah</label>
-                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateTanah" :class="{ 'is-invalid': form.errors.has('sekolah_id') }" />
+                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateBangunan" :class="{ 'is-invalid': form.errors.has('sekolah_id') }" />
                                 <has-error :form="form" field="sekolah_id"></has-error>
-                            </div>
-                            <div class="form-group">
-                                <label>Tanah</label>
-                                <v-select label="nama" :options="data_tanah" v-model="form.tanah_id" @input="updateBangunan" :class="{ 'is-invalid': form.errors.has('tanah_id') }" />
-                                <has-error :form="form" field="tanah_id"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Bangunan</label>
@@ -76,9 +71,14 @@
                                 <has-error :form="form" field="nama"></has-error>
                             </div>
                             <div class="form-group">
-                                <label>Registrasi Ruang</label>
-                                <input v-model="form.registrasi" type="text" name="registrasi" class="form-control" :class="{ 'is-invalid': form.errors.has('registrasi') }">
-                                <has-error :form="form" field="registrasi"></has-error>
+                                <label>Tahun Bangun</label><br>
+                                <date-picker v-model="form.tahun_bangun" type="year" :class="{ 'is-invalid': form.errors.has('tahun_bangun') }"></date-picker>
+                                <has-error :form="form" field="tahun_bangun"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Tahun Terakhir direnovasi</label><br>
+                                <date-picker v-model="form.tahun_renovasi" type="year" :class="{ 'is-invalid': form.errors.has('tahun_renovasi') }"></date-picker>
+                                <has-error :form="form" field="tahun_renovasi"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Lantai Ke-</label>
@@ -171,7 +171,7 @@
                                 <has-error :form="form" field="luas_finish_dinding"></has-error>
                             </div>
                             <div class="form-group">
-                                <label>Luas Finish KPJ (m<sup>2</sup>)</label>
+                                <label>Luas Finish KPJ (m<sup>2</sup>) (Kusen, Pintu, Jendela)</label>
                                 <input v-model="form.luas_finish_kpj" type="text" name="luas_finish_kpj" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_kpj') }">
                                 <has-error :form="form" field="luas_finish_kpj"></has-error>
                             </div>
@@ -193,11 +193,12 @@
     </div>
 </template>
 <script>
-    // VueJS components will run here.
-    import Datatable from './../components/Ruang.vue' //IMPORT COMPONENT DATATABLENYA
-    import axios from 'axios' //IMPORT AXIOS
-    //window.objectToFormData = objectToFormData;
-    //const objectToFormData = window.objectToFormData
+// VueJS components will run here.
+import Datatable from './../components/Ruang.vue' //IMPORT COMPONENT DATATABLENYA
+import axios from 'axios' //IMPORT AXIOS
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import moment from 'moment'
 export default {
     //KETIKA COMPONENT INI DILOAD
     created() {
@@ -233,7 +234,8 @@ export default {
                 bangunan_id: '',
                 kode: '',
                 nama: '',
-                registrasi: '',
+                tahun_bangun: '',
+                tahun_renovasi: '',
                 lantai_ke: 1,
                 panjang: 0,
                 lebar: 0,
@@ -269,7 +271,7 @@ export default {
             axios.get(`/api/referensi/all-bangunan`, {
                 //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
                 params: {
-                    tanah_id: data.tanah_id,
+                    sekolah_id: data.sekolah_id,
                 }
             })
             .then((response) => {
@@ -287,18 +289,6 @@ export default {
             .then((response) => {
                 let getData = response.data.data
                 this.data_jenis = getData
-            })
-        },
-        updateTanah(data){
-            axios.get(`/api/referensi/all-tanah`, {
-                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
-                params: {
-                    sekolah_id: data.sekolah_id,
-                }
-            })
-            .then((response) => {
-                let getData = response.data.data
-                this.data_tanah = getData
             })
         },
         getSekolah() {

@@ -136,12 +136,7 @@
                             <has-error :form="form" field="tahun_bangun"></has-error>
                         </div>
                         <div class="form-group">
-                            <label>Tanggal SK</label><br>
-                            <date-picker v-model="form.tanggal_sk" valueType="format" :class="{ 'is-invalid': form.errors.has('tanggal_sk') }"></date-picker>
-                            <has-error :form="form" field="tanggal_sk"></has-error>
-                        </div>
-                        <div class="form-group">
-                            <label>keterangan</label>
+                            <label>Keterangan</label>
                             <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
                             <has-error :form="form" field="keterangan"></has-error>
                         </div>
@@ -374,7 +369,6 @@ export default {
                 lantai: '',
                 tahun_bangun: '',
                 kepemilikan_sarpras_id: '',
-                tanggal_sk: '',
                 keterangan: '',
                 presentase_kerusakan: 0,
             }),
@@ -535,7 +529,6 @@ export default {
             this.form.lantai = getData.lantai
             this.form.tahun_bangun = this.getTahun(getData.tahun_bangun)
             this.form.kepemilikan_sarpras_id = {kepemilikan_sarpras_id: getData.kepemilikan_sarpras_id, nama: getData.kepemilikan.nama}
-            this.form.tanggal_sk = getData.tanggal_sk
             this.form.keterangan = getData.keterangan
             $('#modalEdit').modal('show');
         },

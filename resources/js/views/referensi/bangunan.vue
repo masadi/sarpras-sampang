@@ -99,11 +99,6 @@
                                 <has-error :form="form" field="tahun_bangun"></has-error>
                             </div>
                             <div class="form-group">
-                                <label>Tanggal SK</label><br>
-                                <date-picker v-model="form.tanggal_sk" valueType="format" :class="{ 'is-invalid': form.errors.has('tanggal_sk') }"></date-picker>
-                                <has-error :form="form" field="tanggal_sk"></has-error>
-                            </div>
-                            <div class="form-group">
                                 <label>keterangan</label>
                                 <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
                                 <has-error :form="form" field="keterangan"></has-error>
@@ -170,7 +165,6 @@ export default {
                 lantai: '',
                 tahun_bangun: '',
                 kepemilikan_sarpras_id: '',
-                tanggal_sk: '',
                 keterangan: '',
             }),
             data_sekolah: [],
