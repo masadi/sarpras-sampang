@@ -126,26 +126,28 @@ export default {
             chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
             chart.legend = new am4charts.Legend();
-            console.log(chartData);
-            chart.data = [
-                {
-                    category: "Baik",
-                    value: chartData.baik
-                },
-                {
-                    category: "Rusak Ringan",
-                    value: chartData.ringan
-                },
-                {
-                    category: "Rusak Sedang",
-                    value: chartData.sedang
-                },
-                {
-                    category: "Rusak Berat",
-                    value: chartData.berat
-                }
-            ];
-
+            if(chartData){
+                chart.data = [
+                    {
+                        category: "Baik",
+                        value: chartData.baik
+                    },
+                    {
+                        category: "Rusak Ringan",
+                        value: chartData.ringan
+                    },
+                    {
+                        category: "Rusak Sedang",
+                        value: chartData.sedang
+                    },
+                    {
+                        category: "Rusak Berat",
+                        value: chartData.berat
+                    }
+                ];
+            } else {
+                chart.data = []
+            }
             let series = chart.series.push(new am4charts.PieSeries3D());
             series.dataFields.value = "value";
             series.dataFields.category = "category";
