@@ -44,7 +44,6 @@ class IsianSeeder extends Seeder
             'lantai' => 0,
             'kepemilikan_sarpras_id' => 1,
             'tahun_bangun' => '2020',
-            'tanggal_sk' => date('Y-m-d'),
             'keterangan' => 'keterangan',
         ]);
         $insert_ruang = Ruang::create([
@@ -52,6 +51,7 @@ class IsianSeeder extends Seeder
             'jenis_prasarana_id' => 1,
             'kode' => 'K-1',
             'nama' => 'Kelas 1',
+            'tahun_bangun' => '2020',
             'registrasi' => 'registrasi',
             'lantai_ke' => 1,
             'panjang' => 0,
