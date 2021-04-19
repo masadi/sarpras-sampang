@@ -103,12 +103,28 @@
                 <td>: {{(modalText.status_sekolah == 1) ? 'Negeri' : 'Swasta'}}</td>
             </tr>
             <tr>
+                <td>Nomor Ijin Operasional</td>
+                <td>: {{modalText.nomor_ijop}}</td>
+            </tr>
+            <tr>
+                <td>Tahun Ijin Operasional</td>
+                <td>: {{modalText.tahun_ijop}}</td>
+            </tr>
+            <tr>
                 <td>Nama Kepala Sekolah</td>
                 <td>: {{modalText.nama_kepsek}}</td>
             </tr>
             <tr>
                 <td>Nomor HP Kepala Sekolah</td>
                 <td>: {{modalText.no_telp}}</td>
+            </tr>
+            <tr>
+                <td>Jumlah Rombel</td>
+                <td>: {{(modalText.data_sekolah) ? modalText.data_sekolah.jumlah_rombel : 0}}</td>
+            </tr>
+            <tr>
+                <td>Jumlah Peserta Didik</td>
+                <td>: {{(modalText.data_sekolah) ? modalText.data_sekolah.jumlah_pd : 0}}</td>
             </tr>
         </table>
         <template v-slot:modal-footer>
@@ -198,6 +214,16 @@
                     <input v-model="form.no_telp" type="text" name="no_telp" class="form-control" :class="{ 'is-invalid': form.errors.has('no_telp') }">
                     <has-error :form="form" field="no_telp"></has-error>
                 </div>
+                <div class="form-group">
+                    <label>Jumlah Rombel</label>
+                    <input v-model="form.jumlah_rombel" type="text" name="jumlah_rombel" class="form-control" :class="{ 'is-invalid': form.errors.has('jumlah_rombel') }">
+                    <has-error :form="form" field="jumlah_rombel"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>Jumlah Peserta Didik</label>
+                    <input v-model="form.jumlah_pd" type="text" name="jumlah_pd" class="form-control" :class="{ 'is-invalid': form.errors.has('jumlah_pd') }">
+                    <has-error :form="form" field="jumlah_pd"></has-error>
+                </div>
         </template>
         <template v-slot:modal-footer="{ hide }">
             <b-button variant="secondary" size="sm" @click="hide()">Tutup</b-button>
@@ -258,6 +284,8 @@ export default {
                 desa_id: '',
                 nomor_ijop: '',
                 tahun_ijop: '',
+                jumlah_rombel: 0,
+                jumlah_pd: 0,
             }),
             //VARIABLE INI AKAN MENGHADLE SORTING DATA
             sortBy: null, //FIELD YANG AKAN DISORT AKAN OTOMATIS DISIMPAN DISINI
@@ -384,7 +412,8 @@ export default {
             this.form.no_telp = row.item.no_telp
             this.form.kecamatan_id = {nama: row.item.kecamatan, kode_wilayah: row.item.kecamatan_id}
             this.form.desa_id = {nama: row.item.desa_kelurahan, kode_wilayah: row.item.kode_wilayah}
-            console.log(this.form.desa_id);
+            this.form.jumlah_rombel = (row.item.data_sekolah) ? row.item.data_sekolah.jumlah_rombel : 0
+            this.form.jumlah_pd = (row.item.data_sekolah) ? row.item.data_sekolah.jumlah_pd : 0
             $('#modalEdit').modal('show');
         },
         updateData() {

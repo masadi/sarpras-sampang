@@ -120,6 +120,16 @@
                             <input v-model="form.no_telp" type="text" name="no_telp" class="form-control" :class="{ 'is-invalid': form.errors.has('no_telp') }">
                             <has-error :form="form" field="no_telp"></has-error>
                         </div>
+                        <div class="form-group">
+                            <label>Jumlah Rombel</label>
+                            <input v-model="form.jumlah_rombel" type="text" name="jumlah_rombel" class="form-control" :class="{ 'is-invalid': form.errors.has('jumlah_rombel') }">
+                            <has-error :form="form" field="jumlah_rombel"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Jumlah Peserta Didik</label>
+                            <input v-model="form.jumlah_pd" type="text" name="jumlah_pd" class="form-control" :class="{ 'is-invalid': form.errors.has('jumlah_pd') }">
+                            <has-error :form="form" field="jumlah_pd"></has-error>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -201,6 +211,8 @@ export default {
                 desa_id: '',
                 nomor_ijop: '',
                 tahun_ijop: '',
+                jumlah_rombel: 0,
+                jumlah_pd: 0,
             }),
             kecamatan: [],
             desa: [],

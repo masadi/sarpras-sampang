@@ -25,6 +25,7 @@ use App\Status_kepemilikan_sarpras;
 use App\Mata_pelajaran;
 use App\Penerbit;
 use App\Wilayah;
+use App\Data_sekolah;
 
 class ReferensiController extends Controller
 {
@@ -171,11 +172,6 @@ class ReferensiController extends Controller
     public function get_sekolah($request)
     {
         $sortBy = request()->sortby;
-        if($sortBy == 'is_coe'){
-            $sortBy = Smk_coe::select('sekolah_id')
-            ->whereColumn('sekolah_id', 'sekolah.sekolah_id')
-            ->limit(1);
-        }
         $all_data = Sekolah::where(function($query){
             if(request()->q){
                 $query->where(function($query){
@@ -195,7 +191,7 @@ class ReferensiController extends Controller
                     $query->where('sekolah_id', request()->sekolah_id);
                 }
             }
-        })->with(['user'])->orderBy($sortBy, request()->sortbydesc)
+        })->with(['user', 'data_sekolah'])->orderBy($sortBy, request()->sortbydesc)
             /*->when(request()->q, function($all_data) {
                 $all_data = $all_data->where('nama', 'ilike', '%' . request()->q . '%');
                 $all_data->orWhere('npsn', 'ilike', '%' . request()->q . '%');
@@ -505,6 +501,12 @@ class ReferensiController extends Controller
                 'provinsi_id' => $wilayah->parrentRecursive->parrentRecursive->parrentRecursive->kode_wilayah,
                 'nomor_ijop' => $request->nomor_ijop,
                 'tahun_ijop' => date('Y', strtotime($request->tahun_ijop)),
+            ]);
+            Data_sekolah::updateOrCreate([
+                'sekolah_id' => $insert_data->sekolah_id,
+                'tahun_pendataan_id' => HelperModel::tahun_pendataan(),
+                'jumlah_rombel' => $request->jumlah_rombel,
+                'jumlah_pd' => $request->jumlah_pd,
             ]);
             return response()->json(['status' => 'success', 'data' => $insert_data]);
         }
@@ -846,6 +848,12 @@ class ReferensiController extends Controller
             $update_data->nomor_ijop = $request->nomor_ijop;
             $update_data->tahun_ijop = date('Y', strtotime($request->tahun_ijop));
             if($update_data->save()){
+                Data_sekolah::updateOrCreate([
+                    'sekolah_id' => $request->id,
+                    'tahun_pendataan_id' => HelperModel::tahun_pendataan(),
+                    'jumlah_rombel' => $request->jumlah_rombel,
+                    'jumlah_pd' => $request->jumlah_pd,
+                ]);
                 return response()->json(['status' => 'success', 'message' => 'Data Sekolah berhasil diperbaharui']);
             } else {
                 return response()->json(['status' => 'error', 'message' => 'Data Sekolah gagal diperbaharui']);

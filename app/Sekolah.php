@@ -15,6 +15,9 @@ class Sekolah extends Model
 	protected $table = 'sekolah';
 	protected $primaryKey = 'sekolah_id';
     protected $guarded = [];
+    public function data_sekolah(){
+        return $this->hasOne('App\Data_sekolah', 'sekolah_id', 'sekolah_id')->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
+    }
     public function anggota_rombel()
     {
         return $this->hasManyThrough(
