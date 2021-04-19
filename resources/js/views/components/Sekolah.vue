@@ -179,6 +179,16 @@
                     <has-error :form="form" field="status_sekolah"></has-error>
                 </div>
                 <div class="form-group">
+                    <label>Nomor Ijin Operasional</label>
+                    <input v-model="form.nomor_ijop" type="text" name="nomor_ijop" class="form-control" :class="{ 'is-invalid': form.errors.has('nomor_ijop') }">
+                    <has-error :form="form" field="nomor_ijop"></has-error>
+                </div>
+                <div class="form-group">
+                    <label>Tahun Ijin Operasional</label><br>
+                    <date-picker v-model="form.tahun_ijop" type="year" :class="{ 'is-invalid': form.errors.has('tahun_ijop') }"></date-picker>
+                    <has-error :form="form" field="tahun_ijop"></has-error>
+                </div>
+                <div class="form-group">
                     <label>Nama Kepala Sekolah</label>
                     <input v-model="form.nama_kepsek" type="text" name="nama_kepsek" class="form-control" :class="{ 'is-invalid': form.errors.has('nama_kepsek') }">
                     <has-error :form="form" field="nama_kepsek"></has-error>
@@ -199,7 +209,9 @@
 
 <script>
 import _ from 'lodash' //IMPORT LODASH, DIMANA AKAN DIGUNAKAN UNTUK MEMBUAT DELAY KETIKA KOLOM PENCARIAN DIISI
-
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import moment from 'moment'
 export default {
     //PROPS INI ADALAH DATA YANG AKAN DIMINTA DARI PENGGUNA COMPONENT DATATABLE YANG KITA BUAT
     props: {
@@ -244,6 +256,8 @@ export default {
                 no_telp: '',
                 kecamatan_id: '',
                 desa_id: '',
+                nomor_ijop: '',
+                tahun_ijop: '',
             }),
             //VARIABLE INI AKAN MENGHADLE SORTING DATA
             sortBy: null, //FIELD YANG AKAN DISORT AKAN OTOMATIS DISIMPAN DISINI
@@ -278,6 +292,9 @@ export default {
                 sortDesc: this.sortDesc
             })
         }
+    },
+    components: {
+        DatePicker,
     },
     methods: {
         getKecamatan(){
@@ -360,6 +377,9 @@ export default {
             this.form.email = row.item.email
             this.form.website = row.item.website
             this.form.status_sekolah = (row.item.status_sekolah == 1) ? {nama: 'Negeri', key: 1} : {nama: 'Swasta', key: 2}
+            this.form.nomor_ijop = row.item.nomor_ijop
+            let tahunIjop = moment(String(row.item.tahun_ijop))
+            this.form.tahun_ijop = tahunIjop._d
             this.form.nama_kepsek = row.item.nama_kepsek
             this.form.no_telp = row.item.no_telp
             this.form.kecamatan_id = {nama: row.item.kecamatan, kode_wilayah: row.item.kecamatan_id}

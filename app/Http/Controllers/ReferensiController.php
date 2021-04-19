@@ -466,6 +466,8 @@ class ReferensiController extends Controller
                 'status_sekolah.required'	=> 'Status Sekolah tidak boleh kosong',
                 'nama_kepsek.required'	=> 'Nama Kepala Sekolah tidak boleh kosong',
                 'no_telp.required'	=> 'Nomor HP Kepala Sekolah tidak boleh kosong',
+                'nomor_ijop.required'	=> 'Nomor Ijin Operasional tidak boleh kosong',
+                'tahun_ijop.required'	=> 'Tahun Ijin Operasional tidak boleh kosong',
             ];
             $validator = Validator::make(request()->all(), [
                 'npsn' => 'required',
@@ -476,6 +478,8 @@ class ReferensiController extends Controller
                 'status_sekolah' => 'required',
                 'nama_kepsek' => 'required',
                 'no_telp' => 'required',
+                'nomor_ijop' => 'required',
+                'tahun_ijop' => 'required',
             ],
             $messages
             )->validate();
@@ -499,6 +503,8 @@ class ReferensiController extends Controller
                 'provinsi' => $wilayah->parrentRecursive->parrentRecursive->parrentRecursive->nama,
                 'kabupaten_id' => $wilayah->parrentRecursive->parrentRecursive->kode_wilayah,
                 'provinsi_id' => $wilayah->parrentRecursive->parrentRecursive->parrentRecursive->kode_wilayah,
+                'nomor_ijop' => $request->nomor_ijop,
+                'tahun_ijop' => date('Y', strtotime($request->tahun_ijop)),
             ]);
             return response()->json(['status' => 'success', 'data' => $insert_data]);
         }
@@ -800,6 +806,8 @@ class ReferensiController extends Controller
                 'status_sekolah.required'	=> 'Status Sekolah tidak boleh kosong',
                 'nama_kepsek.required'	=> 'Nama Kepala Sekolah tidak boleh kosong',
                 'no_telp.required'	=> 'Nomor HP Kepala Sekolah tidak boleh kosong',
+                'nomor_ijop.required'	=> 'Nomor Ijin Operasional tidak boleh kosong',
+                'tahun_ijop.required'	=> 'Tahun Ijin Operasional tidak boleh kosong',
             ];
             $validator = Validator::make(request()->all(), [
                 'npsn' => 'required',
@@ -810,6 +818,8 @@ class ReferensiController extends Controller
                 'status_sekolah' => 'required',
                 'nama_kepsek' => 'required',
                 'no_telp' => 'required',
+                'nomor_ijop' => 'required',
+                'tahun_ijop' => 'required',
             ],
             $messages
             )->validate();
@@ -833,6 +843,8 @@ class ReferensiController extends Controller
             $update_data->provinsi = $wilayah->parrentRecursive->parrentRecursive->parrentRecursive->nama;
             $update_data->kabupaten_id = $wilayah->parrentRecursive->parrentRecursive->kode_wilayah;
             $update_data->provinsi_id = $wilayah->parrentRecursive->parrentRecursive->parrentRecursive->kode_wilayah;
+            $update_data->nomor_ijop = $request->nomor_ijop;
+            $update_data->tahun_ijop = date('Y', strtotime($request->tahun_ijop));
             if($update_data->save()){
                 return response()->json(['status' => 'success', 'message' => 'Data Sekolah berhasil diperbaharui']);
             } else {

@@ -101,6 +101,16 @@
                             <has-error :form="form" field="status_sekolah"></has-error>
                         </div>
                         <div class="form-group">
+                            <label>Nomor Ijin Operasional</label>
+                            <input v-model="form.nomor_ijop" type="text" name="nomor_ijop" class="form-control" :class="{ 'is-invalid': form.errors.has('nomor_ijop') }">
+                            <has-error :form="form" field="nomor_ijop"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Tahun Ijin Operasional</label><br>
+                            <date-picker v-model="form.tahun_ijop" type="year" :class="{ 'is-invalid': form.errors.has('tahun_ijop') }"></date-picker>
+                            <has-error :form="form" field="tahun_ijop"></has-error>
+                        </div>
+                        <div class="form-group">
                             <label>Nama Kepala Sekolah</label>
                             <input v-model="form.nama_kepsek" type="text" name="nama_kepsek" class="form-control" :class="{ 'is-invalid': form.errors.has('nama_kepsek') }">
                             <has-error :form="form" field="nama_kepsek"></has-error>
@@ -126,6 +136,8 @@
 <script>
 import Datatable from './../components/Sekolah.vue' //IMPORT COMPONENT DATATABLENYA
 import axios from 'axios' //IMPORT AXIOS
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
 export default {
     //KETIKA COMPONENT INI DILOAD
     created() {
@@ -187,6 +199,8 @@ export default {
                 no_telp: '',
                 kecamatan_id: '',
                 desa_id: '',
+                nomor_ijop: '',
+                tahun_ijop: '',
             }),
             kecamatan: [],
             desa: [],
@@ -194,6 +208,7 @@ export default {
         }
     },
     components: {
+        DatePicker,
         'app-datatable': Datatable //REGISTER COMPONENT DATATABLE
     },
     methods: {

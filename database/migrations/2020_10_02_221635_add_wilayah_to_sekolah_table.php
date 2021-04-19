@@ -14,9 +14,9 @@ class AddWilayahToSekolahTable extends Migration
     public function up()
     {
         Schema::table('sekolah', function (Blueprint $table) {
-            $table->string('kecamatan_id', 8)->nullable();
-            $table->string('kabupaten_id', 8)->nullable();
-            $table->string('provinsi_id', 8)->nullable();
+            $table->string('kecamatan_id', 8)->nullable()->after('tahun_ijop');
+            $table->string('kabupaten_id', 8)->nullable()->after('tahun_ijop');
+            $table->string('provinsi_id', 8)->nullable()->after('tahun_ijop');
         });
     }
 
