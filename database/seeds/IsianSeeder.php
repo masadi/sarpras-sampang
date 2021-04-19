@@ -52,7 +52,6 @@ class IsianSeeder extends Seeder
             'kode' => 'K-1',
             'nama' => 'Kelas 1',
             'tahun_bangun' => '2020',
-            'registrasi' => 'registrasi',
             'lantai_ke' => 1,
             'panjang' => 0,
             'lebar' => 0,

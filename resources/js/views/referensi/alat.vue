@@ -47,18 +47,8 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Sekolah</label>
-                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateTanah" :class="{ 'is-invalid': form.errors.has('sekolah_id') }" />
+                                <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateRuang" :class="{ 'is-invalid': form.errors.has('sekolah_id') }" />
                                 <has-error :form="form" field="sekolah_id"></has-error>
-                            </div>
-                            <div class="form-group">
-                                <label>Tanah</label>
-                                <v-select label="nama" :options="data_tanah" v-model="form.tanah_id" @input="updateBangunan" :class="{ 'is-invalid': form.errors.has('tanah_id') }" />
-                                <has-error :form="form" field="tanah_id"></has-error>
-                            </div>
-                            <div class="form-group">
-                                <label>Bangunan</label>
-                                <v-select label="nama" :options="data_bangunan" v-model="form.bangunan_id" @input="updateRuang" :class="{ 'is-invalid': form.errors.has('bangunan_id') }" />
-                                <has-error :form="form" field="bangunan_id"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Ruang</label>
@@ -162,24 +152,12 @@ export default {
             axios.get(`/api/referensi/all-ruang`, {
                 //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
                 params: {
-                    bangunan_id: data.bangunan_id,
+                    sekolah_id: data.sekolah_id,
                 }
             })
             .then((response) => {
                 let getData = response.data.data
                 this.data_ruang = getData
-            })
-        },
-        updateBangunan(data){
-            axios.get(`/api/referensi/all-bangunan`, {
-                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
-                params: {
-                    tanah_id: data.tanah_id,
-                }
-            })
-            .then((response) => {
-                let getData = response.data.data
-                this.data_bangunan = getData
             })
         },
         updateJenis(){
@@ -192,18 +170,6 @@ export default {
             .then((response) => {
                 let getData = response.data.data
                 this.data_jenis = getData
-            })
-        },
-        updateTanah(data){
-            axios.get(`/api/referensi/all-tanah`, {
-                //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
-                params: {
-                    sekolah_id: data.sekolah_id,
-                }
-            })
-            .then((response) => {
-                let getData = response.data.data
-                this.data_tanah = getData
             })
         },
         getSekolah() {

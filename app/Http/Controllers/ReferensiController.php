@@ -152,7 +152,11 @@ class ReferensiController extends Controller
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_all_ruang($request){
-        $all_data = Ruang::select('ruang_id', 'nama')->where('bangunan_id', $request->bangunan_id)->get();//->pluck('nama', 'sekolah_id');
+        $all_data = Ruang::select('ruang_id', 'nama')->whereHas('bangunan.tanah', function($query) use ($request){
+            //$query->whereHas('tanah', function($query) use ($request){
+                $query->where('sekolah_id', $request->sekolah_id);
+            //});
+        })->get();//->pluck('nama', 'sekolah_id');
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_all_jenis_prasarana($request){
