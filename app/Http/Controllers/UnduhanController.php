@@ -41,6 +41,7 @@ class UnduhanController extends Controller
                 }
             }
         })->get();
+        dd($request->all());
         return (new FastExcel($all_data))->download('Data Sekolah Kondisi Rusak '.ucfirst($request->rusak).'.xlsx');
     }
 }
