@@ -26,6 +26,9 @@ class Bangunan extends Model
     public function kondisi_bangunan(){
         return $this->hasOne('App\Kondisi_bangunan', 'bangunan_id', 'bangunan_id')->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
     }
+    public function all_kondisi(){
+        return $this->hasOne('App\Kondisi_bangunan', 'bangunan_id', 'bangunan_id');
+    }
     public function ruang()
     {
         return $this->hasMany('App\Ruang', 'bangunan_id', 'bangunan_id');

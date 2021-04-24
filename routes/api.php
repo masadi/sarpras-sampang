@@ -20,7 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/dashboard', 'DashboardController@index');
 Route::resource('sekolah', 'SekolahController');
 Route::group(['prefix' => 'referensi'], function(){
-    Route::get('/download-{query}', 'ReferensiController@download_data');
     Route::get('/{query}', 'ReferensiController@index');
     Route::post('/simpan-{query}', 'ReferensiController@simpan_data');
     Route::put('/update-{query}/{id}', 'ReferensiController@update_data');
@@ -33,6 +32,9 @@ Route::post('/update-profile', 'UsersController@update_profile');
 Route::group(['prefix' => 'kondisi'], function(){
     Route::get('/{query}', 'KondisiController@index');
     Route::post('/simpan-{query}', 'KondisiController@simpan_data');
+});
+Route::group(['prefix' => 'unduhan'], function(){
+    Route::get('/{query}', 'UnduhanController@index');
 });
 /*
 Route::post('/login-user', 'ApiController@login_api');

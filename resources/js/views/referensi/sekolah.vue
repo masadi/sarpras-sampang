@@ -228,7 +228,7 @@ export default {
     methods: {
         downloadData(){
             console.log(this.rusak);
-            window.open(`/api/referensi/download-sekolah?rusak=`+this.rusak);
+            window.open(`/api/unduhan/download-sekolah?rusak=`+this.rusak);
             /*axios.post(`/api/referensi/download-sekolah`, {
                 params: {
                     kondisi: this.rusak

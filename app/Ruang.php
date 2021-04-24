@@ -23,6 +23,9 @@ class Ruang extends Model
     public function kondisi_ruang(){
         return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
     }
+    public function all_kondisi_ruang(){
+        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id');
+    }
     public function foto(){
         return $this->hasMany('App\Foto', 'ruang_id', 'ruang_id');
     }
