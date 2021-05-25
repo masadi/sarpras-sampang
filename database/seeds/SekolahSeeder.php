@@ -81,20 +81,6 @@ class SekolahSeeder extends Seeder
                             'provinsi_id' => $provinsi_id,
                         ]
                     );
-                    /*$email = ($sekolah->email) ? $sekolah->email : $sekolah->npsn.'@disdik.sampangkab.go.id';
-                    $user_sekolah = User::updateOrCreate(
-                        ['email' => $email],
-                        [
-                            'sekolah_id' => $sekolah->sekolah_id,
-                            'username' => $sekolah->npsn,
-                            'name' => $sekolah->nama,
-                            'password' => bcrypt($sekolah->npsn)
-                        ]
-                    );
-                    if(!$user_sekolah->hasRole('sekolah')){
-                        $role = Role::where('name', 'sekolah')->first();
-                        $user_sekolah->attachRole($role);
-                    }*/
                 }
             }
         }

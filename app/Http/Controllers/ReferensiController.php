@@ -41,9 +41,9 @@ class ReferensiController extends Controller
             }
         })->orderBy(request()->sortby, request()->sortbydesc)
             ->when(request()->q, function($all_data) {
-                $all_data = $all_data->where('nama', 'ilike', '%' . request()->q . '%')
-                ->orWhere('kepemilikan', 'ilike', '%' . request()->q . '%')
-                ->orWhere('keterangan', 'ilike', '%' . request()->q . '%');
+                $all_data = $all_data->where('nama', 'like', '%' . request()->q . '%')
+                ->orWhere('kepemilikan', 'like', '%' . request()->q . '%')
+                ->orWhere('keterangan', 'like', '%' . request()->q . '%');
         })->with(['sekolah', 'kepemilikan'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
@@ -56,9 +56,9 @@ class ReferensiController extends Controller
             }
         })->orderBy(request()->sortby, request()->sortbydesc)
             ->when(request()->q, function($all_data) {
-                $all_data = $all_data->where('nama', 'ilike', '%' . request()->q . '%')
-                ->orWhere('kepemilikan', 'ilike', '%' . request()->q . '%')
-                ->orWhere('keterangan', 'ilike', '%' . request()->q . '%');
+                $all_data = $all_data->where('nama', 'like', '%' . request()->q . '%')
+                ->orWhere('kepemilikan', 'like', '%' . request()->q . '%')
+                ->orWhere('keterangan', 'like', '%' . request()->q . '%');
         })->with(['foto', 'tanah.sekolah', 'kepemilikan'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
@@ -73,9 +73,9 @@ class ReferensiController extends Controller
             }
         })->orderBy(request()->sortby, request()->sortbydesc)
             ->when(request()->q, function($all_data) {
-                $all_data = $all_data->where('nama', 'ilike', '%' . request()->q . '%')
-                ->orWhere('kepemilikan', 'ilike', '%' . request()->q . '%')
-                ->orWhere('keterangan', 'ilike', '%' . request()->q . '%');
+                $all_data = $all_data->where('nama', 'like', '%' . request()->q . '%')
+                ->orWhere('kepemilikan', 'like', '%' . request()->q . '%')
+                ->orWhere('keterangan', 'like', '%' . request()->q . '%');
         })->with(['foto', 'bangunan.tanah.sekolah', 'jenis_prasarana'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
@@ -92,9 +92,9 @@ class ReferensiController extends Controller
             }
         })->orderBy(request()->sortby, request()->sortbydesc)
             ->when(request()->q, function($all_data) {
-                $all_data = $all_data->where('nama', 'ilike', '%' . request()->q . '%')
-                ->orWhere('kepemilikan', 'ilike', '%' . request()->q . '%')
-                ->orWhere('keterangan', 'ilike', '%' . request()->q . '%');
+                $all_data = $all_data->where('nama', 'like', '%' . request()->q . '%')
+                ->orWhere('kepemilikan', 'like', '%' . request()->q . '%')
+                ->orWhere('keterangan', 'like', '%' . request()->q . '%');
         })->with(['ruang.bangunan.tanah.sekolah', 'kepemilikan', 'jenis_sarana'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
@@ -105,9 +105,9 @@ class ReferensiController extends Controller
             }
         })->orderBy(request()->sortby, request()->sortbydesc)
             ->when(request()->q, function($all_data) {
-                $all_data = $all_data->where('nama', 'ilike', '%' . request()->q . '%')
-                ->orWhere('kepemilikan', 'ilike', '%' . request()->q . '%')
-                ->orWhere('keterangan', 'ilike', '%' . request()->q . '%');
+                $all_data = $all_data->where('nama', 'like', '%' . request()->q . '%')
+                ->orWhere('kepemilikan', 'like', '%' . request()->q . '%')
+                ->orWhere('keterangan', 'like', '%' . request()->q . '%');
         })->with(['sekolah', 'kepemilikan', 'jenis_sarana'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
@@ -118,9 +118,9 @@ class ReferensiController extends Controller
             }
         })->orderBy(request()->sortby, request()->sortbydesc)
             ->when(request()->q, function($all_data) {
-                $all_data = $all_data->where('judul', 'ilike', '%' . request()->q . '%')
-                ->orWhere('kepemilikan', 'ilike', '%' . request()->q . '%')
-                ->orWhere('keterangan', 'ilike', '%' . request()->q . '%');
+                $all_data = $all_data->where('judul', 'like', '%' . request()->q . '%')
+                ->orWhere('kepemilikan', 'like', '%' . request()->q . '%')
+                ->orWhere('keterangan', 'like', '%' . request()->q . '%');
         })->with(['sekolah', 'mata_pelajaran'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
@@ -204,13 +204,13 @@ class ReferensiController extends Controller
             }
             if(request()->q){
                 $query->where(function($query){
-                    $query->where('nama', 'ilike', '%' . request()->q . '%');
+                    $query->where('nama', 'like', '%' . request()->q . '%');
                     if(request()->sekolah_id){
                         $query->where('sekolah_id', request()->sekolah_id);
                     }
                 });
                 $query->orWhere(function($query){
-                    $query->where('npsn', 'ilike', '%' . request()->q . '%');
+                    $query->where('npsn', 'like', '%' . request()->q . '%');
                     if(request()->sekolah_id){
                         $query->where('sekolah_id', request()->sekolah_id);
                     }
@@ -222,11 +222,11 @@ class ReferensiController extends Controller
             }
         })->with(['user', 'data_sekolah'])->orderBy($sortBy, request()->sortbydesc)
             /*->when(request()->q, function($all_data) {
-                $all_data = $all_data->where('nama', 'ilike', '%' . request()->q . '%');
-                $all_data->orWhere('npsn', 'ilike', '%' . request()->q . '%');
-                $all_data->orWhere('kecamatan', 'ilike', '%' . request()->q . '%');
-                $all_data->orWhere('kabupaten', 'ilike', '%' . request()->q . '%');
-                $all_data->orWhere('provinsi', 'ilike', '%' . request()->q . '%');
+                $all_data = $all_data->where('nama', 'like', '%' . request()->q . '%');
+                $all_data->orWhere('npsn', 'like', '%' . request()->q . '%');
+                $all_data->orWhere('kecamatan', 'like', '%' . request()->q . '%');
+                $all_data->orWhere('kabupaten', 'like', '%' . request()->q . '%');
+                $all_data->orWhere('provinsi', 'like', '%' . request()->q . '%');
         })*/->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
