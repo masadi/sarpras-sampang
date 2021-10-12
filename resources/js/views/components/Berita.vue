@@ -84,9 +84,8 @@
                         <input v-model="form.user_id" type="hidden" name="user_id" id="user_id">
                         <div class="form-group">
                             <label>Judul</label>
-                            <input v-model="form.judul" type="text" name="judul"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('judul') }">
-                            <has-error :form="form" field="judul"></has-error>
+                            <input v-model="form.judul" type="text" name="judul" class="form-control" :class="{ 'is-invalid': form.errors.has('judul') }">
+                            
                         </div>
                         <div class="form-group">
                             <label>Isi Berita</label>
@@ -107,7 +106,7 @@
                             <!--textarea v-model="form.isi_berita" name="isi_berita"
                                 class="form-control" :class="{ 'is-invalid': form.errors.has('isi_berita') }" autocomplete="false">
                             </textarea-->
-                            <has-error :form="form" field="isi_berita"></has-error>
+                            
                         </div>
                     </div>
                     <div class="modal-footer">

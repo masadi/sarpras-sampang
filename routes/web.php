@@ -91,3 +91,6 @@ Route::group(['prefix' => 'dapodik'], function(){
     Route::get('/', 'DapodikController@index')->name('dapodik.data_verifikator_apm');
     Route::get('/sedot', 'DapodikController@sedot_data')->name('dapodik.sedot_data');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

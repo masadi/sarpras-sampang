@@ -48,137 +48,137 @@
                             <div class="form-group">
                                 <label>Sekolah</label>
                                 <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateBangunan" :class="{ 'is-invalid': form.errors.has('sekolah_id') }" />
-                                <has-error :form="form" field="sekolah_id"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Bangunan</label>
                                 <v-select label="nama" :options="data_bangunan" v-model="form.bangunan_id" @input="updateJenis" :class="{ 'is-invalid': form.errors.has('bangunan_id') }" />
-                                <has-error :form="form" field="bangunan_id"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Jenis Ruang</label>
                                 <v-select label="nama" :options="data_jenis" v-model="form.jenis_prasarana_id" :class="{ 'is-invalid': form.errors.has('jenis_prasarana_id') }" />
-                                <has-error :form="form" field="jenis_prasarana_id"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Kode Ruang</label>
                                 <input v-model="form.kode" type="text" name="kode" class="form-control" :class="{ 'is-invalid': form.errors.has('kode') }">
-                                <has-error :form="form" field="kode"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Nama Ruang</label>
                                 <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
-                                <has-error :form="form" field="nama"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Tahun Bangun</label><br>
                                 <date-picker v-model="form.tahun_bangun" type="year" :class="{ 'is-invalid': form.errors.has('tahun_bangun') }"></date-picker>
-                                <has-error :form="form" field="tahun_bangun"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Tahun Terakhir direnovasi</label><br>
                                 <date-picker v-model="form.tahun_renovasi" type="year" :class="{ 'is-invalid': form.errors.has('tahun_renovasi') }"></date-picker>
-                                <has-error :form="form" field="tahun_renovasi"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Lantai Ke-</label>
                                 <input v-model="form.lantai_ke" type="text" name="lebar" class="form-control" :class="{ 'is-invalid': form.errors.has('lantai_ke') }">
-                                <has-error :form="form" field="lantai_ke"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Panjang (m)</label>
                                 <input v-model="form.panjang" type="text" name="panjang" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang') }">
-                                <has-error :form="form" field="panjang"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Lebar (m)</label>
                                 <input v-model="form.lebar" type="text" name="lebar" class="form-control" :class="{ 'is-invalid': form.errors.has('lebar') }">
-                                <has-error :form="form" field="lebar"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Luas (m<sup>2</sup>)</label>
                                 <input v-model="form.luas" type="text" name="luas" class="form-control" :class="{ 'is-invalid': form.errors.has('luas') }">
-                                <has-error :form="form" field="luas"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Luas Plester (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_plester" type="text" name="luas_plester" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_plester') }">
-                                <has-error :form="form" field="luas_plester"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Luas Plafon (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_plafon" type="text" name="luas_plafon" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_plafon') }">
-                                <has-error :form="form" field="luas_plafon"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Luas dinding (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_dinding" type="text" name="luas_dinding" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_dinding') }">
-                                <has-error :form="form" field="luas_dinding"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Luas Daun Jendela (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_daun_jendela" type="text" name="luas_daun_jendela" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_daun_jendela') }">
-                                <has-error :form="form" field="luas_daun_jendela"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Luas Daun Pintu (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_daun_pintu" type="text" name="luas_daun_pintu" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_daun_pintu') }">
-                                <has-error :form="form" field="luas_daun_pintu"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Panjang Kusen (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_kusen" type="text" name="luas_kusen" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_kusen') }">
-                                <has-error :form="form" field="luas_kusen"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Luas Tutup Lantai (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_tutup_lantai" type="text" name="luas_tutup_lantai" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_tutup_lantai') }">
-                                <has-error :form="form" field="luas_tutup_lantai"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Jumlah Instalasi Listrik</label>
                                 <input v-model="form.jumlah_instalasi_listrik" type="text" name="jumlah_instalasi_listrik" class="form-control" :class="{ 'is-invalid': form.errors.has('jumlah_instalasi_listrik') }">
-                                <has-error :form="form" field="jumlah_instalasi_listrik"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Panjang Instalasi Air (m)</label>
                                 <input v-model="form.panjang_instalasi_air" type="text" name="panjang_instalasi_air" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang_instalasi_air') }">
-                                <has-error :form="form" field="panjang_instalasi_air"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Jumlah Instalasi Air</label>
                                 <input v-model="form.jumlah_instalasi_air" type="text" name="jumlah_instalasi_air" class="form-control" :class="{ 'is-invalid': form.errors.has('jumlah_instalasi_air') }">
-                                <has-error :form="form" field="jumlah_instalasi_air"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Panjang Drainase (m)</label>
                                 <input v-model="form.panjang_drainase" type="text" name="panjang_drainase" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang_drainase') }">
-                                <has-error :form="form" field="panjang_drainase"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Luas Finish Struktur (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_finish_struktur" type="text" name="luas_finish_struktur" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_struktur') }">
-                                <has-error :form="form" field="luas_finish_struktur"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Luas Finish Plafon (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_finish_plafon" type="text" name="luas_finish_plafon" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_plafon') }">
-                                <has-error :form="form" field="luas_finish_plafon"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Luas Finish Dinding (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_finish_dinding" type="text" name="luas_finish_dinding" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_dinding') }">
-                                <has-error :form="form" field="luas_finish_dinding"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Luas Finish KPJ (m<sup>2</sup>) (Kusen, Pintu, Jendela)</label>
                                 <input v-model="form.luas_finish_kpj" type="text" name="luas_finish_kpj" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_kpj') }">
-                                <has-error :form="form" field="luas_finish_kpj"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                             <div class="form-group">
                                 <label>Keterangan</label>
                                 <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
-                                <has-error :form="form" field="keterangan"></has-error>
+                                <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
                         </div>
                         <div class="modal-footer">

@@ -125,47 +125,44 @@
                             <input v-model="form.id" type="hidden" name="id" class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
                             <label>Sekolah</label>
                             <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" />
-                            <has-error :form="form" field="sekolah_id"></has-error>
                         </div>
                         <div class="form-group">
                             <label>Nama Sertifikat Tanah</label>
                             <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
-                            <has-error :form="form" field="nama"></has-error>
                         </div>
                         <div class="form-group">
                             <label>Nomor Sertifikat Tanah</label>
                             <input v-model="form.no_sertifikat_tanah" type="text" name="no_sertifikat_tanah" class="form-control" :class="{ 'is-invalid': form.errors.has('no_sertifikat_tanah') }">
-                            <has-error :form="form" field="no_sertifikat_tanah"></has-error>
                         </div>
                         <div class="form-group">
                             <label>Panjang (m)</label>
                             <input v-model="form.panjang" type="text" name="panjang" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang') }">
-                            <has-error :form="form" field="panjang"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Lebar (m)</label>
                             <input v-model="form.lebar" type="text" name="lebar" class="form-control" :class="{ 'is-invalid': form.errors.has('lebar') }">
-                            <has-error :form="form" field="lebar"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas (m<sup>2</sup>)</label>
                             <input v-model="form.luas" type="text" name="luas" class="form-control" :class="{ 'is-invalid': form.errors.has('luas') }">
-                            <has-error :form="form" field="luas"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Kepemilikan</label>
                             <v-select label="nama" :options="data_kepemilikan" v-model="form.kepemilikan_sarpras_id" />
-                            <has-error :form="form" field="kepemilikan_sarpras_id"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas Lahan Tersedia (m<sup>2</sup>)</label>
                             <input v-model="form.luas_lahan_tersedia" type="text" name="luas_lahan_tersedia" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_lahan_tersedia') }">
-                            <has-error :form="form" field="luas_lahan_tersedia"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>keterangan</label>
                             <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
-                            <has-error :form="form" field="keterangan"></has-error>
+                            
                         </div>
                     </div>
                     <div class="modal-footer">

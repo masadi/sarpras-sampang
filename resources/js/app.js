@@ -18,10 +18,10 @@ import VueRouter from "vue-router";
 
 window.Vue = Vue;
 Vue.use(VueRouter);
-import { HasError, AlertError } from 'vform';
+//import { HasError, AlertError } from 'vform';
+//Vue.component(HasError.name, HasError)
+//Vue.component(AlertError.name, AlertError)
 import Multiselect from 'vue-multiselect'
-Vue.component(HasError.name, HasError)
-Vue.component(AlertError.name, AlertError)
 Vue.component('multiselect', Multiselect)
 import Form from "./utilities/Form";
 window.Form = Form;
@@ -29,7 +29,7 @@ import router from './routes';
 import Swal from 'sweetalert2';
 //import CKEditor from '@ckeditor/ckeditor5-vue';
 //Vue.use(CKEditor);
-import CKEditor from '@ckeditor/ckeditor5-vue';
+import CKEditor from '@ckeditor/ckeditor5-vue2';
 Vue.use(CKEditor);
 //require('select2');
 const Toast = Swal.mixin({
@@ -43,8 +43,6 @@ const Toast = Swal.mixin({
         toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
 })
-Vue.component(HasError.name, HasError)
-Vue.component(AlertError.name, AlertError)
 window.Swal = Swal;
 window.Toast = Toast;
 

@@ -42,8 +42,13 @@ class ReferensiController extends Controller
         })->orderBy(request()->sortby, request()->sortbydesc)
             ->when(request()->q, function($all_data) {
                 $all_data = $all_data->where('nama', 'like', '%' . request()->q . '%')
-                ->orWhere('kepemilikan', 'like', '%' . request()->q . '%')
-                ->orWhere('keterangan', 'like', '%' . request()->q . '%');
+                //->orWhere('kepemilikan', 'like', '%' . request()->q . '%')
+                ->orWhere('keterangan', 'like', '%' . request()->q . '%')
+                ->orWhereHas('sekolah', function($query){
+                    $query->whereIn('sekolah_id', function($query){
+                        $query->select('sekolah_id')->from('sekolah')->where('nama', 'like', '%' . request()->q . '%');
+                    });
+                });
         })->with(['sekolah', 'kepemilikan'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
@@ -567,8 +572,8 @@ class ReferensiController extends Controller
                 'file.image'	=> 'File Upload harus berupa gambar',
             ];
             $validator = Validator::make(request()->all(), [
-                'file' => 'required|image',
-                //'file' => 'required',
+                //'file' => 'required|image',
+                'file' => 'required|mimes:jpeg,png,jpg,zip,pdf|max:2048',
             ],
             $messages
             )->validate();

@@ -102,42 +102,42 @@
             <input v-model="form.id" type="hidden" name="id" class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
             <label>Sekolah</label>
             <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" />
-            <has-error :form="form" field="sekolah_id"></has-error>
+            
         </div>
         <div class="form-group">
             <label>Kelas</label>
             <v-select label="nama" :options="data_kelas" v-model="form.kelas" @input="updateMapel" />
-            <has-error :form="form" field="kelas"></has-error>
+            
         </div>
         <div class="form-group">
             <label>Mata Pelajaran</label>
             <v-select label="nama" :options="data_mapel" v-model="form.mata_pelajaran_id" />
-            <has-error :form="form" field="mata_pelajaran_id"></has-error>
+            
         </div>
         <div class="form-group">
             <label>Kode Buku</label>
             <input v-model="form.kode" type="text" name="kode" class="form-control" :class="{ 'is-invalid': form.errors.has('kode') }">
-            <has-error :form="form" field="kode"></has-error>
+            
         </div>
         <div class="form-group">
             <label>Judul Buku</label>
             <input v-model="form.judul" type="text" name="judul" class="form-control" :class="{ 'is-invalid': form.errors.has('judul') }">
-            <has-error :form="form" field="judul"></has-error>
+            
         </div>
         <div class="form-group">
             <label>Nama Penerbit</label>
             <v-select label="nama" :options="data_penerbit" v-model="form.nama_penerbit" />
-            <has-error :form="form" field="nama_penerbit"></has-error>
+            
         </div>
         <div class="form-group">
             <label>ISBN/ISSN</label>
             <input v-model="form.isbn_issn" type="text" name="isbn_issn" class="form-control" :class="{ 'is-invalid': form.errors.has('isbn_issn') }">
-            <has-error :form="form" field="isbn_issn"></has-error>
+            
         </div>
         <div class="form-group">
             <label>Keterangan</label>
             <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
-            <has-error :form="form" field="keterangan"></has-error>
+            
         </div>
         <template v-slot:modal-footer>
             <div class="w-100 float-right">

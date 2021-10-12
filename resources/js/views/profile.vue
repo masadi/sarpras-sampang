@@ -43,60 +43,60 @@
                                     <div class="form-group">
                                         <input v-model="form.user_id" type="hidden" name="user_id" class="form-control">
                                         <input v-model="form.name" type="text" name="name" class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
-                                        <has-error :form="form" field="name"></has-error>
+                                        <div v-if="form.errors.has('name')" v-html="form.errors.get('name')" />
                                     </div>
                                     <label for="email" class="col-form-label">Email</label>
                                     <div class="form-group">
                                         <input v-model="form.email" type="email" id="email" name="email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
-                                        <has-error :form="form" field="email"></has-error>
+                                        <div v-if="form.errors.has('email')" v-html="form.errors.get('email')" />
                                     </div>
                                     <template v-if="hasRole('penjamin_mutu')">
                                         <label for="nuptk" class="col-form-label">NUPTK</label>
                                         <div class="form-group">
                                             <input v-model="form.nuptk" type="text" id="nuptk" name="nuptk" class="form-control" :class="{ 'is-invalid': form.errors.has('nuptk') }">
-                                            <has-error :form="form" field="nuptk"></has-error>
+                                            <div v-if="form.errors.has('nuptk')" v-html="form.errors.get('nuptk')" />
                                         </div>
                                         <label for="nip" class="col-form-label">NIP</label>
                                         <div class="form-group">
                                             <input v-model="form.nip" type="text" id="nip" name="nip" class="form-control" :class="{ 'is-invalid': form.errors.has('nip') }">
-                                            <has-error :form="form" field="nip"></has-error>
+                                            <div v-if="form.errors.has('nip')" v-html="form.errors.get('nip')" />
                                         </div>
                                         <label for="asal_institusi" class="col-form-label">Asal Institusi</label>
                                         <div class="form-group">
                                             <input v-model="form.asal_institusi" type="text" id="asal_institusi" name="asal_institusi" class="form-control" :class="{ 'is-invalid': form.errors.has('asal_institusi') }">
-                                            <has-error :form="form" field="asal_institusi"></has-error>
+                                            <div v-if="form.errors.has('asal_institusi')" v-html="form.errors.get('asal_institusi')" />
                                         </div>
                                         <label for="alamat_institusi" class="col-form-label">Alamat Institusi</label>
                                         <div class="form-group">
                                             <input v-model="form.alamat_institusi" type="text" id="alamat_institusi" name="alamat_institusi" class="form-control" :class="{ 'is-invalid': form.errors.has('alamat_institusi') }">
-                                            <has-error :form="form" field="alamat_institusi"></has-error>
+                                            <div v-if="form.errors.has('alamat_institusi')" v-html="form.errors.get('alamat_institusi')" />
                                         </div>
                                         <label for="nomor_hp" class="col-form-label">Nomor HP</label>
                                         <div class="form-group">
                                             <input v-model="form.nomor_hp" type="text" id="nomor_hp" name="nomor_hp" class="form-control" :class="{ 'is-invalid': form.errors.has('nomor_hp') }">
-                                            <has-error :form="form" field="nomor_hp"></has-error>
+                                            <div v-if="form.errors.has('nomor_hp')" v-html="form.errors.get('nomor_hp')" />
                                         </div>
                                         <label for="token" class="col-form-label">Token</label>
                                         <div class="form-group">
                                             <input v-model="form.token" type="text" id="token" name="token" class="form-control" :class="{ 'is-invalid': form.errors.has('token') }">
-                                            <has-error :form="form" field="token"></has-error>
+                                            <div v-if="form.errors.has('token')" v-html="form.errors.get('token')" />
                                         </div>
                                     </template>
                                     <label for="current-password" class="col-form-label">Sandi Saat Ini (Biarkan kosong jika tidak ingin
                                         merubah)</label>
                                     <div class="form-group">
                                         <input v-model="form.current_password" type="password" id="current-password" name="current_password" class="form-control" :class="{ 'is-invalid': form.errors.has('current_password') }" placeholder="Sandi saat ini" autocomplete="new-password">
-                                        <has-error :form="form" field="current_password"></has-error>
+                                        <div v-if="form.errors.has('current_password')" v-html="form.errors.get('current_password')" />
                                     </div>
                                     <label for="password" class="col-form-label">Sandi Baru</label>
                                     <div class="form-group">
                                         <input v-model="form.password" type="password" id="password" name="password" class="form-control" :class="{ 'is-invalid': form.errors.has('password') }" placeholder="Sandi baru" autocomplete="password">
-                                        <has-error :form="form" field="password"></has-error>
+                                        <div v-if="form.errors.has('password')" v-html="form.errors.get('password')" />
                                     </div>
                                     <label for="password_confirmation" class="col-form-label">Konfirmasi Sandi</label>
                                     <div class="form-group">
                                         <input v-model="form.password_confirmation" type="password" id="password_confirmation" name="password_confirmation" class="form-control" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" placeholder="Ketik ulang kata sandi baru" autocomplete="password_confirmation">
-                                        <has-error :form="form" field="password_confirmation"></has-error>
+                                        <div v-if="form.errors.has('password_confirmation')" v-html="form.errors.get('password_confirmation')" />
                                     </div>
                                 </div>
                                 <div class="col-md-4 text-center">

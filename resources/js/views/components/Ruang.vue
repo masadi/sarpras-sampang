@@ -207,137 +207,137 @@
                             <input v-model="form.id" type="hidden" name="id" class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
                             <label>Sekolah</label>
                             <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateBangunan" />
-                            <has-error :form="form" field="sekolah_id"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Bangunan</label>
                             <v-select label="nama" :options="data_bangunan" v-model="form.bangunan_id" @input="updateJenis" />
-                            <has-error :form="form" field="bangunan_id"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Jenis Ruang</label>
                             <v-select label="nama" :options="data_jenis" v-model="form.jenis_prasarana_id" />
-                            <has-error :form="form" field="jenis_prasarana_id"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Kode Ruang</label>
                             <input v-model="form.kode" type="text" name="kode" class="form-control" :class="{ 'is-invalid': form.errors.has('kode') }">
-                            <has-error :form="form" field="kode"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Nama Ruang</label>
                             <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
-                            <has-error :form="form" field="nama"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Tahun Bangun</label><br>
                             <date-picker v-model="form.tahun_bangun" type="year" :class="{ 'is-invalid': form.errors.has('tahun_bangun') }"></date-picker>
-                            <has-error :form="form" field="tahun_bangun"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Tahun Terakhir direnovasi</label><br>
                             <date-picker v-model="form.tahun_renovasi" type="year" :class="{ 'is-invalid': form.errors.has('tahun_renovasi') }"></date-picker>
-                            <has-error :form="form" field="tahun_renovasi"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Lantai Ke-</label>
                             <input v-model="form.lantai_ke" type="text" name="lebar" class="form-control" :class="{ 'is-invalid': form.errors.has('lantai_ke') }">
-                            <has-error :form="form" field="lantai_ke"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Panjang (m)</label>
                             <input v-model="form.panjang" type="text" name="panjang" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang') }">
-                            <has-error :form="form" field="panjang"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Lebar (m)</label>
                             <input v-model="form.lebar" type="text" name="lebar" class="form-control" :class="{ 'is-invalid': form.errors.has('lebar') }">
-                            <has-error :form="form" field="lebar"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas (m<sup>2</sup>)</label>
                             <input v-model="form.luas" type="text" name="luas" class="form-control" :class="{ 'is-invalid': form.errors.has('luas') }">
-                            <has-error :form="form" field="luas"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas Plester (m<sup>2</sup>)</label>
                             <input v-model="form.luas_plester" type="text" name="luas_plester" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_plester') }">
-                            <has-error :form="form" field="luas_plester"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas Plafon (m<sup>2</sup>)</label>
                             <input v-model="form.luas_plafon" type="text" name="luas_plafon" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_plafon') }">
-                            <has-error :form="form" field="luas_plafon"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas dinding (m<sup>2</sup>)</label>
                             <input v-model="form.luas_dinding" type="text" name="luas_dinding" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_dinding') }">
-                            <has-error :form="form" field="luas_dinding"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas Daun Jendela (m<sup>2</sup>)</label>
                             <input v-model="form.luas_daun_jendela" type="text" name="luas_daun_jendela" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_daun_jendela') }">
-                            <has-error :form="form" field="luas_daun_jendela"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas Daun Pintu (m<sup>2</sup>)</label>
                             <input v-model="form.luas_daun_pintu" type="text" name="luas_daun_pintu" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_daun_pintu') }">
-                            <has-error :form="form" field="luas_daun_pintu"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Panjang Kusen (m<sup>2</sup>)</label>
                             <input v-model="form.luas_kusen" type="text" name="luas_kusen" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_kusen') }">
-                            <has-error :form="form" field="luas_kusen"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas Tutup Lantai (m<sup>2</sup>)</label>
                             <input v-model="form.luas_tutup_lantai" type="text" name="luas_tutup_lantai" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_tutup_lantai') }">
-                            <has-error :form="form" field="luas_tutup_lantai"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Jumlah Instalasi Listrik</label>
                             <input v-model="form.jumlah_instalasi_listrik" type="text" name="jumlah_instalasi_listrik" class="form-control" :class="{ 'is-invalid': form.errors.has('jumlah_instalasi_listrik') }">
-                            <has-error :form="form" field="jumlah_instalasi_listrik"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Panjang Instalasi Air (m)</label>
                             <input v-model="form.panjang_instalasi_air" type="text" name="panjang_instalasi_air" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang_instalasi_air') }">
-                            <has-error :form="form" field="panjang_instalasi_air"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Jumlah Instalasi Air</label>
                             <input v-model="form.jumlah_instalasi_air" type="text" name="jumlah_instalasi_air" class="form-control" :class="{ 'is-invalid': form.errors.has('jumlah_instalasi_air') }">
-                            <has-error :form="form" field="jumlah_instalasi_air"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Panjang Drainase (m)</label>
                             <input v-model="form.panjang_drainase" type="text" name="panjang_drainase" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang_drainase') }">
-                            <has-error :form="form" field="panjang_drainase"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas Finish Struktur (m<sup>2</sup>)</label>
                             <input v-model="form.luas_finish_struktur" type="text" name="luas_finish_struktur" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_struktur') }">
-                            <has-error :form="form" field="luas_finish_struktur"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas Finish Plafon (m<sup>2</sup>)</label>
                             <input v-model="form.luas_finish_plafon" type="text" name="luas_finish_plafon" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_plafon') }">
-                            <has-error :form="form" field="luas_finish_plafon"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas Finish Dinding (m<sup>2</sup>) </label>
                             <input v-model="form.luas_finish_dinding" type="text" name="luas_finish_dinding" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_dinding') }">
-                            <has-error :form="form" field="luas_finish_dinding"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas Finish KPJ (m<sup>2</sup>) (Kusen, Pintu, Jendela)</label>
                             <input v-model="form.luas_finish_kpj" type="text" name="luas_finish_kpj" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_kpj') }">
-                            <has-error :form="form" field="luas_finish_kpj"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Keterangan</label>
                             <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
-                            <has-error :form="form" field="keterangan"></has-error>
+                            
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -401,9 +401,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Batu Bata/Partisi (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_bata_dinding" type="text" name="rusak_bata_dinding" @input="getTotal"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_bata_dinding') }">
-                                        <has-error :form="form" field="rusak_bata_dinding"></has-error>
+                                        <input v-model="form.rusak_bata_dinding" type="text" name="rusak_bata_dinding" @input="getTotal" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_bata_dinding') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -411,9 +410,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Batu Bata/Partisi</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_bata_dinding" type="text" name="ket_bata_dinding" 
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_bata_dinding') }">
-                                        <has-error :form="form" field="ket_bata_dinding"></has-error>
+                                        <input v-model="form.ket_bata_dinding" type="text" name="ket_bata_dinding"  class="form-control" :class="{ 'is-invalid': form.errors.has('ket_bata_dinding') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -423,9 +421,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Kaca (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_daun_jendela" type="text" name="rusak_daun_jendela" @input="getTotal"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_daun_jendela') }">
-                                        <has-error :form="form" field="rusak_daun_jendela"></has-error>
+                                        <input v-model="form.rusak_daun_jendela" type="text" name="rusak_daun_jendela" @input="getTotal" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_daun_jendela') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -433,9 +430,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Kaca</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_daun_jendela" type="text" name="ket_daun_jendela"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_daun_jendela') }">
-                                        <has-error :form="form" field="ket_daun_jendela"></has-error>
+                                        <input v-model="form.ket_daun_jendela" type="text" name="ket_daun_jendela" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_daun_jendela') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -445,9 +441,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Pintu (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_daun_pintu" type="text" name="rusak_daun_pintu" @input="getTotal"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_daun_pintu') }">
-                                        <has-error :form="form" field="rusak_daun_pintu"></has-error>
+                                        <input v-model="form.rusak_daun_pintu" type="text" name="rusak_daun_pintu" @input="getTotal" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_daun_pintu') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -455,9 +450,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Pintu</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_daun_pintu" type="text" name="ket_daun_pintu"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_daun_pintu') }">
-                                        <has-error :form="form" field="ket_daun_pintu"></has-error>
+                                        <input v-model="form.ket_daun_pintu" type="text" name="ket_daun_pintu" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_daun_pintu') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -467,9 +461,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Kusen (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_kusen" type="text" name="rusak_kusen" @input="getTotal"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_kusen') }">
-                                        <has-error :form="form" field="rusak_kusen"></has-error>
+                                        <input v-model="form.rusak_kusen" type="text" name="rusak_kusen" @input="getTotal" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_kusen') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -477,9 +470,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Kusen</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_kusen" type="text" name="ket_kusen" 
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_kusen') }">
-                                        <has-error :form="form" field="ket_kusen"></has-error>
+                                        <input v-model="form.ket_kusen" type="text" name="ket_kusen" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_kusen') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -489,9 +481,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Plafon (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_tutup_plafon" type="text" name="rusak_tutup_plafon" @input="getTotal"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_tutup_plafon') }">
-                                        <has-error :form="form" field="rusak_tutup_plafon"></has-error>
+                                        <input v-model="form.rusak_tutup_plafon" type="text" name="rusak_tutup_plafon" @input="getTotal" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_tutup_plafon') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -499,9 +490,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Plafon</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_tutup_plafon" type="text" name="ket_tutup_plafon"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_tutup_plafon') }">
-                                        <has-error :form="form" field="ket_tutup_plafon"></has-error>
+                                        <input v-model="form.ket_tutup_plafon" type="text" name="ket_tutup_plafon" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_tutup_plafon') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -511,9 +501,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Penutup Lantai (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_tutup_lantai" type="text" name="rusak_tutup_lantai" @input="getTotal"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_tutup_lantai') }">
-                                        <has-error :form="form" field="rusak_tutup_lantai"></has-error>
+                                        <input v-model="form.rusak_tutup_lantai" type="text" name="rusak_tutup_lantai" @input="getTotal" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_tutup_lantai') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -521,9 +510,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Penutup Lantai</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_penutup_lantai" type="text" name="ket_penutup_lantai" 
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_penutup_lantai') }">
-                                        <has-error :form="form" field="ket_penutup_lantai"></has-error>
+                                        <input v-model="form.ket_penutup_lantai" type="text" name="ket_penutup_lantai" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_penutup_lantai') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -534,15 +522,14 @@
                                     <label class="col-sm-3 col-form-label">Klasifikasi Kerusakan Instalasi Listrik</label>
                                     <div class="col-sm-9">
                                         <v-select :options="data_listrik" v-model="form.ket_inst_listrik" @input="updateListrik" />
-                                        <has-error :form="form" field="ket_inst_listrik"></has-error>
+                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Kerusakan Instalasi Listrik (%)</label>
                                     <div class="col-sm-9">
-                                        <input v-model="form.rusak_inst_listrik" type="text" name="rusak_inst_listrik" readonly
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_inst_listrik') }">
-                                        <has-error :form="form" field="rusak_inst_listrik"></has-error>
+                                        <input v-model="form.rusak_inst_listrik" type="text" name="rusak_inst_listrik" readonly class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_inst_listrik') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -553,15 +540,14 @@
                                     <label class="col-sm-3 col-form-label">Klasifikasi Kerusakan Instalasi Air</label>
                                     <div class="col-sm-9">
                                         <v-select :options="data_air" v-model="form.ket_inst_air" @input="updateAir" />
-                                        <has-error :form="form" field="ket_inst_air"></has-error>
+                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Kerusakan Instalasi Air (%)</label>
                                     <div class="col-sm-9">
-                                        <input v-model="form.rusak_inst_air" type="text" name="rusak_inst_air" readonly
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_inst_air') }">
-                                        <has-error :form="form" field="rusak_inst_air"></has-error>
+                                        <input v-model="form.rusak_inst_air" type="text" name="rusak_inst_air" readonly class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_inst_air') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -571,9 +557,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Drainase Limbah (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_drainase" type="text" name="rusak_drainase" @input="getTotal"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_drainase') }">
-                                        <has-error :form="form" field="rusak_drainase"></has-error>
+                                        <input v-model="form.rusak_drainase" type="text" name="rusak_drainase" @input="getTotal" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_drainase') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -581,9 +566,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Drainase Limbah</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_drainase" type="text" name="ket_drainase"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_drainase') }">
-                                        <has-error :form="form" field="ket_drainase"></has-error>
+                                        <input v-model="form.ket_drainase" type="text" name="ket_drainase" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_drainase') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -593,9 +577,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Finishing Langit-langit (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_finish_plafon" type="text" name="rusak_finish_plafon" @input="getTotal"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_finish_plafon') }">
-                                        <has-error :form="form" field="rusak_finish_plafon"></has-error>
+                                        <input v-model="form.rusak_finish_plafon" type="text" name="rusak_finish_plafon" @input="getTotal" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_finish_plafon') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -603,9 +586,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Finishing Langit-langit</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_finish_plafon" type="text" name="ket_finish_plafon" 
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_finish_plafon') }">
-                                        <has-error :form="form" field="ket_finish_plafon"></has-error>
+                                        <input v-model="form.ket_finish_plafon" type="text" name="ket_finish_plafon"  class="form-control" :class="{ 'is-invalid': form.errors.has('ket_finish_plafon') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -615,9 +597,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Finishing Dinding (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_finish_dinding" type="text" name="rusak_finish_dinding" @input="getTotal"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_finish_dinding') }">
-                                        <has-error :form="form" field="rusak_finish_dinding"></has-error>
+                                        <input v-model="form.rusak_finish_dinding" type="text" name="rusak_finish_dinding" @input="getTotal" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_finish_dinding') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -625,9 +606,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Finishing Dinding</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_finish_dinding" type="text" name="ket_finish_dinding"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_finish_dinding') }">
-                                        <has-error :form="form" field="ket_finish_dinding"></has-error>
+                                        <input v-model="form.ket_finish_dinding" type="text" name="ket_finish_dinding" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_finish_dinding') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -637,9 +617,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Kerusakan Finishing Kusen/Pintu/Jendela (%)</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.rusak_finish_kpj" type="text" name="rusak_finish_kpj" @input="getTotal"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_finish_kpj') }">
-                                        <has-error :form="form" field="rusak_finish_kpj"></has-error>
+                                        <input v-model="form.rusak_finish_kpj" type="text" name="rusak_finish_kpj" @input="getTotal" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_finish_kpj') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -647,9 +626,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Finishing Kusen/Pintu/Jendela</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_finish_kpj" type="text" name="ket_finish_kpj"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_finish_kpj') }">
-                                        <has-error :form="form" field="ket_finish_kpj"></has-error>
+                                        <input v-model="form.ket_finish_kpj" type="text" name="ket_finish_kpj" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_finish_kpj') }">
+                                        
                                     </div>
                                 </div>
                             </div>

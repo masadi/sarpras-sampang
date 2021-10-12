@@ -137,57 +137,57 @@
                         <input v-model="form.id" type="hidden" name="id" class="form-control" :class="{ 'is-invalid': form.errors.has('id') }">
                             <label>Sekolah</label>
                             <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateTanah" />
-                            <has-error :form="form" field="sekolah_id"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Tanah</label>
                             <v-select label="nama" :options="data_tanah" v-model="form.tanah_id" />
-                            <has-error :form="form" field="tanah_id"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Nama</label>
                             <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
-                            <has-error :form="form" field="nama"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Nomor IMB</label>
                             <input v-model="form.imb" type="text" name="imb" class="form-control" :class="{ 'is-invalid': form.errors.has('imb') }">
-                            <has-error :form="form" field="imb"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Panjang (m)</label>
                             <input v-model="form.panjang" type="text" name="panjang" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang') }">
-                            <has-error :form="form" field="panjang"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Lebar (m)</label>
                             <input v-model="form.lebar" type="text" name="lebar" class="form-control" :class="{ 'is-invalid': form.errors.has('lebar') }">
-                            <has-error :form="form" field="lebar"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Luas (m<sup>2</sup>)</label>
                             <input v-model="form.luas" type="text" name="luas" class="form-control" :class="{ 'is-invalid': form.errors.has('luas') }">
-                            <has-error :form="form" field="luas"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Jumlah Lantai</label>
                             <input v-model="form.lantai" type="text" name="lantai" class="form-control" :class="{ 'is-invalid': form.errors.has('lantai') }">
-                            <has-error :form="form" field="lantai"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Kepemilikan</label>
                             <v-select label="nama" :options="data_kepemilikan" v-model="form.kepemilikan_sarpras_id" />
-                            <has-error :form="form" field="kepemilikan_sarpras_id"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Tahun Bangun</label><br>
                             <date-picker v-model="form.tahun_bangun" type="year" :class="{ 'is-invalid': form.errors.has('tahun_bangun') }"></date-picker>
-                            <has-error :form="form" field="tahun_bangun"></has-error>
+                            
                         </div>
                         <div class="form-group">
                             <label>Keterangan</label>
                             <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
-                            <has-error :form="form" field="keterangan"></has-error>
+                            
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -237,15 +237,14 @@
                                     <label class="col-sm-3 col-form-label">Klasifikasi Kerusakan Pondasi</label>
                                     <div class="col-sm-9">
                                         <v-select :options="data_pondasi" v-model="form.ket_pondasi" @input="updatePondasi" />
-                                        <has-error :form="form" field="ket_pondasi"></has-error>
+                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Kerusakan Pondasi (%)</label>
                                     <div class="col-sm-9">
-                                        <input v-model="form.rusak_pondasi" type="text" name="rusak_pondasi" readonly
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_pondasi') }">
-                                        <has-error :form="form" field="rusak_pondasi"></has-error>
+                                        <input v-model="form.rusak_pondasi" type="text" name="rusak_pondasi" readonly class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_pondasi') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -256,7 +255,7 @@
                                     <label class="col-sm-6 col-form-label">Kerusakan Kolom (%)</label>
                                     <div class="col-sm-6">
                                         <input v-model="form.rusak_sloop_kolom_balok" type="text" name="rusak_sloop_kolom_balok" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_sloop_kolom_balok') }" @input="getTotal" :readonly="form.presentase_kerusakan >= 100">
-                                        <has-error :form="form" field="rusak_sloop_kolom_balok"></has-error>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -265,7 +264,7 @@
                                     <label class="col-sm-6 col-form-label">Keterangan Kolom</label>
                                     <div class="col-sm-6">
                                         <input v-model="form.ket_sloop_kolom_balok" type="text" name="ket_sloop_kolom_balok" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_sloop_kolom_balok') }">
-                                        <has-error :form="form" field="ket_sloop_kolom_balok"></has-error>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -276,7 +275,7 @@
                                     <label class="col-sm-6 col-form-label">Kerusakan Balok (%)</label>
                                     <div class="col-sm-6">
                                         <input v-model="form.rusak_kudakuda_atap" type="text" name="rusak_kudakuda_atap" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_kudakuda_atap') }"  @input="getTotal" :readonly="form.presentase_kerusakan >= 100">
-                                        <has-error :form="form" field="rusak_kudakuda_atap"></has-error>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -285,7 +284,7 @@
                                     <label class="col-sm-6 col-form-label">Keterangan Balok</label>
                                     <div class="col-sm-6">
                                         <input v-model="form.ket_kudakuda_atap" type="text" name="ket_kudakuda_atap" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_kudakuda_atap') }">
-                                        <has-error :form="form" field="ket_kudakuda_atap"></has-error>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -296,7 +295,7 @@
                                     <label class="col-sm-6 col-form-label">Kerusakan Pelat Lantai (%)</label>
                                     <div class="col-sm-6">
                                         <input v-model="form.rusak_plester_struktur" type="text" name="rusak_plester_struktur" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_plester_struktur') }"  @input="getTotal" :readonly="form.presentase_kerusakan >= 100">
-                                        <has-error :form="form" field="rusak_plester_struktur"></has-error>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -304,9 +303,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Keterangan Pelat Lantai</label>
                                     <div class="col-sm-6">
-                                        <input v-model="form.ket_plester_struktur" type="text" name="ket_plester_struktur"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('ket_plester_struktur') }">
-                                        <has-error :form="form" field="ket_plester_struktur"></has-error>
+                                        <input v-model="form.ket_plester_struktur" type="text" name="ket_plester_struktur" class="form-control" :class="{ 'is-invalid': form.errors.has('ket_plester_struktur') }">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -317,7 +315,7 @@
                                     <label class="col-sm-6 col-form-label">Kerusakan Atap (%)</label>
                                     <div class="col-sm-6">
                                         <input v-model="form.rusak_tutup_atap" type="text" name="rusak_tutup_atap" class="form-control" :class="{ 'is-invalid': form.errors.has('rusak_tutup_atap') }"  @input="getTotal" :readonly="form.presentase_kerusakan >= 100">
-                                        <has-error :form="form" field="rusak_tutup_atap"></has-error>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -330,7 +328,7 @@
                                             <b-form-radio v-model="form.ket_tutup_atap" :aria-describedby="ariaDescribedby" name="ket_tutup_atap" value="DAK BETON">DAK BETON</b-form-radio>
                                             <b-form-radio v-model="form.ket_tutup_atap" :aria-describedby="ariaDescribedby" name="ket_tutup_atap" value="TIDAK MEMILIKI ATAP">TIDAK MEMILIKI ATAP</b-form-radio>
                                         </b-form-group>
-                                        <has-error :form="form" field="ket_tutup_atap"></has-error>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -358,7 +356,7 @@
                             <div v-for="(foto, index) in fotos">
                                 <div class="row">
                                     <div class="form-group col-lg-10">
-                                        <b-form-file v-model="foto.file" :state="Boolean(foto.file)" accept=".jpg, .png, .jpeg" placeholder="Choose a file or drop it here..." drop-placeholder="Drop file here..." ></b-form-file>
+                                        <b-form-file v-model="foto.file" :state="Boolean(foto.file)" accept=".jpg, .png, .jpeg, .pdf" placeholder="Choose a file or drop it here..." drop-placeholder="Drop file here..." ></b-form-file>
                                         <div class="progress-bar" role="progressbar"  :style="{width: progressBar + '%'}"  :aria-valuenow="progressBar"  aria-valuemin="0"  aria-valuemax="100"></div>
                                     </div>
                                     <div class="col-lg-2">

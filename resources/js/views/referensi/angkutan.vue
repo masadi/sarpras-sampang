@@ -48,47 +48,47 @@
                             <div class="form-group">
                                 <label>Sekolah</label>
                                 <v-select label="nama" :options="data_sekolah" v-model="form.sekolah_id" @input="updateJenis" :class="{ 'is-invalid': form.errors.has('sekolah_id') }" />
-                                <has-error :form="form" field="sekolah_id"></has-error>
+                                
                             </div>
                             <div class="form-group">
                                 <label>Jenis Sarana</label>
                                 <v-select label="nama" :options="data_jenis" v-model="form.jenis_sarana_id" :class="{ 'is-invalid': form.errors.has('jenis_sarana_id') }" />
-                                <has-error :form="form" field="jenis_sarana_id"></has-error>
+                                
                             </div>
                             <div class="form-group">
                                 <label>Nama</label>
                                 <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
-                                <has-error :form="form" field="nama"></has-error>
+                                
                             </div>
                             <div class="form-group">
                                 <label>Merk</label>
                                 <input v-model="form.merk" type="text" name="merk" class="form-control" :class="{ 'is-invalid': form.errors.has('merk') }">
-                                <has-error :form="form" field="merk"></has-error>
+                                
                             </div>
                             <div class="form-group">
                                 <label>Nomor Polisi</label>
                                 <input v-model="form.no_polisi" type="text" name="no_polisi" class="form-control" :class="{ 'is-invalid': form.errors.has('no_polisi') }">
-                                <has-error :form="form" field="no_polisi"></has-error>
+                                
                             </div>
                             <div class="form-group">
                                 <label>Nomor BPKB</label>
                                 <input v-model="form.no_bpkb" type="text" name="no_bpkb" class="form-control" :class="{ 'is-invalid': form.errors.has('no_bpkb') }">
-                                <has-error :form="form" field="no_bpkb"></has-error>
+                                
                             </div>
                             <div class="form-group">
                                 <label>Spesifikasi</label>
                                 <input v-model="form.spesifikasi" type="text" name="spesifikasi" class="form-control" :class="{ 'is-invalid': form.errors.has('spesifikasi') }">
-                                <has-error :form="form" field="spesifikasi"></has-error>
+                                
                             </div>
                             <div class="form-group">
                                 <label>Kepemilikan</label>
                                 <v-select label="nama" :options="data_kepemilikan" v-model="form.kepemilikan_sarpras_id" :class="{ 'is-invalid': form.errors.has('kepemilikan_sarpras_id') }" />
-                                <has-error :form="form" field="kepemilikan_sarpras_id"></has-error>
+                                
                             </div>
                             <div class="form-group">
                                 <label>Keterangan</label>
                                 <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
-                                <has-error :form="form" field="keterangan"></has-error>
+                                
                             </div>
                         </div>
                         <div class="modal-footer">
