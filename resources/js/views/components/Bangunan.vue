@@ -31,7 +31,7 @@
             <!-- :sort-by.sync & :sort-desc.sync AKAN MENGHANDLE FITUR SORTING -->
             <b-table striped hover :items="items" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" show-empty>
                 <template v-slot:cell(actions)="row">
-                    <b-dropdown id="dropdown-dropleft" dropleft text="Aksi" variant="success">
+                    <b-dropdown id="dropdown-dropleft" dropleft text="Aksi" variant="success" size="sm">
                         <b-dropdown-item href="javascript:" @click="openShowModal(row)"><i class="fas fa-eye"></i> Detil</b-dropdown-item>
                         <b-dropdown-item href="javascript:" @click="uploadFoto(row.item.bangunan_id)"><i class="fas fa-upload"></i> Upload Foto</b-dropdown-item>
                         <b-dropdown-item href="javascript:" @click="inputKondisi(row)"><i class="fas fa-list"></i> Input Kondisi</b-dropdown-item>
@@ -117,13 +117,7 @@
             </template>
             <template v-slot:modal-footer>
                 <div class="w-100 float-right">
-                    <b-button
-                        variant="secondary"
-                        size="sm"
-                        @click="showModal=false"
-                    >
-                        Tutup
-                    </b-button>
+                    <b-button variant="secondary" size="sm" @click="showModal=false">Tutup</b-button>
                 </div>
             </template>
         </b-modal>
@@ -573,10 +567,13 @@ export default {
                         icon: 'success',
                         title: 'Upload berhasil'
                     });
-                })
+                    $('#modalUpload').modal('hide');
+                    this.loadPerPage(10);
+                }).catch((data)=> {
+                    console.log(data);
+                    //Swal.fire("Failed!", data.message, "warning");
+                });
             })
-            $('#modalUpload').modal('hide');
-            this.loadPerPage(10);
         },
         uploadFoto(bangunan_id){
             this.foto_bangunan_id = bangunan_id
