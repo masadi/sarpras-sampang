@@ -1,7 +1,7 @@
 <?php
 $user = auth()->user();
 ?>
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-light-primary elevation-4">
     <a href="{{url('/')}}" class="brand-link">
         <!--router-link tag="a" to="/beranda" class="brand-link"-->
         <img src="/images/AdminLTELogo.png" alt="{{ config('app.name', 'Laravel') }}" class="brand-image img-circle elevation-3"

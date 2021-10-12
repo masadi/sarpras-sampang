@@ -34,7 +34,7 @@
         ]) !!};
     </script>
 </head>
-<body class="hold-transition sidebar-mini dark text-sm">
+<body class="hold-transition sidebar-mini">
 
     <!-- wrapper -->
     <div class="wrapper" id="pmp_smk">
