@@ -318,7 +318,7 @@ class ReferensiController extends Controller
                 'sekolah_id.required'	=> 'Sekolah tidak boleh kosong',
                 'tanah_id.required'	=> 'Tanah tidak boleh kosong',
                 'nama.required'	=> 'Nama tidak boleh kosong',
-                'imb.required'	=> 'Nomor IMB tidak boleh kosong',
+                //'imb.required'	=> 'Nomor IMB tidak boleh kosong',
                 'panjang.required'	=> 'Panjang (m) tidak boleh kosong',
                 'panjang.numeric'	=> 'Panjang (m) harus berupa angka',
                 'lebar.required'	=> 'Lebar (m) tidak boleh kosong',
@@ -333,7 +333,7 @@ class ReferensiController extends Controller
             $validator = Validator::make(request()->all(), [
                 'tanah_id' => 'required',
                 'nama' => 'required',
-                'imb' => 'required',
+                //'imb' => 'required',
                 'panjang' => 'required|numeric',
                 'lebar' => 'required|numeric',
                 'luas' => 'required|numeric',
@@ -346,7 +346,7 @@ class ReferensiController extends Controller
             $insert_data = Bangunan::create([
                 'tanah_id' => $request->tanah_id['tanah_id'],
                 'nama' => $request->nama,
-                'imb' => $request->imb,
+                //'imb' => $request->imb,
                 'panjang' => $request->panjang,
                 'lebar' => $request->lebar,
                 'luas' => $request->luas,
@@ -370,7 +370,7 @@ class ReferensiController extends Controller
                 'lebar.numeric' => 'Lebar (m) harus berupa angka',
                 'luas.numeric' => 'Luas (m) harus berupa angka',
                 'luas_plester.numeric' => 'Luas Plester harus berupa angka',
-                'luas_plafon.numeric' => 'Luas Plafon harus berupa angka',
+                /*'luas_plafon.numeric' => 'Luas Plafon harus berupa angka',
                 'luas_dinding.numeric' => 'Luas Dinding harus berupa angka',
                 'luas_daun_jendela.numeric' => 'Luas Daun Jendela harus berupa angka',
                 'luas_daun_pintu.numeric' => 'Luas Daun Pintu harus berupa angka',
@@ -383,7 +383,7 @@ class ReferensiController extends Controller
                 'luas_finish_struktur.numeric' => 'Luas Finish Struktur harus berupa angka',
                 'luas_finish_plafon.numeric' => 'Luas Finish Plafon harus berupa angka',
                 'luas_finish_dinding.numeric' => 'Luas Finish Dinding harus berupa angka',
-                'luas_finish_kpj.numeric' => 'Luas Finish KPJ harus berupa angka',
+                'luas_finish_kpj.numeric' => 'Luas Finish KPJ harus berupa angka',*/
             ];
             $validator = Validator::make(request()->all(), [
                 'sekolah_id' => 'required',
@@ -398,7 +398,7 @@ class ReferensiController extends Controller
                 'lebar' => 'numeric',
                 'luas' => 'numeric',
                 'luas_plester' => 'numeric',
-                'luas_plafon' => 'numeric',
+                /*'luas_plafon' => 'numeric',
                 'luas_dinding' => 'numeric',
                 'luas_daun_jendela' => 'numeric',
                 'luas_daun_pintu' => 'numeric',
@@ -411,7 +411,7 @@ class ReferensiController extends Controller
                 'luas_finish_struktur' => 'numeric',
                 'luas_finish_plafon' => 'numeric',
                 'luas_finish_dinding' => 'numeric',
-                'luas_finish_kpj' => 'numeric',
+                'luas_finish_kpj' => 'numeric',*/
             ],
             $messages
             )->validate();
@@ -427,7 +427,7 @@ class ReferensiController extends Controller
                 'lebar' => $request->lebar,
                 'luas' => $request->luas,
                 'luas_plester' => $request->luas_plester,
-                'luas_plafon' => $request->luas_plafon,
+                /*'luas_plafon' => $request->luas_plafon,
                 'luas_dinding' => $request->luas_dinding,
                 'luas_daun_jendela' => $request->luas_daun_jendela,
                 'luas_daun_pintu' => $request->luas_daun_pintu,
@@ -440,7 +440,7 @@ class ReferensiController extends Controller
                 'luas_finish_struktur' => $request->luas_finish_struktur,
                 'luas_finish_plafon' => $request->luas_finish_plafon,
                 'luas_finish_dinding' => $request->luas_finish_dinding,
-                'luas_finish_kpj' => $request->luas_finish_kpj,
+                'luas_finish_kpj' => $request->luas_finish_kpj,*/
                 'keterangan' => $request->keterangan,
             ]);
             return response()->json(['status' => 'success', 'data' => $insert_data]);
@@ -712,7 +712,7 @@ class ReferensiController extends Controller
                 'lebar.numeric' => 'Lebar harus berupa angka',
                 'luas.numeric' => 'Luas harus berupa angka',
                 'luas_plester.numeric' => 'Luas Plester harus berupa angka',
-                'luas_plafon.numeric' => 'Luas Plafon harus berupa angka',
+                /*'luas_plafon.numeric' => 'Luas Plafon harus berupa angka',
                 'luas_dinding.numeric' => 'Luas Dinding harus berupa angka',
                 'luas_daun_jendela.numeric' => 'Luas Daun Jendela harus berupa angka',
                 'luas_daun_pintu.numeric' => 'Luas Daun Pintu harus berupa angka',
@@ -725,7 +725,7 @@ class ReferensiController extends Controller
                 'luas_finish_struktur.numeric' => 'Luas Finish Struktur harus berupa angka',
                 'luas_finish_plafon.numeric' => 'Luas Finish Plafon harus berupa angka',
                 'luas_finish_dinding.numeric' => 'Luas Finish Dinding harus berupa angka',
-                'luas_finish_kpj.numeric' => 'Luas Finish KPJ harus berupa angka',
+                'luas_finish_kpj.numeric' => 'Luas Finish KPJ harus berupa angka',*/
             ];
             $validator = Validator::make(request()->all(), [
                 'sekolah_id' => 'required',
@@ -740,7 +740,7 @@ class ReferensiController extends Controller
                 'lebar' => 'numeric',
                 'luas' => 'numeric',
                 'luas_plester' => 'numeric',
-                'luas_plafon' => 'numeric',
+                /*'luas_plafon' => 'numeric',
                 'luas_dinding' => 'numeric',
                 'luas_daun_jendela' => 'numeric',
                 'luas_daun_pintu' => 'numeric',
@@ -753,7 +753,7 @@ class ReferensiController extends Controller
                 'luas_finish_struktur' => 'numeric',
                 'luas_finish_plafon' => 'numeric',
                 'luas_finish_dinding' => 'numeric',
-                'luas_finish_kpj' => 'numeric',
+                'luas_finish_kpj' => 'numeric',*/
             ],
             $messages
             )->validate();
@@ -769,7 +769,7 @@ class ReferensiController extends Controller
             $update_data->lebar = $request->lebar;
             $update_data->luas = $request->luas;
             $update_data->luas_plester = $request->luas_plester;
-            $update_data->luas_plafon = $request->luas_plafon;
+            /*$update_data->luas_plafon = $request->luas_plafon;
             $update_data->luas_dinding = $request->luas_dinding;
             $update_data->luas_daun_jendela = $request->luas_daun_jendela;
             $update_data->luas_daun_pintu = $request->luas_daun_pintu;
@@ -782,7 +782,7 @@ class ReferensiController extends Controller
             $update_data->luas_finish_struktur = $request->luas_finish_struktur;
             $update_data->luas_finish_plafon = $request->luas_finish_plafon;
             $update_data->luas_finish_dinding = $request->luas_finish_dinding;
-            $update_data->luas_finish_kpj = $request->luas_finish_kpj;
+            $update_data->luas_finish_kpj = $request->luas_finish_kpj;*/
             $update_data->keterangan = $request->keterangan;
             if($update_data->save()){
                 return response()->json(['status' => 'success', 'message' => 'Data Ruang berhasil diperbaharui']);
@@ -794,7 +794,7 @@ class ReferensiController extends Controller
                 'sekolah_id.required'	=> 'Sekolah tidak boleh kosong',
                 'tanah_id.required'	=> 'Tanah tidak boleh kosong',
                 'nama.required'	=> 'Nama tidak boleh kosong',
-                'imb.required'	=> 'Nomor IMB tidak boleh kosong',
+                //'imb.required'	=> 'Nomor IMB tidak boleh kosong',
                 'panjang.required'	=> 'Panjang (m) tidak boleh kosong',
                 'panjang.numeric'	=> 'Panjang (m) harus berupa angka',
                 'lebar.required'	=> 'Lebar (m) tidak boleh kosong',
@@ -809,7 +809,7 @@ class ReferensiController extends Controller
             $validator = Validator::make(request()->all(), [
                 'tanah_id' => 'required',
                 'nama' => 'required',
-                'imb' => 'required',
+                //'imb' => 'required',
                 'panjang' => 'required|numeric',
                 'lebar' => 'required|numeric',
                 'luas' => 'required|numeric',
@@ -822,7 +822,7 @@ class ReferensiController extends Controller
             $update_data = Bangunan::find($request->id);
             $update_data->tanah_id = $request->tanah_id['tanah_id'];
             $update_data->nama = $request->nama;
-            $update_data->imb = $request->imb;
+            //$update_data->imb = $request->imb;
             $update_data->panjang = $request->panjang;
             $update_data->lebar = $request->lebar;
             $update_data->luas = $request->luas;

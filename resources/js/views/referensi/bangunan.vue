@@ -63,11 +63,13 @@
                                 <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
                                 
                             </div>
+                            <!--
                             <div class="form-group">
                                 <label>Nomor IMB</label>
                                 <input v-model="form.imb" type="text" name="imb" class="form-control" :class="{ 'is-invalid': form.errors.has('imb') }">
                                 
                             </div>
+                            -->
                             <div class="form-group">
                                 <label>Panjang (m)</label>
                                 <input v-model="form.panjang" type="text" name="panjang" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang') }">

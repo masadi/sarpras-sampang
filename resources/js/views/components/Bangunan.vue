@@ -74,10 +74,12 @@
                     <td>Nama Bangunan</td>
                     <td>: {{modalText.nama}}</td>
                 </tr>
+                <!--
                 <tr>
                     <td>Nomor IMB</td>
                     <td>: {{modalText.imb}}</td>
                 </tr>
+                !-->
                 <tr>
                     <td>Panjang</td>
                     <td>: {{modalText.panjang}} m</td>
@@ -149,11 +151,13 @@
                             <input v-model="form.nama" type="text" name="nama" class="form-control" :class="{ 'is-invalid': form.errors.has('nama') }">
                             
                         </div>
+                        <!--
                         <div class="form-group">
                             <label>Nomor IMB</label>
                             <input v-model="form.imb" type="text" name="imb" class="form-control" :class="{ 'is-invalid': form.errors.has('imb') }">
                             
                         </div>
+                        -->
                         <div class="form-group">
                             <label>Panjang (m)</label>
                             <input v-model="form.panjang" type="text" name="panjang" class="form-control" :class="{ 'is-invalid': form.errors.has('panjang') }">
@@ -449,7 +453,7 @@ export default {
                 sekolah_id: '',
                 tanah_id: '',
                 nama: '',
-                imb: '',
+                //imb: '',
                 panjang: '',
                 lebar: '',
                 luas: '',
@@ -697,7 +701,7 @@ export default {
             this.form.sekolah_id = {sekolah_id: getData.sekolah_id, nama: getData.tanah.sekolah.nama}
             this.form.tanah_id = {tanah_id: getData.tanah_id, nama: getData.tanah.nama}
             this.form.nama = getData.nama
-            this.form.imb = getData.imb
+            //this.form.imb = getData.imb
             this.form.panjang = getData.panjang
             this.form.lebar = getData.lebar
             this.form.luas = getData.luas

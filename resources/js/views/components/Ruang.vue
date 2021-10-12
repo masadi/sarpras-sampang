@@ -110,6 +110,7 @@
                     <td>Luas Plester</td>
                     <td>: {{modalText.luas_plester}} m<sup>2</sup></td>
                 </tr>
+                <!--
                 <tr>
                     <td>Luas Plafon</td>
                     <td>: {{modalText.luas_plafon}} m<sup>2</sup></td>
@@ -166,6 +167,7 @@
                     <td>Luas Finish Kusen/Pintu/Jendela</td>
                     <td>: {{modalText.luas_finish_kpj}} m<sup>2</sup></td>
                 </tr>
+                -->
                 <tr>
                     <td>Keterangan</td>
                     <td>: {{modalText.keterangan}}</td>
@@ -264,6 +266,7 @@
                             <input v-model="form.luas_plester" type="text" name="luas_plester" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_plester') }">
                             
                         </div>
+                        <!--
                         <div class="form-group">
                             <label>Luas Plafon (m<sup>2</sup>)</label>
                             <input v-model="form.luas_plafon" type="text" name="luas_plafon" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_plafon') }">
@@ -334,6 +337,7 @@
                             <input v-model="form.luas_finish_kpj" type="text" name="luas_finish_kpj" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_finish_kpj') }">
                             
                         </div>
+                        -->
                         <div class="form-group">
                             <label>Keterangan</label>
                             <input v-model="form.keterangan" type="text" name="keterangan" class="form-control" :class="{ 'is-invalid': form.errors.has('keterangan') }">
