@@ -105,8 +105,17 @@ class ReferensiController extends Controller
         })->orderBy(request()->sortby, request()->sortbydesc)
             ->when(request()->q, function($all_data) {
                 $all_data = $all_data->where('nama', 'like', '%' . request()->q . '%')
-                ->orWhere('kepemilikan', 'like', '%' . request()->q . '%')
-                ->orWhere('keterangan', 'like', '%' . request()->q . '%');
+                //->orWhere('kepemilikan', 'like', '%' . request()->q . '%')
+                ->orWhere('keterangan', 'like', '%' . request()->q . '%')
+                ->orWhereHas('ruang', function($query){
+                    $query->whereHas('bangunan', function($query){
+                        $query->whereHas('tanah', function($query){
+                            $query->whereIn('sekolah_id', function($query){
+                                $query->select('sekolah_id')->from('sekolah')->where('nama', 'like', '%' . request()->q . '%');
+                            });
+                        });
+                    });
+                });
         })->with(['ruang.bangunan.tanah.sekolah', 'kepemilikan', 'jenis_sarana'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
