@@ -369,7 +369,7 @@ class ReferensiController extends Controller
                 'panjang.numeric' => 'Panjang (m) harus berupa angka',
                 'lebar.numeric' => 'Lebar (m) harus berupa angka',
                 'luas.numeric' => 'Luas (m) harus berupa angka',
-                'luas_plester.numeric' => 'Luas Plester harus berupa angka',
+                //'luas_plester.numeric' => 'Luas Plester harus berupa angka',
                 /*'luas_plafon.numeric' => 'Luas Plafon harus berupa angka',
                 'luas_dinding.numeric' => 'Luas Dinding harus berupa angka',
                 'luas_daun_jendela.numeric' => 'Luas Daun Jendela harus berupa angka',
@@ -397,7 +397,7 @@ class ReferensiController extends Controller
                 'panjang' => 'numeric',
                 'lebar' => 'numeric',
                 'luas' => 'numeric',
-                'luas_plester' => 'numeric',
+                //'luas_plester' => 'numeric',
                 /*'luas_plafon' => 'numeric',
                 'luas_dinding' => 'numeric',
                 'luas_daun_jendela' => 'numeric',
@@ -426,7 +426,7 @@ class ReferensiController extends Controller
                 'panjang' => $request->panjang,
                 'lebar' => $request->lebar,
                 'luas' => $request->luas,
-                'luas_plester' => $request->luas_plester,
+                //'luas_plester' => $request->luas_plester,
                 /*'luas_plafon' => $request->luas_plafon,
                 'luas_dinding' => $request->luas_dinding,
                 'luas_daun_jendela' => $request->luas_daun_jendela,
@@ -711,7 +711,7 @@ class ReferensiController extends Controller
                 'panjang.numeric' => 'Panjang harus berupa angka',
                 'lebar.numeric' => 'Lebar harus berupa angka',
                 'luas.numeric' => 'Luas harus berupa angka',
-                'luas_plester.numeric' => 'Luas Plester harus berupa angka',
+                //'luas_plester.numeric' => 'Luas Plester harus berupa angka',
                 /*'luas_plafon.numeric' => 'Luas Plafon harus berupa angka',
                 'luas_dinding.numeric' => 'Luas Dinding harus berupa angka',
                 'luas_daun_jendela.numeric' => 'Luas Daun Jendela harus berupa angka',
@@ -739,7 +739,7 @@ class ReferensiController extends Controller
                 'panjang' => 'numeric',
                 'lebar' => 'numeric',
                 'luas' => 'numeric',
-                'luas_plester' => 'numeric',
+                //'luas_plester' => 'numeric',
                 /*'luas_plafon' => 'numeric',
                 'luas_dinding' => 'numeric',
                 'luas_daun_jendela' => 'numeric',
@@ -768,7 +768,7 @@ class ReferensiController extends Controller
             $update_data->panjang = $request->panjang;
             $update_data->lebar = $request->lebar;
             $update_data->luas = $request->luas;
-            $update_data->luas_plester = $request->luas_plester;
+            //$update_data->luas_plester = $request->luas_plester;
             /*$update_data->luas_plafon = $request->luas_plafon;
             $update_data->luas_dinding = $request->luas_dinding;
             $update_data->luas_daun_jendela = $request->luas_daun_jendela;

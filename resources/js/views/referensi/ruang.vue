@@ -100,12 +100,12 @@
                                 <input v-model="form.luas" type="text" name="luas" class="form-control" :class="{ 'is-invalid': form.errors.has('luas') }">
                                 <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
+                            <!--
                             <div class="form-group">
                                 <label>Luas Plester (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_plester" type="text" name="luas_plester" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_plester') }">
                                 <div v-if="form.errors.has('username')" v-html="form.errors.get('username')" />
                             </div>
-                            <!--
                             <div class="form-group">
                                 <label>Luas Plafon (m<sup>2</sup>)</label>
                                 <input v-model="form.luas_plafon" type="text" name="luas_plafon" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_plafon') }">

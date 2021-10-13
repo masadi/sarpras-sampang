@@ -106,11 +106,11 @@
                     <td>Luas Ruang</td>
                     <td>: {{modalText.luas}} m<sup>2</sup></td>
                 </tr>
+                <!--
                 <tr>
                     <td>Luas Plester</td>
                     <td>: {{modalText.luas_plester}} m<sup>2</sup></td>
                 </tr>
-                <!--
                 <tr>
                     <td>Luas Plafon</td>
                     <td>: {{modalText.luas_plafon}} m<sup>2</sup></td>
@@ -261,12 +261,12 @@
                             <input v-model="form.luas" type="text" name="luas" class="form-control" :class="{ 'is-invalid': form.errors.has('luas') }">
                             
                         </div>
+                        <!--
                         <div class="form-group">
                             <label>Luas Plester (m<sup>2</sup>)</label>
                             <input v-model="form.luas_plester" type="text" name="luas_plester" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_plester') }">
                             
                         </div>
-                        <!--
                         <div class="form-group">
                             <label>Luas Plafon (m<sup>2</sup>)</label>
                             <input v-model="form.luas_plafon" type="text" name="luas_plafon" class="form-control" :class="{ 'is-invalid': form.errors.has('luas_plafon') }">
