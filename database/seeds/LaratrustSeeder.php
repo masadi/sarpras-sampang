@@ -61,11 +61,11 @@ class LaratrustSeeder extends Seeder
             if(Config::get('laratrust_seeder.create_users')) {
                 $this->command->info("Creating '{$key}' user");
                 $user = \App\User::firstOrCreate([
-                    'name' => ucfirst($key),
-                    'username' => $key,
                     'email' => $key.'@disdik.sampangkab.go.id',
                     ],
                     [
+                        'name' => ucfirst($key),
+                        'username' => $key,
                         'password' => bcrypt('12345678')
                     ]
                 );
