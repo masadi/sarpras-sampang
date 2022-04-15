@@ -250,6 +250,7 @@ export default {
             axios.get(`/api/referensi/bangunan`, {
                 //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
                 params: {
+                    user_id: user.user_id,
                     page: current_page,
                     per_page: this.per_page,
                     q: this.search,

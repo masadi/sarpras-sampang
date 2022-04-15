@@ -12,6 +12,11 @@ let routes = [{
         component: require('./views/referensi/sekolah').default
     },
     {
+        path: '/pengaturan',
+        name: 'pengaturan',
+        component: require('./views/pengaturan').default
+    },
+    {
         path: '/tanah',
         name: 'tanah',
         component: require('./views/referensi/tanah').default

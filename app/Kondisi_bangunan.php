@@ -12,4 +12,7 @@ class Kondisi_bangunan extends Model
     protected $table = 'kondisi_bangunan';
 	protected $primaryKey = ['bangunan_id', 'tahun_pendataan_id'];
     protected $guarded = [];
+    public function bangunan(){
+        return $this->belongsTo('App\Bangunan', 'bangunan_id', 'bangunan_id');
+    }
 }

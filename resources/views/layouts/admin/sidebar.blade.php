@@ -21,13 +21,13 @@ $user = auth()->user();
                         <p>Beranda</p>
                     </router-link>
                 </li>
-                @if($user->isAbleTo('news-create'))
-                <!--li class="nav-item">
-                    <router-link tag="a" to="/galeri" class="nav-link">
-                        <i class="nav-icon fas fa-photo-video"></i>
-                        <p>Galeri</p>
+                @if($user->isAbleTo('referensi-create'))
+                <li class="nav-item">
+                    <router-link tag="a" to="/pengaturan" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>Pengaturan</p>
                     </router-link>
-                </li-->
+                </li>
                 @endif
                 <li class="nav-item">
                     <router-link tag="a" to="/sekolah" class="nav-link">
@@ -35,7 +35,7 @@ $user = auth()->user();
                         <p>Sekolah</p>
                     </router-link>
                 </li>
-                @if($user->isAbleTo('referensi-create'))
+                @if($user->isAbleTo('news-create'))
                 <li class="nav-item">
                     <router-link tag="a" to="/tanah" class="nav-link">
                         <i class="nav-icon fas fa-road"></i>

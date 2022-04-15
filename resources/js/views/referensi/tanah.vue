@@ -22,7 +22,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">List Tanah</h3>
-                                <div class="card-tools" v-show="hasRole('admin')">
+                                <div class="card-tools" v-show="!hasRole('admin')">
                                     <button class="btn btn-success btn-sm btn-block btn-flat" v-on:click="newModal">Tambah Data</button>
                                 </div>
                             </div>
@@ -155,6 +155,7 @@ export default {
             axios.get(`/api/referensi/tanah`, {
                 //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
                 params: {
+                    user_id: user.user_id,
                     page: current_page,
                     per_page: this.per_page,
                     q: this.search,

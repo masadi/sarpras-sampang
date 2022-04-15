@@ -60,39 +60,61 @@ class LaratrustSeeder extends Seeder
 
             if(Config::get('laratrust_seeder.create_users')) {
                 $this->command->info("Creating '{$key}' user");
-                if($key == 'admin'){
-                    $user = \App\User::create([
+                $user = \App\User::firstOrCreate([
+                    'name' => ucfirst($key),
+                    'username' => $key,
+                    'email' => $key.'@disdik.sampangkab.go.id',
+                    ],
+                    [
+                        'password' => bcrypt('12345678')
+                    ]
+                );
+                $user->attachRole($role);
+                /*if($key == 'admin'){
+                    $user = \App\User::firstOrCreate([
                         'name' => 'Admin',
                         'username' => 'admin',
                         'email' => 'admin@disdik.sampangkab.go.id',
-                        'password' => bcrypt('12345678')
-                    ]);
+                        ],
+                        [
+                            'password' => bcrypt('12345678')
+                        ]
+                    );
                     $user->attachRole($role);
                 } else if($key == 'dinas'){
-                    $user = \App\User::create([
+                    $user = \App\User::firstOrCreate([
                         'name' => 'Admin Dinas',
                         'username' => 'dinas',
                         'email' => 'dinas@disdik.sampangkab.go.id',
-                        'password' => bcrypt('12345678')
-                    ]);
+                        ],
+                        [
+                            'password' => bcrypt('12345678')
+                        ]
+                    );
                     $user->attachRole($role);
                 } else if($key == 'author'){
-                    $user = \App\User::create([
+                    $user = \App\User::firstOrCreate([
                         'name' => 'Author',
                         'username' => 'author',
                         'email' => 'author@disdik.sampangkab.go.id',
-                        'password' => bcrypt('12345678')
-                    ]);
+                        ],
+                        [
+                            'password' => bcrypt('12345678')
+                        ]
+                    );
                     $user->attachRole($role);
                 } else if($key == 'pengawas'){
-                    $user = \App\User::create([
+                    $user = \App\User::firstOrCreate([
                         'name' => 'Pengawas',
                         'username' => 'pengawas',
                         'email' => 'pengawas@disdik.sampangkab.go.id',
-                        'password' => bcrypt('12345678')
-                    ]);
+                        ],
+                        [
+                            'password' => bcrypt('12345678')
+                        ]
+                    );
                     $user->attachRole($role);
-                }
+                }*/
             }
 
         }

@@ -12,4 +12,7 @@ class Kondisi_ruang extends Model
     protected $table = 'kondisi_ruang';
 	protected $primaryKey = ['ruang_id', 'tahun_pendataan_id'];
     protected $guarded = [];
+    public function ruang(){
+        return $this->belongsTo('App\Ruang', 'ruang_id', 'ruang_id');
+    }
 }

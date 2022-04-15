@@ -35,7 +35,17 @@ class ReferensiController extends Controller
         return $this->{$function}($request);
     }
     public function get_tanah($request){
-        $all_data = Tanah::where(function($query){
+        $user = User::find($request->user_id);
+        $all_data = Tanah::where(function($query) use ($user){
+            if($user->hasRole('sd')){
+                $query->whereHas('sekolah', function($query){
+                    $query->where('bentuk_pendidikan_id', 5);
+                });
+            } elseif($user->hasRole('smp')){
+                $query->whereHas('sekolah', function($query){
+                    $query->where('bentuk_pendidikan_id', 6);
+                });
+            }
             if(request()->sekolah_id){
                 $query->where('sekolah_id', request()->sekolah_id);
             }
@@ -53,7 +63,17 @@ class ReferensiController extends Controller
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_bangunan($request){
-        $all_data = Bangunan::where(function($query){
+        $user = User::find($request->user_id);
+        $all_data = Bangunan::where(function($query) use ($user){
+            if($user->hasRole('sd')){
+                $query->whereHas('tanah.sekolah', function($query){
+                    $query->where('bentuk_pendidikan_id', 5);
+                });
+            } elseif($user->hasRole('smp')){
+                $query->whereHas('tanah.sekolah', function($query){
+                    $query->where('bentuk_pendidikan_id', 6);
+                });
+            }
             if(request()->sekolah_id){
                 $query->whereHas('tanah', function($query){
                     $query->where('sekolah_id', request()->sekolah_id);
@@ -73,7 +93,17 @@ class ReferensiController extends Controller
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_ruang($request){
-        $all_data = Ruang::where(function($query){
+        $user = User::find($request->user_id);
+        $all_data = Ruang::where(function($query) use ($user){
+            if($user->hasRole('sd')){
+                $query->whereHas('bangunan.tanah.sekolah', function($query){
+                    $query->where('bentuk_pendidikan_id', 5);
+                });
+            } elseif($user->hasRole('smp')){
+                $query->whereHas('bangunan.tanah.sekolah', function($query){
+                    $query->where('bentuk_pendidikan_id', 6);
+                });
+            }
             if(request()->sekolah_id){
                 $query->whereHas('bangunan', function($query){
                     $query->whereHas('tanah', function($query){
@@ -97,7 +127,24 @@ class ReferensiController extends Controller
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_alat($request){
-        $all_data = Alat::where(function($query){
+        $user = User::find($request->user_id);
+        $all_data = Alat::where(function($query) use ($user){
+            if($user->hasRole('sd')){
+                $query->whereHas('ruang.bangunan.tanah.sekolah', function($query){
+                    $query->where('bentuk_pendidikan_id', 5);
+                });
+            } elseif($user->hasRole('smp')){
+                $query->whereHas('ruang.bangunan.tanah.sekolah', function($query){
+                    $query->where('bentuk_pendidikan_id', 6);
+                });
+            }
+            /*if(request()->sekolah_id){
+                $query->whereHas('bangunan', function($query){
+                    $query->whereHas('tanah', function($query){
+                        $query->where('sekolah_id', request()->sekolah_id);
+                    });
+                });
+            }*/
             if(request()->sekolah_id){
                 $query->whereHas('ruang', function($query){
                     $query->whereHas('bangunan', function($query){
@@ -204,8 +251,14 @@ class ReferensiController extends Controller
     }
     public function get_sekolah($request)
     {
+        $user = User::find($request->user_id);
         $sortBy = request()->sortby;
-        $all_data = Sekolah::where(function($query){
+        $all_data = Sekolah::where(function($query) use ($user){
+            if($user->hasRole('sd')){
+                $query->where('bentuk_pendidikan_id', 5);
+            } elseif($user->hasRole('smp')){
+                $query->where('bentuk_pendidikan_id', 6);
+            }
             if(request()->rusak){
                 if(request()->rusak == 'ringan'){
                     $query->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){

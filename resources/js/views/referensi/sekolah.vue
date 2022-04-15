@@ -27,7 +27,7 @@
                                 <i class="fas fa-th mr-1"></i>
                                 Data Sekolah
                             </h3>
-                            <div class="card-tools" v-show="hasRole('admin')">
+                            <div class="card-tools" v-show="!hasRole('admin')">
                                 <button v-if="rusak" class="btn btn-primary btn-sm btn-flat" v-on:click="downloadData">Download Data</button>
                                 <button class="btn btn-success btn-sm btn-flat" v-on:click="newModal">Tambah Data</button>
                             </div>
@@ -263,7 +263,7 @@ export default {
                     //KIRIMKAN PARAMETER BERUPA PAGE YANG SEDANG DILOAD, PENCARIAN, LOAD PERPAGE DAN SORTING.
                     params: {
                         sekolah_id: this.sekolah_id,
-                        verifikasi_id: user.verifikator_id,
+                        user_id: user.user_id,
                         page: current_page,
                         per_page: this.per_page,
                         q: this.search,
