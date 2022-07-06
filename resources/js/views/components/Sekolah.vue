@@ -40,6 +40,7 @@
             <b-dropdown size="sm" id="dropdown-dropleft" dropleft text="Aksi" variant="success">
                 <b-dropdown-item href="javascript:" @click="editData(row)"><i class="fas fa-edit"></i> Edit</b-dropdown-item>
                 <b-dropdown-item href="javascript:" @click="openShowModal(row)"><i class="fas fa-eye"></i> Detil</b-dropdown-item>
+                <b-dropdown-item href="javascript:" @click="downloadInstrumen(row)"><i class="fas fa-download"></i> Instrumen</b-dropdown-item>
             </b-dropdown>
         </template>
     </b-table>
@@ -391,6 +392,10 @@ export default {
         openShowModal(row) {
             this.showModal = true
             this.modalText = row.item
+        },
+        downloadInstrumen(row){
+            console.log(row.item.sekolah_id);
+            window.open('/export/'+row.item.sekolah_id, '_blank')
         },
         editData(row) {
             this.getKecamatan()

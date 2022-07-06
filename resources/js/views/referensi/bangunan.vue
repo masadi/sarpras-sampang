@@ -22,10 +22,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">List Bangunan</h3>
-                                <div class="card-tools">
-                                    <div class="card-tools" v-show="hasRole('admin')">
-                                        <button class="btn btn-success btn-sm btn-block btn-flat" v-on:click="newModal">Tambah Data</button>
-                                    </div>
+                                <div class="card-tools" v-show="hasRole('admin')">
+                                    <button class="btn btn-warning btn-sm btn-flat" v-on:click="newImport">Unggah Instrumen</button>
+                                    <button class="btn btn-success btn-sm btn-flat" v-on:click="newModal">Tambah Data</button>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -36,6 +35,34 @@
                 </div>
             </div>
         </section>
+        <div class="modal fade" id="modalImport" tabindex="-1" role="dialog" aria-labelledby="modalImport" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Unggah Berkas Instrumen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form @submit="formSubmit" enctype="multipart/form-data">
+                        <!--button class="btn btn-success">Submit</button-->
+                        <div class="modal-body">
+                            <div v-if="success != ''" class="alert alert-success" role="alert">
+                                {{success}}
+                            </div>
+                            <div v-if="error != ''" class="alert alert-danger" role="alert">
+                                {{error}}
+                            </div>
+                            <input type="file" class="form-control" v-on:change="onFileChange"></input>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -136,6 +163,8 @@ export default {
         return {
             progressBar: 0,
             file: '',
+            success: '',
+            error: '',
             editmode: false,
             //UNTUK VARIABLE FIELDS, DEFINISIKAN KEY UNTUK MASING-MASING DATA DAN SORTABLE BERNILAI TRUE JIKA INGIN MENAKTIFKAN FITUR SORTING DAN FALSE JIKA TIDAK INGIN MENGAKTIFKAN
             fields: [
@@ -189,6 +218,42 @@ export default {
         }
     },
     methods: {
+        onFileChange(e){
+            console.log(e.target.files[0]);
+            this.file = e.target.files[0];
+        },
+        formSubmit(e) {
+            e.preventDefault();
+            let currentObj = this;
+            const config = {
+                headers: { 'content-type': 'multipart/form-data' }
+            }
+            let formData = new FormData();
+            formData.append('file', this.file);
+            axios.post('/api/referensi/simpan-instrumen', formData, config)
+            .then(function (response) {
+                if(response.data.data){
+                    currentObj.success = response.data.data;
+                    currentObj.error = ''
+                    setTimeout(() => {
+                        currentObj.isLoading = false
+                        $('#modalImport').modal('hide')
+                        currentObj.loadPostsData()
+                    }, 2000)
+                } else {
+                    currentObj.success = '';
+                    currentObj.error = response.data.message;
+                }
+            })
+            .catch(function (error) {
+                currentObj.success = ''
+                if( error.response ){
+                    currentObj.error = error.response.data.errors.file.toString()
+                } else {
+                    currentObj.error = 'Unggah instrumen gagal. Silahkan ulangi lagi!'
+                }
+            });
+        },
         getKepemilikan(){
             axios.get(`/api/referensi/kepemilikan`)
             .then((response) => {
@@ -302,6 +367,9 @@ export default {
             this.getSekolah();
             this.getKepemilikan();
             $('#modalAdd').modal('show');
+        },
+        newImport(){
+            $('#modalImport').modal('show');
         },
         insertData(){
             this.form.post('/api/referensi/simpan-bangunan').then((response)=>{

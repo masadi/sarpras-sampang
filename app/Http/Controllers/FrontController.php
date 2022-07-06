@@ -13,8 +13,14 @@ use App\HelperModel;
 use Illuminate\Support\Facades\DB;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Box\Spout\Writer\Style\StyleBuilder;
+use App\Exports\InstrumenExport;
+use Maatwebsite\Excel\Facades\Excel;
 class FrontController extends Controller
 {
+    public function instrumen(Request $request, $sekolah_id){
+        $sekolah = Sekolah::find($sekolah_id);
+        return Excel::download(new InstrumenExport($sekolah_id), 'Instrumen Sarpras-'.$sekolah->npsn.'.xlsx');
+    }
     public function progress(Request $request){
         $query = Sekolah::query()->whereHas('sekolah_sasaran', function($query){
             if (request()->has('status_verifikasi')) {

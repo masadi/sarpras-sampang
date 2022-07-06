@@ -27,6 +27,7 @@ use App\Penerbit;
 use App\Wilayah;
 use App\Data_sekolah;
 use App\Foto;
+use App\Kondisi_bangunan;
 
 class ReferensiController extends Controller
 {
@@ -639,8 +640,93 @@ class ReferensiController extends Controller
                 'bangunan_id' => ($request->bangunan_id) ? $request->bangunan_id : NULL,
                 'nama' => $image,
             ]);
+        } elseif($request->route('query') == 'instrumen'){
+            $messages = [
+                'file.required'	=> 'Berkas instrumen tidak boleh kosong',
+                'file.mimes'	=> 'Berkas instrumen harus berekstensi .xlsx',
+            ];
+            $validator = Validator::make(request()->all(), [
+                //'file' => 'required|image',
+                'file' => 'required|mimes:xlsx',
+            ],
+            $messages
+            )->validate();
+            $file = $request->file('file');
+            $npsn = $file->getClientOriginalName();
+            $npsn = str_replace('.xlsx', '', $npsn);
+            $npsn = explode('-', $npsn);
+            $npsn = collect($npsn)->last();
+            $instrumen = Carbon::now()->timestamp . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move('uploads', $instrumen);
+            $sekolah = Sekolah::where('npsn', $npsn)->first();
+            if($sekolah){
+                $sheets = (new FastExcel)->importSheets('uploads/'.$instrumen);
+                $data_pondasi = [
+                    'Tidak ada kerusakan' =>  0,
+                    'Penurunan merata pada seluruh struktur bangunan' =>  20,
+                    'Penurunan <= 1/250L' =>  40,
+                    'Penurunan > 1/250L' =>  60,
+                    'Bangunan miring' =>  80,
+                    'Pondasi patah' =>  100,
+                ];
+                foreach($sheets as $sheet){
+                    $bangunan = $sheet[0];
+                    $find_bangunan = Bangunan::whereHas('tanah', function($query) use ($sekolah){
+                        $query->where('sekolah_id', $sekolah->sekolah_id);
+                    })->where('nama', $bangunan['NAMA GEDUNG'])->first();
+                    if($find_bangunan){
+                        $kepemilikan = Status_kepemilikan_sarpras::where('nama', $bangunan['Kepemilikan'])->first();
+                        $find_bangunan->panjang = $bangunan['Panjang'];
+                        $find_bangunan->lebar = $bangunan['Lebar'];
+                        $find_bangunan->luas = $bangunan['Luas'];
+                        $find_bangunan->lantai = $bangunan['Jumlah Lantai'];
+                        $find_bangunan->kepemilikan_sarpras_id = $kepemilikan->kepemilikan_sarpras_id;
+                        $find_bangunan->tahun_bangun = $bangunan['Tahun Bangun'];
+                        $find_bangunan->keterangan = $bangunan['Keterangan'];
+                        $find_bangunan->save();
+                        $pondasi = $sheet[1];
+                        $kolom = $sheet[2];
+                        $balok = $sheet[3];
+                        $pelat = $sheet[4];
+                        $atap = $sheet[5];
+                        $keterangan_atap = $sheet[6];
+                        $total_kerusakan = $pondasi['Panjang'] + $kolom['Panjang'] + $balok['Panjang'] + $pelat['Panjang'] + $atap['Panjang'] + $data_pondasi[$pondasi['Kepemilikan']];
+                        $find_kondisi = Kondisi_bangunan::updateOrCreate(
+                            [
+                                'bangunan_id' => $find_bangunan->bangunan_id,
+                                'tahun_pendataan_id' => config('app.tahun_pendataan')
+                            ],
+                            [
+                                'rusak_pondasi' => $pondasi['Panjang'],
+                                'ket_pondasi' => $pondasi['Kepemilikan'],
+                                'rusak_sloop_kolom_balok' => $kolom['Panjang'],
+                                'ket_sloop_kolom_balok' => $kolom['Kepemilikan'],
+                                'rusak_kudakuda_atap' => $balok['Panjang'],
+                                'ket_kudakuda_atap' => $balok['Kepemilikan'],
+                                'rusak_plester_struktur' => $pelat['Panjang'],
+                                'ket_plester_struktur' => $pelat['Kepemilikan'],
+                                'rusak_tutup_atap' => $atap['Panjang'],
+                                'ket_tutup_atap' => $keterangan_atap['Panjang'],
+                            ]
+                        );
+                    } else {
+                        $this->hapus_excel($instrumen);
+                        return response()->json(['status' => 'failed', 'data' => NULL, 'message' => 'Bangunan tidak ditemukan']);
+                    }
+                }
+                $this->hapus_excel($instrumen);
+                return response()->json(['status' => 'success', 'data' => 'Berkas instrumen berhasil di proses']);
+            } else {
+                $this->hapus_excel($instrumen);
+                return response()->json(['status' => 'failed', 'data' => NULL, 'message' => 'Sekolah tidak ditemukan']);
+            }
         }
-        return response()->json(['status' => 'failed', 'data' => NULL]);
+        return response()->json(['status' => 'failed', 'data' => NULL, 'query' => $request->route('query')]);
+    }
+    private function hapus_excel($instrumen){
+        if(File::exists(public_path('uploads/'.$instrumen))){
+            File::delete(public_path('uploads/'.$instrumen));
+        }
     }
     public function update_data(Request $request)
     {
