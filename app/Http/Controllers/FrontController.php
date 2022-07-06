@@ -15,11 +15,14 @@ use Rap2hpoutre\FastExcel\FastExcel;
 use Box\Spout\Writer\Style\StyleBuilder;
 use App\Exports\InstrumenExport;
 use Maatwebsite\Excel\Facades\Excel;
+use File;
 class FrontController extends Controller
 {
     public function instrumen(Request $request, $sekolah_id){
         $sekolah = Sekolah::find($sekolah_id);
-        return Excel::download(new InstrumenExport($sekolah_id), 'Instrumen Sarpras-'.$sekolah->npsn.'.xlsx');
+        $excel = 'Instrumen Sarpras-'.$sekolah->nama.'-'.$sekolah->npsn.'.xlsx';
+        return Excel::download(new InstrumenExport($sekolah_id), $excel);
+        //File::move(storage_path('app/'.$excel), public_path('downloads/'.$excel));
     }
     public function progress(Request $request){
         $query = Sekolah::query()->whereHas('sekolah_sasaran', function($query){
