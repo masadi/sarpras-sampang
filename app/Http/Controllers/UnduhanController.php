@@ -9,12 +9,113 @@ use Rap2hpoutre\FastExcel\SheetCollection;
 use Carbon\Carbon;
 use Excel;
 use App\Exports\SekolahExport;
+use App\Sekolah;
 class UnduhanController extends Controller
 {
     public function index(Request $request){
         $function = 'get_'.request()->route('query');
         $function = str_replace('-','_', $function);
         return $this->{$function}($request);
+    }
+    public function rekap(Request $request){
+        $jenjang = ($request->route('jenjang') == 'sd') ? 5 : 6;
+        $all_data = Sekolah::where(function($query) use ($jenjang){
+            $query->where('bentuk_pendidikan_id', $jenjang);
+        })->with(['tanah.bangunan' => function($query){
+            $query->with([
+                'baik' => function($query){
+                    //$query->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
+                    $query->where('tahun_pendataan_id', 2021);
+                },
+                'ringan' => function($query){
+                    //$query->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
+                    $query->where('tahun_pendataan_id', 2021);
+                },
+                'sedang' => function($query){
+                    //$query->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
+                    $query->where('tahun_pendataan_id', 2021);
+                },
+                'berat' => function($query){
+                    //$query->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
+                    $query->where('tahun_pendataan_id', 2021);
+                },
+            ]);
+        }])->get();
+        $output = [];
+        foreach($all_data as $data){
+            foreach($data->tanah as $tanah){
+                foreach($tanah->bangunan as $bangunan){
+                    if($bangunan->baik){
+                        $result['baik']['NAMA SEKOLAH'] = $data->nama;
+                        $result['baik']['NAMA GEDUNG'] = $bangunan->nama;
+                        $result['baik']['TAHUN DIBANGUN'] = $bangunan->tahun_bangun;
+                        $result['baik']['TAHUN DIRENOVASI'] = $bangunan->tahun_renovasi;
+                        $result['baik']['KONDISI SEKARANG'] = 'BAIK';
+                    }
+                    if($bangunan->ringan){
+                        $result['ringan']['NAMA SEKOLAH'] = $data->nama;
+                        $result['ringan']['NAMA GEDUNG'] = $bangunan->nama;
+                        $result['ringan']['TAHUN DIBANGUN'] = $bangunan->tahun_bangun;
+                        $result['ringan']['TAHUN DIRENOVASI'] = $bangunan->tahun_renovasi;
+                        $result['ringan']['KONDISI SEKARANG'] = 'RUSAK RINGAN';
+                    }
+                    if($bangunan->sedang){
+                        $result['sedang']['NAMA SEKOLAH'] = $data->nama;
+                        $result['sedang']['NAMA GEDUNG'] = $bangunan->nama;
+                        $result['sedang']['TAHUN DIBANGUN'] = $bangunan->tahun_bangun;
+                        $result['sedang']['TAHUN DIRENOVASI'] = $bangunan->tahun_renovasi;
+                        $result['sedang']['KONDISI SEKARANG'] = 'RUSAK SEDANG';
+                    }
+                    if($bangunan->berat){
+                        $result['berat']['NAMA SEKOLAH'] = $data->nama;
+                        $result['berat']['NAMA GEDUNG'] = $bangunan->nama;
+                        $result['berat']['TAHUN DIBANGUN'] = $bangunan->tahun_bangun;
+                        $result['berat']['TAHUN DIRENOVASI'] = $bangunan->tahun_renovasi;
+                        $result['berat']['KONDISI SEKARANG'] = 'RUSAK BERAT';
+                    }
+                }
+            }
+            if(isset($result['baik'])){
+                $output['baik'][] = $result['baik'];
+            }
+            if(isset($result['ringan'])){
+                $output['ringan'][] = $result['ringan'];
+            }
+            if(isset($result['sedang'])){
+                $output['sedang'][] = $result['sedang'];
+            }
+            if(isset($result['berat'])){
+                $output['berat'][] = $result['berat'];
+            }
+            //dd($data);
+        }
+        if(isset($output['baik'])){
+            $baik = collect($output['baik'])->unique('NAMA SEKOLAH');
+        } else {
+            $baik = [];
+        }
+        if(isset($output['ringan'])){
+            $ringan = collect($output['ringan'])->unique('NAMA SEKOLAH');
+        } else {
+            $ringan = [];
+        }
+        if(isset($output['sedang'])){
+            $sedang = collect($output['sedang'])->unique('NAMA SEKOLAH');
+        } else {
+            $sedang = [];
+        }
+        if(isset($output['berat'])){
+            $berat = collect($output['berat'])->unique('NAMA SEKOLAH');
+        } else {
+            $berat = [];
+        }
+        $sheets = new SheetCollection([
+            'BAIK' => $baik,
+            'RUSAK RINGAN' => $ringan,
+            'RUSAK SEDANG' => $sedang,
+            'RUSAK BERAT' => $berat
+        ]);
+        return (new FastExcel($sheets))->download('KONDISI GEDUNG JENJANG '.strtoupper($request->route('jenjang')).'.xlsx');
     }
     public function get_download_sekolah($request){
         return Excel::download(new SekolahExport($request->rusak), 'DATA SEKOLAH KONDISI RUSAK '.strtoupper($request->rusak).'.xlsx');

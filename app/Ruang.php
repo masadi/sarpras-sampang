@@ -26,6 +26,18 @@ class Ruang extends Model
     public function all_kondisi_ruang(){
         return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id');
     }
+    public function baik(){
+        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', 0);
+    }
+    public function ringan(){
+        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', '>', 0)->where('nilai_saat_ini', '<=', 30);
+    }
+    public function sedang(){
+        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', '>', 30)->where('nilai_saat_ini', '<=', 45);
+    }
+    public function berat(){
+        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', '>', 45);//->where('nilai_saat_ini', '<=', 65);
+    }
     public function foto(){
         return $this->hasMany('App\Foto', 'ruang_id', 'ruang_id');
     }
