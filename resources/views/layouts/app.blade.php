@@ -6,182 +6,100 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') | {{ config('app.name', 'Laravel') }}</title>
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('vendor/img/logo.png')}}">
-    <link rel="stylesheet" href="{{asset('vendor/fontawesome-free/css/all.min.css')}}">
-    <link rel="stylesheet" href="{{asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <title>Aplikasi Sarpras TK, SD & SMP Dinas Pendidikan Kab. Sampang</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{asset('assets/vendor/aos/aos.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
     @yield('css')
-    <link rel="stylesheet" href="{{asset('vendor/adminlte/dist/css/adminlte.min.css')}}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <link rel='stylesheet' type="text/css" href='https://fonts.googleapis.com/css?family=Titillium+Web:400,600,700,300'>
     <!--link rel="shortcut icon" href="{{asset('favicons/favicon.ico')}}" /-->
-    <style>
-        /*.header{
-            background-image: url('{{asset('vendor/img/bgheader-min.jpg')}}');
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-        }*/
-        .header-text{
-            font-family: "Titillium Web",sans-serif;
-            color: #fff;
-        }
-        .header-text h1 {
-            font-size: 30px;
-        }
-        .header-text h1, b, strong {
-            font-weight: 700;
-        }
-        .bg-custom {
-            background: #4abcb2 !important;
-        }
-        .navbar-custom{
-            background-color: #206d66 !important;
-            color: #fff !important;
-        }
-        .navbar-custom a:not(.dropdown-item) {
-            color:honeydew;
-        }
-        .navbar-custom a:hover {
-            text-decoration: underline;
-        }
-        .main-footer{
-           font-size: 14px; 
-        }
-    </style>
 </head>
 
-<body class="layout-top-nav">
-    <div class="wrapper">
-        <header class="header bg-custom">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="header-logo float-left mt-3 mr-4">
-                            <a href="{{url('/')}}"><img src="{{asset('vendor/img/logo.png')}}" alt=""
-                                    class="img-responsive"></a>
-                        </div>
-                        <img style="max-width: 120px;" src="{{asset('vendor/img/smk-bisa-smk-hebat.png')}}" alt="" class="img-responsive float-right mt-1">
-                        <div class="header-text">
-                            <h1 class="mb-0">Aplikasi Pendataan Sarana & Prasana</h1>
-                            <p class="lead mb-0"><strong>Dinas Pendidikan Kabupaten Sampang</strong></p>
-                            <p class="lead mb-0"><strong>Pemerintah Kabupaten Sampang</strong></p>
-                            <p class="lead">Pemerintah Provinsi Jawa Timur</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <nav class="main-header navbar navbar-expand-lg navbar-custom navbar-dark sticky-top">
-            <div class="container">
-                <a href="{{url('/')}}" class="ml-2">
-                    <span class="brand-text">
-                        Beranda
-                    </span>
-                </a>
-                <button class="navbar-toggler order-1 ml-2" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:#fff; font-size:28px;"></i></span>
-                </button>
-                <div class="collapse navbar-collapse order-2 ml-2" id="navbarCollapse">
-                    <ul class="nav navbar-nav">
-                        <!--
-                        <li class="nav-item"><a class="nav-link" href="{{route('page', ['query' => 'berita'])}}">Berita</a></li>
-                        @auth
-                        <li class="nav-item"><a class="nav-link" href="{{route('page', ['query' => 'progres-data'])}}" target="_blank">Progres Data</a></li>
-                        @endauth
-                        <li class="nav-item"><a class="nav-link" href="{{route('page', ['query' => 'rapor-mutu-sekolah'])}}" target="_blank">Rapor Mutu</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{route('page', ['query' => 'peta-mutu'])}}">Peta Mutu</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{route('page', ['query' => 'pencarian'])}}">Pencarian</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{route('page', ['query' => 'galeri'])}}">Galeri</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{route('page', ['query' => 'faq'])}}">FAQ</a></li>
-                        -->
-                    </ul>
-                </div>
-                <ul class="navbar-nav ml-auto order-3 order-md-3 navbar-no-expand">
-                    @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Masuk Aplikasi') }}</a>
-                    </li>
-                    @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    </li>
-                    @endif
-                    @else
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }} <span class="caret"></span>
-                        </a>
+<body>
+    <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-                            <a class="dropdown-item" href="{{ url('app/beranda') }}">
-                                Dashboard
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                    @endguest
-                </ul>
-            </div>
-        </nav>
-        <?php
-        /*$class = 'container-fluid';
-        $params = request()->route()->parameters();
-        if($params){
-            if($params['query'] != 'home'){
-                $class = 'container';
-            }
-        }*/
-        $class = 'container';
-        ?>
-        <div class="content-wrapper ">
-            <div class="content-header">
-                <div class="container">
-                </div>
-            </div>
-            <div class="content">
-                <div class="{{$class}}">
-                    @yield('content')
-                </div>
-            </div>
+      <div class="logo">
+        <h1><a href="{{url('/')}}">{{config('app.name')}}</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="{{url('/')}}">Beranda</a></li>
+          <li><a class="nav-link scrollto" href="#services">Sarana</a></li>
+          <li><a class="nav-link scrollto" href="#features">Layanan</a></li>
+          @guest
+          <li><a class="getstarted" href="{{route('login')}}">Login Admin</a></li>
+          @else
+          <li><a class="getstarted" href="{{url('/app/beranda')}}">Dashboard</a></li>
+          <li>
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link ps-1">
+                <box-icon name="power-off" color="red"></box-icon>
+            </a>
+            </li>
+          @endguest
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header>
+  <section id="hero" class="d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+          <h1 data-aos="fade-up">Aplikasi e-SARPRAS</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">Data Sarana Prasarana TK, SD, SMP Dinas Pendidikan Kabupten Sampang Tahun 2021-2022</h2>
+          <div data-aos="fade-up" data-aos-delay="800">
+            @guest
+            <a href="{{route('login')}}" class="btn-get-started">Login E-Sarpras</a>
+            @else
+            <a href="{{url('/app/beranda')}}" class="btn-get-started">Dashboard</a>
+            @endguest
+          </div>
         </div>
-        <footer class="main-footer navbar-custom">
-            Copyright &copy; 2020 <a href="http://psmk.kemdikbud.go.id/" target="_blank">DIREKTORAT SEKOLAH
-                MENENGAH KEJURUAN</a>.
-        </footer>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left" data-aos-delay="200">
+          <img src="{{asset('assets/img/hero-img.png')}}" class="img-fluid animated" alt="">
+        </div>
+      </div>
     </div>
-    <div id="spinner"
-        style="position:fixed; top: 50%; left: 50%; margin-left: -50px; margin-top: -50px;z-index: 999999;display: none;">
-        <img src="{{asset('vendor/img/ajax-loader.gif')}}" />
+  </section>
+  @yield('content')
+  <footer id="footer">
+    <div class="container">
+      <div class="row d-flex align-items-center">
+        <div class="col-lg-6 text-lg-left text-center">
+          <div class="copyright">
+            Copyright  &copy; <strong>Dinas Pendidikan Kabupten Sampang</strong>. All Rights Reserved
+          </div>
     </div>
-    <div id="modal_content" class="modal"></div>
+  </footer><!-- End Footer -->
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+    <!-- Vendor JS Files -->
+    <script src="{{asset('assets/vendor/purecounter/purecounter.js')}}"></script>
+    <script src="{{asset('assets/vendor/aos/aos.js')}}"></script>
+    <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/glightbox/js/glightbox.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/swiper/swiper-bundle.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/php-email-form/validate.js')}}"></script>
+    <script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js"></script>
+    <!-- Template Main JS File -->
+    <script src="{{asset('assets/js/main.js')}}"></script>
     @yield('js_file')
-    <script src="{{asset('vendor/adminlte/dist/js/adminlte.min.js')}}"></script>
-    <script>
-        $(document).bind("ajaxSend", function() {
-			$("#spinner").show();
-		}).bind("ajaxStop", function() {
-			$("#spinner").hide();
-		}).bind("ajaxError", function() {
-			$("#spinner").hide();
-		});
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-    </script>
     @yield('js')
 </body>
 
