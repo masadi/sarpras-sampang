@@ -41,7 +41,9 @@ class GenerateKondisi extends Command
     {
         $sekolah = Sekolah::whereHas('tanah', function($query){
             $query->whereHas('bangunan', function($query){
-                $query->doesntHave('kondisi_bangunan');
+                $query->whereDoesntHave('kondisi_bangunan', function($query){
+                    $query->where('tahun_pendataan_id', config('app.tahun_pendataan'));
+                });
             });
         })->orderBy('bentuk_pendidikan_id')->get();
         $data_pondasi = collect([
