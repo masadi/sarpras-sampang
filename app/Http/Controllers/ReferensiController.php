@@ -707,6 +707,7 @@ class ReferensiController extends Controller
                                 'ket_plester_struktur' => $pelat['Kepemilikan'],
                                 'rusak_tutup_atap' => $atap['Panjang'],
                                 'ket_tutup_atap' => $keterangan_atap['Panjang'],
+                                'nilai_saat_ini' => $total_kerusakan,
                             ]
                         );
                     } else {

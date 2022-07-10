@@ -42,7 +42,9 @@ class GenerateInstrumen extends Command
     public function handle()
     {
         Sekolah::whereNull('bentuk_pendidikan_id')->update(['bentuk_pendidikan_id' => 5]);
-        $sekolah = Sekolah::orderBy('bentuk_pendidikan_id')->get();
+        $sekolah = Sekolah::whereHas('tanah', function($query){
+            $query->has('bangunan');
+        })->orderBy('bentuk_pendidikan_id')->get();
         foreach($sekolah as $s){
             $excel = 'Instrumen Sarpras-'.$s->nama.'-'.$s->npsn.'.xlsx';
             Excel::store(new InstrumenExport($s->sekolah_id), $excel);
