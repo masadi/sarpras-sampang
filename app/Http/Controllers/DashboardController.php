@@ -22,6 +22,15 @@ class DashboardController extends Controller
         //sd = 5
         //smp = 6
         $all_data = [
+            'baik' => Sekolah::where(function($query) use ($user){
+                if($user->hasRole('sd')){
+                    $query->where('bentuk_pendidikan_id', 5);
+                } elseif($user->hasRole('smp')){
+                    $query->where('bentuk_pendidikan_id', 6);
+                }
+            })->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                $query->where('nilai_saat_ini', 0);
+            })->count(),
             'rusak_ringan' => Sekolah::where(function($query) use ($user){
                 if($user->hasRole('sd')){
                     $query->where('bentuk_pendidikan_id', 5);
@@ -78,7 +87,7 @@ class DashboardController extends Controller
                     DB::raw('sum(nilai_saat_ini > 0 AND nilai_saat_ini <= 30) ringan'),
                     DB::raw('sum(nilai_saat_ini > 30 AND nilai_saat_ini <= 45) sedang'),
                     DB::raw('sum(nilai_saat_ini > 45 AND nilai_saat_ini <= 65) berat'),
-                    DB::raw('sum(nilai_saat_ini > 65) total')
+                    DB::raw('sum(nilai_saat_ini > 65) sangat_berat')
                 )
                 ->groupBy('tahun_pendataan_id')
                 ->first(),
@@ -99,7 +108,7 @@ class DashboardController extends Controller
                     DB::raw('sum(nilai_saat_ini > 0 AND nilai_saat_ini <= 30) ringan'),
                     DB::raw('sum(nilai_saat_ini > 30 AND nilai_saat_ini <= 45) sedang'),
                     DB::raw('sum(nilai_saat_ini > 45 AND nilai_saat_ini <= 65) berat'),
-                    DB::raw('sum(nilai_saat_ini > 65) total')
+                    DB::raw('sum(nilai_saat_ini > 65) sangat_berat')
                 )
                 ->groupBy('tahun_pendataan_id')
                 ->first(),

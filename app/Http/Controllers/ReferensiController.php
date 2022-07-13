@@ -280,7 +280,11 @@ class ReferensiController extends Controller
                 $query->where('bentuk_pendidikan_id', 6);
             }
             if(request()->rusak){
-                if(request()->rusak == 'ringan'){
+                if(request()->rusak == 'baik'){
+                    $query->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
+                        $query->where('nilai_saat_ini',  0);
+                    });
+                } elseif(request()->rusak == 'ringan'){
                     $query->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
                         $query->where('nilai_saat_ini', '>', 0);
                         $query->where('nilai_saat_ini', '<=', 30);
