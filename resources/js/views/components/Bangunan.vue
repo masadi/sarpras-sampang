@@ -39,6 +39,29 @@
                         <b-dropdown-item href="javascript:" @click="deleteData(row.item.bangunan_id)"><i class="fas fa-trash"></i> Hapus</b-dropdown-item>
                     </b-dropdown>
                 </template>
+                <template v-slot:cell(sekolah_id)="row">
+                    {{row.item.sekolah.nama}}
+                </template>
+                <template v-slot:cell(kondisi)="row">
+                    <span class="badge badge-pill badge-success" v-if="row.item.baik">
+                    Baik
+                    </span>
+                    <span class="badge badge-pill badge-primary" v-else-if="row.item.ringan">
+                    Rusak Ringan
+                    </span>
+                    <span class="badge badge-pill badge-info" v-else-if="row.item.sedang">
+                    Rusak Sedang
+                    </span>
+                    <span class="badge badge-pill badge-warning" v-else-if="row.item.berat">
+                    Rusak Berat
+                    </span>
+                    <span class="badge badge-pill badge-danger" v-else-if="row.item.sangat_berat">
+                    Rusak Sangat Berat
+                    </span>
+                    <span class="badge badge-pill badge-secondary" v-else>
+                    Belum ada data
+                    </span>
+                </template>
             </b-table>   
       
       	<!-- BAGIAN INI AKAN MENAMPILKAN JUMLAH DATA YANG DI-LOAD -->

@@ -34,15 +34,29 @@ class Bangunan extends Model
         return $this->hasMany('App\Ruang', 'bangunan_id', 'bangunan_id');
     }
     public function baik(){
-        return $this->hasOne('App\Kondisi_bangunan', 'bangunan_id', 'bangunan_id')->where('nilai_saat_ini', 0);
+        return $this->hasOne('App\Kondisi_bangunan', 'bangunan_id', 'bangunan_id')->where('tahun_pendataan_id', HelperModel::tahun_pendataan())->where('nilai_saat_ini', 0);
     }
     public function ringan(){
-        return $this->hasOne('App\Kondisi_bangunan', 'bangunan_id', 'bangunan_id')->where('nilai_saat_ini', '>', 0)->where('nilai_saat_ini', '<=', 30);
+        return $this->hasOne('App\Kondisi_bangunan', 'bangunan_id', 'bangunan_id')->where('tahun_pendataan_id', HelperModel::tahun_pendataan())->where('nilai_saat_ini', '>', 0)->where('nilai_saat_ini', '<=', 30);
     }
     public function sedang(){
-        return $this->hasOne('App\Kondisi_bangunan', 'bangunan_id', 'bangunan_id')->where('nilai_saat_ini', '>', 30)->where('nilai_saat_ini', '<=', 45);
+        return $this->hasOne('App\Kondisi_bangunan', 'bangunan_id', 'bangunan_id')->where('tahun_pendataan_id', HelperModel::tahun_pendataan())->where('nilai_saat_ini', '>', 30)->where('nilai_saat_ini', '<=', 45);
     }
     public function berat(){
-        return $this->hasOne('App\Kondisi_bangunan', 'bangunan_id', 'bangunan_id')->where('nilai_saat_ini', '>', 45);//->where('nilai_saat_ini', '<=', 65);
+        return $this->hasOne('App\Kondisi_bangunan', 'bangunan_id', 'bangunan_id')->where('tahun_pendataan_id', HelperModel::tahun_pendataan())->where('nilai_saat_ini', '>', 45)->where('nilai_saat_ini', '<=', 65);
+    }
+    public function sangat_berat(){
+        return $this->hasOne('App\Kondisi_bangunan', 'bangunan_id', 'bangunan_id')->where('tahun_pendataan_id', HelperModel::tahun_pendataan())->where('nilai_saat_ini', '>', 65);
+    }
+    public function sekolah()
+    {
+        return $this->hasOneThrough(
+            'App\Sekolah',
+            'App\Tanah',
+            'tanah_id', // Foreign key on Tanah table...
+            'sekolah_id', // Foreign key on Sekolah table...
+            'tanah_id', // Local key on Bangunan table...
+            'sekolah_id' // Local Tanah on cars table...
+        );
     }
 }

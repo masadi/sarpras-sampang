@@ -27,16 +27,19 @@ class Ruang extends Model
         return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id');
     }
     public function baik(){
-        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', 0);
+        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', 0)->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
     }
     public function ringan(){
-        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', '>', 0)->where('nilai_saat_ini', '<=', 30);
+        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', '>', 0)->where('nilai_saat_ini', '<=', 30)->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
     }
     public function sedang(){
-        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', '>', 30)->where('nilai_saat_ini', '<=', 45);
+        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', '>', 30)->where('nilai_saat_ini', '<=', 45)->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
     }
     public function berat(){
-        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', '>', 45);//->where('nilai_saat_ini', '<=', 65);
+        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', '>', 45)->where('nilai_saat_ini', '<=', 65)->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
+    }
+    public function sangat_berat(){
+        return $this->hasOne('App\Kondisi_ruang', 'ruang_id', 'ruang_id')->where('nilai_saat_ini', '>', 65)->where('tahun_pendataan_id', HelperModel::tahun_pendataan());
     }
     public function foto(){
         return $this->hasMany('App\Foto', 'ruang_id', 'ruang_id');

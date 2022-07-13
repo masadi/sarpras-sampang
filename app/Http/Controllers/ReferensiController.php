@@ -65,6 +65,23 @@ class ReferensiController extends Controller
     }
     public function get_bangunan($request){
         $user = User::find($request->user_id);
+        $sortBy = request()->sortby;
+        if($sortBy == 'kondisi'){
+            $sortBy = function($query) {
+                return $query->select('asd.nilai_saat_ini')
+                ->from('kondisi_bangunan')
+                ->join('kondisi_bangunan as asd', 'kondisi_bangunan.bangunan_id', 'bangunan.bangunan_id')->orderBy('nilai_saat_ini', request()->sortbydesc)->limit(1);
+            };
+        }
+        if($sortBy == 'sekolah_id'){
+            $sortBy = function($query) {
+                return $query->select('ccc.nama')
+                ->from('tanah')
+                ->join('tanah as bbb', 'bbb.tanah_id', 'bangunan.tanah_id')
+                ->join('sekolah as ccc', 'ccc.sekolah_id', 'bbb.sekolah_id')
+                ->orderBy('ccc.nama', request()->sortbydesc)->limit(1);
+            };
+        }
         $all_data = Bangunan::where(function($query) use ($user){
             if($user->hasRole('sd')){
                 $query->whereHas('tanah.sekolah', function($query){
@@ -80,7 +97,7 @@ class ReferensiController extends Controller
                     $query->where('sekolah_id', request()->sekolah_id);
                 });
             }
-        })->orderBy(request()->sortby, request()->sortbydesc)
+        })->orderBy($sortBy, request()->sortbydesc)
             ->when(request()->q, function($all_data) {
                 $all_data = $all_data->where('nama', 'like', '%' . request()->q . '%')
                 //->orWhere('kepemilikan', 'like', '%' . request()->q . '%')
@@ -90,7 +107,9 @@ class ReferensiController extends Controller
                         $query->select('sekolah_id')->from('sekolah')->where('nama', 'like', '%' . request()->q . '%');
                     });
                 });
-        })->with(['foto', 'tanah.sekolah', 'kepemilikan'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
+        })->with(['foto', 'sekolah' => function($query){
+            $query->select('sekolah.sekolah_id', 'sekolah.nama');
+        }, 'kepemilikan', 'baik', 'ringan', 'sedang', 'berat', 'sangat_berat'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_ruang($request){
@@ -124,7 +143,7 @@ class ReferensiController extends Controller
                         });
                     });
                 });
-        })->with(['foto', 'bangunan.tanah.sekolah', 'jenis_prasarana'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
+        })->with(['foto', 'bangunan.tanah.sekolah', 'jenis_prasarana', 'baik', 'ringan', 'sedang', 'berat', 'sangat_berat'])->paginate(request()->per_page); //KEMUDIAN LOAD PAGINATIONNYA BERDASARKAN LOAD PER_PAGE YANG DIINGINKAN OLEH USER
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_alat($request){
