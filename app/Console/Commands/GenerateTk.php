@@ -63,9 +63,11 @@ class GenerateTk extends Command
             }
         }
         Sekolah::updateOrCreate(
-            ['sekolah_id' => strtolower($sekolah->sekolah_id)],
             [
                 'npsn' => $sekolah->npsn,
+            ],
+            [
+                'sekolah_id' => strtolower($sekolah->sekolah_id),    
                 'nama' => $sekolah->nama,
                 'nss' => $sekolah->nss,
                 'alamat' => $sekolah->alamat_jalan,
@@ -85,6 +87,7 @@ class GenerateTk extends Command
                 'kecamatan_id' => $kecamatan_id,
                 'kabupaten_id' => $kabupaten_id,
                 'provinsi_id' => $provinsi_id,
+                'bentuk_pendidikan_id' => $sekolah->bentuk_pendidikan_id,
             ]
         );
         $this->info($sekolah->nama. ' berhasil disimpan');
@@ -128,6 +131,8 @@ class GenerateTk extends Command
                 'password' => bcrypt('12345678')
             ]
         );
-        $user->attachRole($role);
+        if($user->hasRole($role)){
+            $user->attachRole($role);
+        }
     }
 }

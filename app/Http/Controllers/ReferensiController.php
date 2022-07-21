@@ -46,6 +46,10 @@ class ReferensiController extends Controller
                 $query->whereHas('sekolah', function($query){
                     $query->where('bentuk_pendidikan_id', 6);
                 });
+            } elseif($user->hasRole('tk')){
+                $query->whereHas('sekolah', function($query){
+                    $query->where('bentuk_pendidikan_id', 1);
+                });
             }
             if(request()->sekolah_id){
                 $query->where('sekolah_id', request()->sekolah_id);
@@ -91,6 +95,10 @@ class ReferensiController extends Controller
                 $query->whereHas('tanah.sekolah', function($query){
                     $query->where('bentuk_pendidikan_id', 6);
                 });
+            } elseif($user->hasRole('tk')){
+                $query->whereHas('tanah.sekolah', function($query){
+                    $query->where('bentuk_pendidikan_id', 1);
+                });
             }
             if(request()->sekolah_id){
                 $query->whereHas('tanah', function($query){
@@ -122,6 +130,10 @@ class ReferensiController extends Controller
             } elseif($user->hasRole('smp')){
                 $query->whereHas('bangunan.tanah.sekolah', function($query){
                     $query->where('bentuk_pendidikan_id', 6);
+                });
+            } elseif($user->hasRole('tk')){
+                $query->whereHas('bangunan.tanah.sekolah', function($query){
+                    $query->where('bentuk_pendidikan_id', 1);
                 });
             }
             if(request()->sekolah_id){
@@ -156,6 +168,10 @@ class ReferensiController extends Controller
             } elseif($user->hasRole('smp')){
                 $query->whereHas('ruang.bangunan.tanah.sekolah', function($query){
                     $query->where('bentuk_pendidikan_id', 6);
+                });
+            } elseif($user->hasRole('tk')){
+                $query->whereHas('ruang.bangunan.tanah.sekolah', function($query){
+                    $query->where('bentuk_pendidikan_id', 1);
                 });
             }
             /*if(request()->sekolah_id){
@@ -278,6 +294,8 @@ class ReferensiController extends Controller
                 $query->where('bentuk_pendidikan_id', 5);
             } elseif($user->hasRole('smp')){
                 $query->where('bentuk_pendidikan_id', 6);
+            } elseif($user->hasRole('tk')){
+                $query->where('bentuk_pendidikan_id', 1);
             }
             if(request()->rusak){
                 if(request()->rusak == 'baik'){

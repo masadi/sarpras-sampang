@@ -19,6 +19,7 @@ class DashboardController extends Controller
 {
     public function index(Request $request){
         $user = User::find($request->user_id);
+        //tk = 1
         //sd = 5
         //smp = 6
         $all_data = [
@@ -27,6 +28,8 @@ class DashboardController extends Controller
                     $query->where('bentuk_pendidikan_id', 5);
                 } elseif($user->hasRole('smp')){
                     $query->where('bentuk_pendidikan_id', 6);
+                } elseif($user->hasRole('tk')){
+                    $query->where('bentuk_pendidikan_id', 1);
                 }
             })->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
                 $query->where('nilai_saat_ini', 0);
@@ -36,6 +39,8 @@ class DashboardController extends Controller
                     $query->where('bentuk_pendidikan_id', 5);
                 } elseif($user->hasRole('smp')){
                     $query->where('bentuk_pendidikan_id', 6);
+                } elseif($user->hasRole('tk')){
+                    $query->where('bentuk_pendidikan_id', 1);
                 }
             })->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
                 $query->where('nilai_saat_ini', '>', 0);
@@ -46,6 +51,8 @@ class DashboardController extends Controller
                     $query->where('bentuk_pendidikan_id', 5);
                 } elseif($user->hasRole('smp')){
                     $query->where('bentuk_pendidikan_id', 6);
+                } elseif($user->hasRole('tk')){
+                    $query->where('bentuk_pendidikan_id', 1);
                 }
             })->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
                 $query->where('nilai_saat_ini', '>', 30);
@@ -56,6 +63,8 @@ class DashboardController extends Controller
                     $query->where('bentuk_pendidikan_id', 5);
                 } elseif($user->hasRole('smp')){
                     $query->where('bentuk_pendidikan_id', 6);
+                } elseif($user->hasRole('tk')){
+                    $query->where('bentuk_pendidikan_id', 1);
                 }
             })->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
                 $query->where('nilai_saat_ini', '>', 45);
@@ -66,6 +75,8 @@ class DashboardController extends Controller
                     $query->where('bentuk_pendidikan_id', 5);
                 } elseif($user->hasRole('smp')){
                     $query->where('bentuk_pendidikan_id', 6);
+                } elseif($user->hasRole('tk')){
+                    $query->where('bentuk_pendidikan_id', 1);
                 }
             })->whereHas('tanah.bangunan.ruang.kondisi_ruang', function($query){
                 $query->where('nilai_saat_ini', '>', 65);
@@ -78,6 +89,10 @@ class DashboardController extends Controller
                 } elseif($user->hasRole('smp')){
                     $query->whereHas('bangunan.tanah.sekolah', function($query){
                         $query->where('bentuk_pendidikan_id', 6);    
+                    });
+                } elseif($user->hasRole('tk')){
+                    $query->whereHas('bangunan.tanah.sekolah', function($query){
+                        $query->where('bentuk_pendidikan_id', 1);    
                     });
                 }
             })->where('tahun_pendataan_id', HelperModel::tahun_pendataan())->select(
@@ -99,6 +114,10 @@ class DashboardController extends Controller
                 } elseif($user->hasRole('smp')){
                     $query->whereHas('ruang.bangunan.tanah.sekolah', function($query){
                         $query->where('bentuk_pendidikan_id', 6);    
+                    });
+                } elseif($user->hasRole('tk')){
+                    $query->whereHas('ruang.bangunan.tanah.sekolah', function($query){
+                        $query->where('bentuk_pendidikan_id', 1);    
                     });
                 }
             })->where('tahun_pendataan_id', HelperModel::tahun_pendataan())->select(
