@@ -178,7 +178,11 @@ export default {
             })
         },
         getSekolah() {
-            axios.get(`/api/referensi/all-sekolah`)
+            axios.get(`/api/referensi/all-sekolah`, {
+                params: {
+                    user_id: user.user_id
+                }
+            })
             .then((response) => {
                 //JIKA RESPONSENYA DITERIMA
                 let getData = response.data.data

@@ -234,7 +234,16 @@ class ReferensiController extends Controller
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_all_sekolah($request){
-        $all_data = Sekolah::select('sekolah_id', 'nama')->get();//->pluck('nama', 'sekolah_id');
+        $user = User::find($request->user_id);
+        $all_data = Sekolah::where(function($query) use ($user){
+            if($user->hasRole('sd')){
+                $query->where('bentuk_pendidikan_id', 5);
+            } elseif($user->hasRole('smp')){
+                $query->where('bentuk_pendidikan_id', 6);
+            } elseif($user->hasRole('tk')){
+                $query->where('bentuk_pendidikan_id', 1);
+            }
+        })->select('sekolah_id', 'nama')->get();//->pluck('nama', 'sekolah_id');
         return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_kecamatan($request){
