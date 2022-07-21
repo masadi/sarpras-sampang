@@ -131,7 +131,7 @@ class GenerateTk extends Command
                 'password' => bcrypt('12345678')
             ]
         );
-        if($user->hasRole($role)){
+        if(!$user->hasRole($role)){
             $user->attachRole($role);
         }
     }
