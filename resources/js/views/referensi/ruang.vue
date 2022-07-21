@@ -22,7 +22,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">List Ruang</h3>
-                                <div class="card-tools" v-show="hasRole(['sd', 'smp', 'admin'])">
+                                <div class="card-tools" v-show="hasRole(['tk', 'sd', 'smp', 'admin'])">
                                     <button class="btn btn-success btn-sm btn-block btn-flat" v-on:click="newModal">Tambah Data</button>
                                 </div>
                             </div>
@@ -294,7 +294,11 @@ export default {
             })
         },
         getSekolah() {
-            axios.get(`/api/referensi/all-sekolah`)
+            axios.get(`/api/referensi/all-sekolah`, {
+                params: {
+                    user_id: user.user_id
+                }
+            })
             .then((response) => {
                 //JIKA RESPONSENYA DITERIMA
                 let getData = response.data.data
